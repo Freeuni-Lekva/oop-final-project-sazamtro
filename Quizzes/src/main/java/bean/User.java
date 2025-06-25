@@ -1,5 +1,7 @@
 package bean;
 
+import DAO.DatabaseConnection;
+
 public class User {
     private int user_id;
     private String username;

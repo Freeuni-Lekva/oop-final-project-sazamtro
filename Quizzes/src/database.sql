@@ -1,4 +1,4 @@
-USE DATABASE_NAME;
+USE sazamtro;
 
 
 DROP TABLE IF EXISTS User;
