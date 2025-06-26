@@ -1,8 +1,21 @@
-USE DATABASE_NAME;
+USE sazamtro;
 
 
-DROP TABLE IF EXISTS User;
-CREATE TABLE User (
+DROP TABLE IF EXISTS UserAnswers;
+DROP TABLE IF EXISTS AnswerOptions;
+DROP TABLE IF EXISTS CorrectAnswers;
+DROP TABLE IF EXISTS Questions;
+DROP TABLE IF EXISTS QuizAttempts;
+DROP TABLE IF EXISTS Messages;
+DROP TABLE IF EXISTS FriendRequests;
+DROP TABLE IF EXISTS UserAchievements;
+DROP TABLE IF EXISTS Achievements;
+DROP TABLE IF EXISTS Quizzes;
+DROP TABLE IF EXISTS Users;
+
+
+
+CREATE TABLE Users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
@@ -10,19 +23,17 @@ CREATE TABLE User (
 );
 
 
-DROP TABLE IF EXISTS FriendRequests;
 CREATE TABLE FriendRequests (
     request_id INT PRIMARY KEY AUTO_INCREMENT,
     from_user_id INT NOT NULL,
     to_user_id INT NOT NULL,
     status ENUM('pending', 'accepted', 'rejected') NOT NULL DEFAULT 'pending',
 
-    FOREIGN KEY (from_user_id) REFERENCES User(user_id),
-    FOREIGN KEY (to_user_id) REFERENCES User(user_id)
+    FOREIGN KEY (from_user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (to_user_id) REFERENCES Users(user_id)
 );
 
 
-DROP TABLE IF EXISTS Quizzes;
 CREATE TABLE Quizzes (
     quiz_id INT PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
@@ -33,11 +44,10 @@ CREATE TABLE Quizzes (
     immediate_correction BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (creator_id) REFERENCES User(user_id)
+    FOREIGN KEY (creator_id) REFERENCES Users(user_id)
 );
 
 
-DROP TABLE IF EXISTS Questions;
 CREATE TABLE Questions (
     question_id INT PRIMARY KEY AUTO_INCREMENT,
     quiz_id INT NOT NULL,
@@ -50,7 +60,6 @@ CREATE TABLE Questions (
 );
 
 
-DROP TABLE IF EXISTS AnswerOptions;
 CREATE TABLE AnswerOptions (
     option_id INT PRIMARY KEY AUTO_INCREMENT,
     question_id INT NOT NULL,
@@ -61,7 +70,6 @@ CREATE TABLE AnswerOptions (
 );
 
 
-DROP TABLE IF EXISTS CorrectAnswers;
 CREATE TABLE CorrectAnswers (
     answer_id INT PRIMARY KEY AUTO_INCREMENT,
     question_id INT NOT NULL,
@@ -71,7 +79,6 @@ CREATE TABLE CorrectAnswers (
 );
 
 
-DROP TABLE IF EXISTS QuizAttempts;
 CREATE TABLE QuizAttempts (
     attempt_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -81,12 +88,11 @@ CREATE TABLE QuizAttempts (
     is_practice BOOLEAN DEFAULT FALSE,
     taken_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id) REFERENCES User(user_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (quiz_id) REFERENCES Quizzes(quiz_id)
 );
 
 
-DROP TABLE IF EXISTS UserAnswers;
 CREATE TABLE UserAnswers (
     answer_id INT PRIMARY KEY AUTO_INCREMENT,
     attempt_id INT NOT NULL,
@@ -99,7 +105,6 @@ CREATE TABLE UserAnswers (
 );
 
 
-DROP TABLE IF EXISTS Messages;
 CREATE TABLE Messages (
     message_id INT PRIMARY KEY AUTO_INCREMENT,
     from_user_id INT NOT NULL,
@@ -110,13 +115,12 @@ CREATE TABLE Messages (
     sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_read BOOLEAN DEFAULT FALSE,
 
-    FOREIGN KEY (from_user_id) REFERENCES User(user_id),
-    FOREIGN KEY (to_user_id) REFERENCES User(user_id),
+    FOREIGN KEY (from_user_id) REFERENCES Users(user_id),
+    FOREIGN KEY (to_user_id) REFERENCES Users(user_id),
     FOREIGN KEY (quiz_id) REFERENCES Quizzes(quiz_id)
 );
 
 
-DROP TABLE IF EXISTS Achievements;
 CREATE TABLE Achievements (
     achievement_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -125,7 +129,6 @@ CREATE TABLE Achievements (
 );
 
 
-DROP TABLE IF EXISTS UserAchievements;
 CREATE TABLE UserAchievements (
     user_id INT NOT NULL,
     achievement_id INT NOT NULL,
@@ -133,7 +136,7 @@ CREATE TABLE UserAchievements (
 
     PRIMARY KEY (user_id, achievement_id),
 
-    FOREIGN KEY (user_id) REFERENCES User(user_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (achievement_id) REFERENCES Achievements(achievement_id)
 );
 
