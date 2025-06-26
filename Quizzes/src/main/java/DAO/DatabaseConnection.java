@@ -7,6 +7,8 @@ public class DatabaseConnection {
     private static final String ACCOUNT = "root";
     private static final String PASSWORD = "password";      //Change to yours!!!!!
 
+
+
     public static Connection getConnection(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");

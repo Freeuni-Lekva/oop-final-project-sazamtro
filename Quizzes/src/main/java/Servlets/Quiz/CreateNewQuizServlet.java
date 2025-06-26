@@ -1,0 +1,41 @@
+package Servlets.Quiz;
+
+import DAO.DatabaseConnection;
+import DAO.Quiz.QuizDAO;
+import bean.User;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class CreateNewQuizServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //super.doPost(req, resp);
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            resp.sendRedirect("/login");
+            return;
+        }
+
+        String title = req.getParameter("title");
+        String description = req.getParameter("description");
+        int creator_id = user.getUserId();
+        boolean is_random = req.getParameter("random") != null;
+        boolean is_multipage = req.getParameter("multipage") != null;
+        boolean immediate_correction = req.getParameter("immediate_correction") != null;
+        try(Connection connection = DatabaseConnection.getConnection()){
+            int quiz_id = QuizDAO.insertNewQuiz(connection, title, description, creator_id,
+                                                is_random, is_multipage, immediate_correction);
+            resp.sendRedirect("/quizzes/"+quiz_id+"/add-question");
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+}
