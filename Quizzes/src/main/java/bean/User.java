@@ -3,18 +3,22 @@ package bean;
 public class User {
     private int user_id;
     private String username;
-    private String password;
+    private String hashedPassword;
     private boolean isAdmin;
 
-    public User(int id, String name, String password, boolean b){
+    public User(int id, String name, String hashedPassword, boolean b){
         this.user_id = id;
         this.username = name;
-        this.password = password;
+        this.hashedPassword = hashedPassword;
         this.isAdmin = b;
     }
 
-    public int getUserId(){
+    public int getUserId() {
         return user_id;
+    }
+
+    public void setUserId(int newId) {
+        this.user_id = newId;
     }
 
     public String getUsername(){
@@ -22,7 +26,7 @@ public class User {
     }
 
     public String getPassword(){
-        return password;
+        return hashedPassword;
     }
 
     public boolean checkIfAdmin(){
