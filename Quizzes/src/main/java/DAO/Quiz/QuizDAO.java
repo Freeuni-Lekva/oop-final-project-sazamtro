@@ -37,17 +37,16 @@ public class QuizDAO {
 
 
     public static Quiz getOneQuiz(Connection connection, int id) throws SQLException {
-        String str = id + "";
-        String sqlCommand = "SELECT * FROM Quizzes WHERE quiz_id = " + str;
-        try(Statement st = connection.createStatement()){
-            ResultSet rs = st.executeQuery(sqlCommand);
+        String sqlCommand = "SELECT * FROM Quizzes WHERE quiz_id = ?";
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
             if(rs.next()){
-                Quiz curr = new Quiz(rs.getInt("quiz_id"), rs.getString("title"),
+                return new Quiz(rs.getInt("quiz_id"), rs.getString("title"),
                         rs.getString("description"), rs.getInt("creator_id"),
                         rs.getBoolean("is_random"), rs.getBoolean("is_multipage"),
                         rs.getBoolean("immediate_correction"),
                         rs.getTimestamp("created_at").toLocalDateTime());
-                return curr;
             }
             return null;
         }
@@ -70,5 +69,13 @@ public class QuizDAO {
             throw new RuntimeException(e);
         }
         return result;
+    }
+
+    public static void deleteQuiz(Connection connection, int quiz_id) throws SQLException {
+        String sqlCommand = "DELETE FROM Quizzes WHERE quiz_id = ?";
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+            st.setInt(1, quiz_id);
+            st.executeUpdate();
+        }
     }
 }
