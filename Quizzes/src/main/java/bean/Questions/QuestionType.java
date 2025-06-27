@@ -1,6 +1,6 @@
-package bean;
+package bean.Questions;
 
-public enum QuestionTypes {
+public enum QuestionType {
     QUESTION_RESPONSE,
     FILL_IN_THE_BLANK,
     MULTIPLE_CHOICE,
