@@ -1,12 +1,12 @@
-package bean;
+package bean.Questions;
 
-public class AbstractQuestion {
-    private QuestionTypes questionType;
+public class Question {
+    private QuestionType questionType;
     private int id;
     private String questionText;
     private int position;
 
-    public AbstractQuestion(QuestionTypes type,int id, String questionText, int position, int questionScore) {
+    public Question(QuestionType type, int id, String questionText, int position, int questionScore) {
         this.questionType = type;
         this.id = id;
         this.questionText = questionText;
@@ -16,5 +16,5 @@ public class AbstractQuestion {
     public int getId() {return id;}
     public String getQuestionText() {return questionText;}
     public int getPosition() {return position;}
-    public QuestionTypes getQuestionType() {return questionType;}
+    public QuestionType getQuestionType() {return questionType;}
 }
