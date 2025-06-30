@@ -109,7 +109,7 @@ CREATE TABLE Messages (
     message_id INT PRIMARY KEY AUTO_INCREMENT,
     from_user_id INT NOT NULL,
     to_user_id INT NOT NULL,
-    type ENUM('note', 'friend_request', 'challenge') NOT NULL,
+    type ENUM('NOTE', 'FRIEND_REQUEST', 'CHALLENGE') NOT NULL,
     content TEXT,
     quiz_id INT,
     sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
