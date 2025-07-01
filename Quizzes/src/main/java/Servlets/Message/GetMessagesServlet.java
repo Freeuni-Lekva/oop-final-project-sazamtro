@@ -5,6 +5,7 @@ import DAO.MessageDAO;
 import bean.Message.*;
 import bean.User;
 
+import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

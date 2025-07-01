@@ -32,6 +32,25 @@ public class UserDAO {
         return null;
     }
 
+    // Returns User with the same userId
+    public User getUserById(int userId) throws SQLException{
+        String query = "SELECT * FROM Users WHERE user_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String username = rs.getString("username");
+                    String hashedPassword = rs.getString("password_hash");
+                    boolean isAdmin = rs.getBoolean("is_admin");
+
+                    return new User(userId, username, hashedPassword, isAdmin);
+                }
+            }
+        }
+    }
+
     // add new user
     public void addUser(User user) throws SQLException {
         String query = "INSERT INTO Users (username, password_hash, is_admin) VALUES (?, ?, ?)";
