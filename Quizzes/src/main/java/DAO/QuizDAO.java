@@ -1,10 +1,8 @@
-package DAO.Quiz;
+package DAO;
 
-import DAO.DatabaseConnection;
 import bean.Quiz;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class QuizDAO {
