@@ -1,7 +1,7 @@
 package Servlets.Quiz;
 
 import DAO.DatabaseConnection;
-import DAO.Quiz.QuizDAO;
+import DAO.QuizDAO;
 import bean.Quiz;
 import java.util.*;
 import javax.servlet.RequestDispatcher;
