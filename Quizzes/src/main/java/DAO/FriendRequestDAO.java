@@ -15,11 +15,13 @@ public class FriendRequestDAO {
         this.connection = connection;
     }
 
-    private boolean friendRequestExists(int sender_id, int receiver_id){
-        String query = "SELECT Count(*) From FriendRequests WHERE from_user_id = ? AND to_user_id = ?";
+    public boolean friendRequestExists(int sender_id, int receiver_id){
+        String query = "SELECT Count(*) From FriendRequests WHERE (from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)";
         try(PreparedStatement st = connection.prepareStatement(query)){
             st.setInt(1, sender_id);
             st.setInt(2, receiver_id);
+            st.setInt(3, receiver_id);
+            st.setInt(4, sender_id);
 
             ResultSet rs = st.executeQuery();
 
@@ -33,9 +35,6 @@ public class FriendRequestDAO {
     }
 
     public void sendFriendRequest(FriendRequest fr){
-        if(friendRequestExists(fr.getSenderId(), fr.getReceiverId()) || friendRequestExists(fr.getReceiverId(), fr.getSenderId())){
-            return;
-        }
         String statement = "INSERT INTO FriendRequests (from_user_id, to_user_id) VALUES (?, ?);";
         try(PreparedStatement st = connection.prepareStatement(statement)){
             st.setInt(1, fr.getSenderId());
@@ -88,9 +87,10 @@ public class FriendRequestDAO {
     }
 
     public void approveRequest(FriendRequest fr){
-        String statement = "UPDATE FriendRequests SET status = 'APPROVED' WHERE request_id = ?";
+        String statement = "UPDATE FriendRequests SET status = 'APPROVED' WHERE from_user_id = ? AND to_user_id = ?";
         try(PreparedStatement st = connection.prepareStatement(statement)){
-            st.setInt(1, fr.getRequestId());
+            st.setInt(1, fr.getSenderId());
+            st.setInt(2, fr.getReceiverId());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Failed To Approve Request", e);
@@ -98,9 +98,10 @@ public class FriendRequestDAO {
     }
 
     public void rejectRequest(FriendRequest fr){
-        String statement = "UPDATE FriendRequests SET status = 'REJECTED' WHERE request_id = ?";
+        String statement = "UPDATE FriendRequests SET status = 'REJECTED' WHERE from_user_id = ? AND to_user_id = ?";
         try(PreparedStatement st = connection.prepareStatement(statement)){
-            st.setInt(1, fr.getRequestId());
+            st.setInt(1, fr.getSenderId());
+            st.setInt(2, fr.getReceiverId());
             st.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Failed To Approve Request", e);
@@ -146,5 +147,24 @@ public class FriendRequestDAO {
             throw new RuntimeException("Failed To Get FriendsList", e);
         }
         return list;
+    }
+
+    public boolean areFriends(User friend1, User friend2){
+        String query = "SELECT Count(*) FROM FriendRequests WHERE ((from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)) AND status like 'ACCEPTED'";
+        try(PreparedStatement st = connection.prepareStatement(query)){
+            st.setInt(1, friend1.getUserId());
+            st.setInt(2, friend2.getUserId());
+
+            st.setInt(3, friend2.getUserId());
+            st.setInt(4, friend1.getUserId());
+
+            ResultSet rs = st.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1) > 0;
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("Failed To Remove Friendship", e);
+        }
+        return false;
     }
 }
