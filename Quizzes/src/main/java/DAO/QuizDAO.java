@@ -7,7 +7,13 @@ import java.util.*;
 
 public class QuizDAO {
 
-    public static int insertNewQuiz(Connection connection, String title, String description, int creator_id,
+    private Connection connection;
+
+    public QuizDAO(Connection connection){
+        this.connection = connection;
+    }
+
+    public int insertNewQuiz(String title, String description, int creator_id,
                                     boolean is_random, boolean is_multipage, boolean immediate_correction) throws SQLException {
         String sqlCommand = "INSERT INTO Quizzes (title, description, creator_id, is_random, is_multipage, immediate_correction, created_at) " +
                 " VALUES (?, ?, ?, ?, ?, ?, NOW())";
@@ -34,24 +40,23 @@ public class QuizDAO {
     }
 
 
-    public static Quiz getOneQuiz(Connection connection, int id) throws SQLException {
-        String str = id + "";
-        String sqlCommand = "SELECT * FROM Quizzes WHERE quiz_id = " + str;
-        try(Statement st = connection.createStatement()){
-            ResultSet rs = st.executeQuery(sqlCommand);
+    public Quiz getOneQuiz(int id) throws SQLException {
+        String sqlCommand = "SELECT * FROM Quizzes WHERE quiz_id = ?";
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
             if(rs.next()){
-                Quiz curr = new Quiz(rs.getInt("quiz_id"), rs.getString("title"),
+                return new Quiz(rs.getInt("quiz_id"), rs.getString("title"),
                         rs.getString("description"), rs.getInt("creator_id"),
                         rs.getBoolean("is_random"), rs.getBoolean("is_multipage"),
                         rs.getBoolean("immediate_correction"),
                         rs.getTimestamp("created_at").toLocalDateTime());
-                return curr;
             }
             return null;
         }
     }
 
-    public static List<Quiz> getAllQuizzes(Connection connection) {
+    public List<Quiz> getAllQuizzes() {
         List<Quiz> result = new ArrayList<>();
         String sqlCommand = "SELECT * FROM Quizzes";
         try(Statement st = connection.createStatement()){
@@ -68,5 +73,13 @@ public class QuizDAO {
             throw new RuntimeException(e);
         }
         return result;
+    }
+
+    public void deleteQuiz(int quiz_id) throws SQLException {
+        String sqlCommand = "DELETE FROM Quizzes WHERE quiz_id = ?";
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+            st.setInt(1, quiz_id);
+            st.executeUpdate();
+        }
     }
 }
