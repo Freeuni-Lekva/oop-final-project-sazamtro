@@ -21,8 +21,10 @@ public class DeleteQuizServlet extends HttpServlet {
         String path = req.getPathInfo();
         String[] pathParts = path.split("/");
         int quiz_id = Integer.parseInt(pathParts[1]);
-        try(Connection connection = DatabaseConnection.getConnection()){
-            QuizDAO.deleteQuiz(connection, quiz_id);
+        Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
+        try{
+            QuizDAO qDAO = new QuizDAO(connection);
+            qDAO.deleteQuiz(quiz_id);
             resp.sendRedirect("/quiz_deleted.jsp");
         } catch (Exception e) {
             throw new RuntimeException(e);

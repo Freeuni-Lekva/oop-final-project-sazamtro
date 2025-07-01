@@ -21,8 +21,10 @@ public class ShowOneQuizServlet extends HttpServlet {
         //super.doGet(req, resp);
         String path = req.getPathInfo();
         int quiz_id = Integer.parseInt(path.substring(1));
-        try(Connection connection = DatabaseConnection.getConnection()){
-            Quiz q = QuizDAO.getOneQuiz(connection, quiz_id);
+        Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
+        try{
+            QuizDAO qDAO = new QuizDAO(connection);
+            Quiz q = qDAO.getOneQuiz(quiz_id);
             req.setAttribute("quiz", q);
             RequestDispatcher rd = req.getRequestDispatcher("/single_quiz_page.jsp");
             rd.forward(req, resp);

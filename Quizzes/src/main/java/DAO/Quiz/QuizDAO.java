@@ -9,7 +9,13 @@ import java.util.*;
 
 public class QuizDAO {
 
-    public static int insertNewQuiz(Connection connection, String title, String description, int creator_id,
+    private Connection connection;
+
+    public QuizDAO(Connection connection){
+        this.connection = connection;
+    }
+
+    public int insertNewQuiz(String title, String description, int creator_id,
                                     boolean is_random, boolean is_multipage, boolean immediate_correction) throws SQLException {
         String sqlCommand = "INSERT INTO Quizzes (title, description, creator_id, is_random, is_multipage, immediate_correction, created_at) " +
                 " VALUES (?, ?, ?, ?, ?, ?, NOW())";
@@ -36,7 +42,7 @@ public class QuizDAO {
     }
 
 
-    public static Quiz getOneQuiz(Connection connection, int id) throws SQLException {
+    public Quiz getOneQuiz(int id) throws SQLException {
         String sqlCommand = "SELECT * FROM Quizzes WHERE quiz_id = ?";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
             st.setInt(1, id);
@@ -52,7 +58,7 @@ public class QuizDAO {
         }
     }
 
-    public static List<Quiz> getAllQuizzes(Connection connection) {
+    public List<Quiz> getAllQuizzes() {
         List<Quiz> result = new ArrayList<>();
         String sqlCommand = "SELECT * FROM Quizzes";
         try(Statement st = connection.createStatement()){
@@ -71,7 +77,7 @@ public class QuizDAO {
         return result;
     }
 
-    public static void deleteQuiz(Connection connection, int quiz_id) throws SQLException {
+    public void deleteQuiz(int quiz_id) throws SQLException {
         String sqlCommand = "DELETE FROM Quizzes WHERE quiz_id = ?";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
             st.setInt(1, quiz_id);

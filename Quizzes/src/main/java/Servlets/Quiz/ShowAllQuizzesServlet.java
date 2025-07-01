@@ -16,9 +16,10 @@ public class ShowAllQuizzesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
-
-        try(Connection connection = DatabaseConnection.getConnection();){
-            List<Quiz> allQuizzes = QuizDAO.getAllQuizzes(connection);
+        Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
+        try{
+            QuizDAO qDAO = new QuizDAO(connection);
+            List<Quiz> allQuizzes = qDAO.getAllQuizzes();
             req.setAttribute("quizzes", allQuizzes);
             RequestDispatcher rd = req.getRequestDispatcher("quizzes_list.jsp");
             rd.forward(req, resp);
