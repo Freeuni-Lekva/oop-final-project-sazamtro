@@ -9,12 +9,17 @@ import java.util.List;
 
 public class ChoiceQuestions extends Question {
 
-    public ChoiceQuestions(QuestionType type, int id, String questionText, int position, int questionScore) {
-        super(type, id, questionText, position, questionScore);
+
+    public ChoiceQuestions(int id, int quiz_id, QuestionType type, String questionText, int position) {
+        super(id, quiz_id, type, questionText, position);
     }
-    public List<AnswerOptions> getOptions() throws SQLException {
+    public ChoiceQuestions() {
+        super();
+    }
+
+    public List<AnswerOption> getOptions() throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
-        List<AnswerOptions> answerOptions =  QuestionsDAO.getOptions(connection, getId());
+        List<AnswerOption> answerOptions =  QuestionsDAO.getOptions(connection, getId());
         connection.close();
         return answerOptions;
     }

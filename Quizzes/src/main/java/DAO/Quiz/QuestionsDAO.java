@@ -1,7 +1,8 @@
 package DAO.Quiz;
 
-import bean.Questions.AnswerOptions;
-import bean.Questions.QuestionType;
+import bean.Questions.AnswerOption;
+import bean.Questions.PictureResponse;
+import bean.Questions.Question;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,15 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionsDAO {
-    public static int insertQuestion(Connection connection, int quiz_id, QuestionType type, String prompt,
-                                     String image_url, int position) throws SQLException {
+    private Connection connection;
+    public QuestionsDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    public int insertQuestion(Question question) throws SQLException {
         String sqlCommand = "INSERT INTO Questions (quiz_id, type, prompt, image_url, position) VALUES (?, ?, ?, ?, ?)";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
-            st.setInt(1, quiz_id);
-            st.setString(2, type.toString());
-            st.setString(3, prompt);
-            st.setString(4, image_url);
-            st.setInt(5, position);
+            st.setInt(1, question.getQuizId());
+            st.setString(2, question.getQuestionType().toString());
+            st.setString(3, question.getQuestionText());
+            st.setString(4, (question instanceof PictureResponse)
+                    ? ((PictureResponse) question).getImage_url()
+                    : null);
+            st.setInt(5, question.getPosition());
 
             int rows = st.executeUpdate();
             if (rows == 0) {
@@ -35,12 +42,12 @@ public class QuestionsDAO {
         }
     }
 
-    public static void insertAnswerOptions(Connection connection, int question_id, String text, boolean is_correct) throws SQLException {
+    public void insertAnswerOptions(AnswerOption option) throws SQLException {
         String sqlCommand = "INSERT INTO AnswerOptions (question_id, text, is_correct) VALUES (?, ?, ?)";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
-            st.setInt(1, question_id);
-            st.setString(2, text);
-            st.setBoolean(3, is_correct);
+            st.setInt(1, option.getQuestionId());
+            st.setString(2, option.getAnswerText());
+            st.setBoolean(3, option.isCorrect());
 
             int rows = st.executeUpdate();
             if (rows == 0) {
@@ -48,7 +55,7 @@ public class QuestionsDAO {
             }
         }
     }
-    public static void insertCorrectAnswerText(Connection connection, int question_id, String text) throws SQLException {
+    public void insertCorrectAnswerText(int question_id, String text) throws SQLException {
         String sqlCommand = "INSERT INTO CorrectAnswer (question_id, text) VALUES (?, ?)";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
             st.setInt(1, question_id);
@@ -61,14 +68,14 @@ public class QuestionsDAO {
     }
 
     //if question has options (multiple choice/answer questions)
-    public static List<AnswerOptions> getOptions(Connection connection, int question_id) throws SQLException {
+    public static List<AnswerOption> getOptions(Connection connection, int question_id) throws SQLException {
         String query = "SELECT * FROM AnswerOptions WHERE question_id = ?";
         try(PreparedStatement st = connection.prepareStatement(query)){
             st.setInt(1, question_id);
             ResultSet rs = st.executeQuery();
-            List<AnswerOptions> options = new ArrayList<>();
+            List<AnswerOption> options = new ArrayList<>();
             while (rs.next()) {
-                options.add(new AnswerOptions(rs.getInt("question_id"),
+                options.add(new AnswerOption(rs.getInt("question_id"),
                         rs.getString("text"), rs.getBoolean("is_correct")));
             }
             return options;

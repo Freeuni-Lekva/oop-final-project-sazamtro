@@ -1,13 +1,15 @@
 package bean.Questions;
 
-public class AnswerOptions {
+public class AnswerOption {
     private int id;
     private int questionId;
     private String answerText; //shemosaxazis teqsti
     private boolean is_correct;
+
+
     //option position sheidzleba
 
-    public AnswerOptions(int questionId, String answerText, boolean is_correct) {
+    public AnswerOption(int questionId, String answerText, boolean is_correct) {
         this.questionId = questionId;
         this.answerText = answerText;
         this.is_correct = is_correct;

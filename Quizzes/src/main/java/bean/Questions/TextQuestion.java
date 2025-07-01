@@ -8,9 +8,14 @@ import java.sql.SQLException;
 
 public class TextQuestion extends Question {
 
-    public TextQuestion(QuestionType type, int id, String questionText, int position, int questionScore) {
-        super(type, id, questionText, position, questionScore);
+
+    public TextQuestion(int id, int quiz_id, QuestionType type, String questionText, int position) {
+        super(id, quiz_id, type, questionText, position);
     }
+    public TextQuestion() {
+        super();
+    }
+
     public String getCorrectAnswer() throws SQLException {
         Connection connection = DatabaseConnection.getConnection();
         String res = QuestionsDAO.getCorrectAnswerTexts(connection, getId());
