@@ -28,7 +28,9 @@ public class SignupServlet extends HttpServlet {
             return;
         }
 
-        try (Connection connection = DatabaseConnection.getConnection()) {
+        Connection connection = (Connection) request.getServletContext().getAttribute("DBConnection");
+
+        try {
             UserDAO userDAO = new UserDAO(connection);
             User user = userDAO.getUserByUsername(username);
 

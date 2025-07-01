@@ -2,7 +2,7 @@ package Servlets.Message;
 
 import DAO.DatabaseConnection;
 import DAO.MessageDAO;
-import DAO.Quiz.QuizDAO;
+import DAO.QuizDAO;
 import DAO.UserDAO;
 import bean.Message.*;
 import bean.Quiz;

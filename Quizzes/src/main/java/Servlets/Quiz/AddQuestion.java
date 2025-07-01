@@ -1,7 +1,7 @@
 package Servlets.Quiz;
 
-import DAO.Quiz.QuestionsDAO;
-import DAO.Quiz.QuizDAO;
+import DAO.QuestionsDAO;
+import DAO.QuizDAO;
 import bean.Questions.*;
 import bean.Quiz;
 

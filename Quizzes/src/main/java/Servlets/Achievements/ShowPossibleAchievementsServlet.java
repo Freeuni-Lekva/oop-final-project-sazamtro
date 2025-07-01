@@ -1,34 +1,32 @@
-package Servlets.Quiz;
+package Servlets.Achievements;
 
+import DAO.AchievementsDAO;
 import DAO.DatabaseConnection;
-import DAO.QuizDAO;
-import bean.Quiz;
+import bean.Achievement;
+
+import java.sql.SQLException;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
-
-@WebServlet("/quizzes/*")
-public class ShowOneQuizServlet extends HttpServlet {
+public class ShowPossibleAchievementsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
-        String path = req.getPathInfo();
-        int quiz_id = Integer.parseInt(path.substring(1));
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
-        try{
-            QuizDAO qDAO = new QuizDAO(connection);
-            Quiz q = qDAO.getOneQuiz(quiz_id);
-            req.setAttribute("quiz", q);
-            RequestDispatcher rd = req.getRequestDispatcher("/single_quiz_page.jsp");
+        try {
+            AchievementsDAO aDAO = new AchievementsDAO(connection);
+            List<Achievement> allAchievements = aDAO.getAllAchievements();
+            req.setAttribute("achievements", allAchievements);
+            RequestDispatcher rd = req.getRequestDispatcher("achievement_list.jsp");
             rd.forward(req, resp);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

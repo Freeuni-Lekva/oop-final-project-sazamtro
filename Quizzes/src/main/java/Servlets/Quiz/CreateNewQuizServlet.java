@@ -1,7 +1,7 @@
 package Servlets.Quiz;
 
 import DAO.DatabaseConnection;
-import DAO.Quiz.QuizDAO;
+import DAO.QuizDAO;
 import bean.User;
 
 import javax.servlet.ServletException;
@@ -30,8 +30,10 @@ public class CreateNewQuizServlet extends HttpServlet {
         boolean is_random = req.getParameter("random") != null;
         boolean is_multipage = req.getParameter("multipage") != null;
         boolean immediate_correction = req.getParameter("immediate_correction") != null;
-        try(Connection connection = DatabaseConnection.getConnection()){
-            int quiz_id = QuizDAO.insertNewQuiz(connection, title, description, creator_id,
+        Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
+        try{
+            QuizDAO qDAO = new QuizDAO(connection);
+            int quiz_id = qDAO.insertNewQuiz(title, description, creator_id,
                                                 is_random, is_multipage, immediate_correction);
             resp.sendRedirect("/quizzes/"+quiz_id+"/add-question");
         } catch (SQLException e){

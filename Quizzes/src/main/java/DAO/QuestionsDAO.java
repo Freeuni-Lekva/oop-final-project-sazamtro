@@ -1,4 +1,4 @@
-package DAO.Quiz;
+package DAO;
 
 import bean.Questions.AnswerOption;
 import bean.Questions.PictureResponse;
