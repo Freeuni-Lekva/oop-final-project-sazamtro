@@ -49,6 +49,7 @@ public class UserDAO {
                 }
             }
         }
+        return null;
     }
 
     // add new user
