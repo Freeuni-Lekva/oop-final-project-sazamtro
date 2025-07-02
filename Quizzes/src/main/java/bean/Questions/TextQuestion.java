@@ -1,7 +1,7 @@
 package bean.Questions;
 
 import DAO.DatabaseConnection;
-import DAO.Quiz.QuestionsDAO;
+import DAO.QuestionsDAO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,9 +16,9 @@ public class TextQuestion extends Question {
         super();
     }
 
-    public String getCorrectAnswer() throws SQLException {
-        Connection connection = DatabaseConnection.getConnection();
-        String res = QuestionsDAO.getCorrectAnswerTexts(connection, getId());
+    public String getCorrectAnswer(Connection connection) throws SQLException {
+        QuestionsDAO dao = new QuestionsDAO(connection);
+        String res = dao.getCorrectAnswerTexts(getId());
         connection.close();
         return res;
     }
