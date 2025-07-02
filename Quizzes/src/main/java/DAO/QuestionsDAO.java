@@ -68,7 +68,7 @@ public class QuestionsDAO {
     }
 
     //if question has options (multiple choice/answer questions)
-    public static List<AnswerOption> getOptions(Connection connection, int question_id) throws SQLException {
+    public List<AnswerOption> getOptions(int question_id) throws SQLException {
         String query = "SELECT * FROM AnswerOptions WHERE question_id = ?";
         try(PreparedStatement st = connection.prepareStatement(query)){
             st.setInt(1, question_id);
@@ -82,7 +82,7 @@ public class QuestionsDAO {
         }
     }
 
-    public static String getCorrectAnswerTexts(Connection connection, int question_id) throws SQLException {
+    public String getCorrectAnswerTexts(int question_id) throws SQLException {
         String query = "SELECT * FROM CorrectAnswers WHERE question_id = ?";
         try(PreparedStatement st = connection.prepareStatement(query)){
             st.setInt(1, question_id);
