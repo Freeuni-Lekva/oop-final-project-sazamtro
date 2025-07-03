@@ -100,11 +100,11 @@ public class AdministratorServlet extends HttpServlet {
                     break;
 
                 case "removeUser":
-                    doRemoveUser(request, session, administratorDAO, userDAO);
+                    doRemoveUser(request, session, userDAO);
                     break;
 
                 case "removeQuiz":
-                    doRemoveQuiz(request, session, administratorDAO, quizDAO);
+                    doRemoveQuiz(request, session, quizDAO);
                     break;
 
                 case "clearQuizHistory":
@@ -142,7 +142,7 @@ public class AdministratorServlet extends HttpServlet {
         }
     }
 
-    private void doRemoveUser(HttpServletRequest request, HttpSession session, AdministratorDAO administratorDAO, UserDAO userDAO) throws SQLException {
+    private void doRemoveUser(HttpServletRequest request, HttpSession session, UserDAO userDAO) throws SQLException {
         String userIdStr = request.getParameter("userId");
 
         if (userIdStr == null || userIdStr.trim().isEmpty()) {
@@ -152,7 +152,7 @@ public class AdministratorServlet extends HttpServlet {
             User user = userDAO.getUserById(userId);
 
             if (user != null) {
-                administratorDAO.removeUser(userId);
+                userDAO.removeUser(userId);
                 session.setAttribute("message",
                         "user " + user.getUsername() + " was removed");
             } else {
@@ -161,7 +161,7 @@ public class AdministratorServlet extends HttpServlet {
         }
     }
 
-    private void doRemoveQuiz(HttpServletRequest request, HttpSession session, AdministratorDAO administratorDAO, QuizDAO quizDAO) throws SQLException {
+    private void doRemoveQuiz(HttpServletRequest request, HttpSession session, QuizDAO quizDAO) throws SQLException {
         String quizIdStr = request.getParameter("quizId");
 
         if (quizIdStr == null || quizIdStr.trim().isEmpty()) {
@@ -171,7 +171,7 @@ public class AdministratorServlet extends HttpServlet {
             Quiz quiz = quizDAO.getOneQuiz(quizId);
 
             if (quiz != null) {
-                administratorDAO.removeQuiz(quizId);
+                quizDAO.removeQuiz(quizId);
                 session.setAttribute("message", "quiz " + quiz.getQuizTitle() + " was removed");
             } else {
                 session.setAttribute("message", "quiz not found");
