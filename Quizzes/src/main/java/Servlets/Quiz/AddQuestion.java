@@ -18,47 +18,6 @@ import java.util.Set;
 public class AddQuestion extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String typeStr = req.getParameter("type");
-        if (typeStr == null) {
-            resp.sendRedirect("/error.jsp?reason=Invalid type");
-            return;
-        }
-        Question question;
-        try {
-            question = getDefaultQuestionByType(QuestionType.valueOf(typeStr));
-        } catch (Exception e) {
-            resp.sendRedirect("/error.jsp");
-            return;
-        }
-        if (question == null) {
-            resp.sendRedirect("/error.jsp");
-            return;
-        }
-
-        // Validate required parameters first
-        String quizIdStr = req.getParameter("quiz_id");
-        int quizId = getIntParameter(quizIdStr, resp);
-        if(quizId < 0) return;
-        question.setQuiz_id(quizId);
-
-
-        String prompt = req.getParameter("prompt");
-        if (prompt == null) {
-            resp.sendRedirect("/error.jsp?reason=prompt_not_specified");
-            return;
-        }
-        question.setQuestionText(prompt);
-
-
-        if (question instanceof PictureResponse) {
-            String image_url = req.getParameter("image_url");
-            if (image_url == null) {
-                resp.sendRedirect("/error.jsp?reason=image_url_not_specified");
-                return;
-            }
-            ((PictureResponse) question).setImage_url(image_url);
-        }
-
         // Get connection from context
         Connection con = (Connection) getServletContext().getAttribute("DBConnection");
         if (con == null) {
@@ -68,27 +27,45 @@ public class AddQuestion extends HttpServlet {
         QuestionsDAO questionsDAO = new QuestionsDAO(con);
 
 
+        //get parameters for question
+
+        QuestionType type = getType(req, resp);
+        String prompt = getPrompt(req, resp);
+        int quizId = getQuizId(req, resp);
+
+        if (type == null || prompt == null || quizId < 0) {
+            resp.sendRedirect("/error.jsp?reason=missing_parameters");
+            return;
+        }
+
+        String imageUrl = getImageUrl(type, req, resp);
+        int position;
         try {
-            Quiz quiz = quizDAO.getOneQuiz(question.getQuizId());
-            if (quiz == null) {
-                resp.sendRedirect("/error.jsp?reason=quiz_not_found");
+            position = getPosition(quizId, quizDAO, req, resp);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        //creating question object
+        Question question;
+        try {
+            question = QuestionFactory.createQuestion(quizId, type, prompt, position, imageUrl);
+            if (question == null) {
+                resp.sendRedirect("/error.jsp?reason=question_creation_failed");
                 return;
             }
-            boolean isRandom = quiz.checkIfRandom();
 
-            if (!isRandom) {
-                String posStr = req.getParameter("position");
-                int position = getIntParameter(posStr, resp);
-                if(position < 0) return;
-                question.setPosition(position);
-            }
+        } catch (Exception e) {
+            resp.sendRedirect("/error.jsp");
+            return;
+        }
 
-            int question_id = questionsDAO.insertQuestion(question);
+        try {
+            int question_id = questionsDAO.insertQuestion(question); //adding to database
             question.setId(question_id);
 
-
             // Handle answers
-            if (question instanceof ChoiceQuestions) {
+            if (question.hasChoices()) {
                 addOptions(questionsDAO, question_id, req, resp);
             } else {
                 String correctAnswer = req.getParameter("correctAnswer");
@@ -101,8 +78,66 @@ public class AddQuestion extends HttpServlet {
             throw new ServletException("Database error", e);
         }
 
-        resp.sendRedirect("/add-question?quiz_id=" + question.getQuizId() +
+        resp.sendRedirect("/add-question?quizId=" + question.getQuizId() +
                 "&position=" + (question.getPosition() + 1));
+    }
+
+
+    private QuestionType getType(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String typeStr = req.getParameter("type");
+        if (typeStr == null) {
+            resp.sendRedirect("/error.jsp?reason=type_not_specified");
+            return null;
+        }
+        try {
+            return QuestionType.valueOf(typeStr);
+        } catch (IllegalArgumentException e) {
+            resp.sendRedirect("/error.jsp?reason=invalid_type");
+            return null;
+        }
+    }
+    private String getPrompt(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String prompt = req.getParameter("prompt");
+        if (prompt == null) {
+            resp.sendRedirect("/error.jsp?reason=prompt_not_specified");
+            return null;
+        }
+        return prompt;
+    }
+    private int getQuizId(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String quizIdStr = req.getParameter("quizId");
+        return getIntParameter(quizIdStr, resp);
+    }
+    private String getImageUrl(QuestionType type, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        if(type != QuestionType.PICTURE_RESPONSE){
+            return null;
+        }
+        String imageUrl = req.getParameter("image_url");
+        if (imageUrl == null) {
+            resp.sendRedirect("/error.jsp?reason=image_url_not_specified");
+            throw new RuntimeException("image_url_not_specified");
+        }
+        return imageUrl;
+    }
+    private int getPosition(int quizId, QuizDAO quizDAO, HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
+        Quiz quiz = quizDAO.getOneQuiz(quizId);
+
+        if(quiz == null){
+            resp.sendRedirect("/error.jsp?reason=quiz_not_found");
+            throw new RuntimeException("quiz_not_found");
+        }
+        boolean isRandom = quiz.checkIfRandom();
+
+        int position = -1;
+        if (!isRandom) {
+            String posStr = req.getParameter("position");
+            position = getIntParameter(posStr, resp);
+            if(position < 0){
+                resp.sendRedirect("/error.jsp?reason=invalid_position");
+                throw new RuntimeException("invalid_position");
+            }
+        }
+        return position;
     }
 
     private int getIntParameter(String parameter, HttpServletResponse resp) throws IOException {
@@ -121,16 +156,6 @@ public class AddQuestion extends HttpServlet {
         return result;
     }
 
-    private Question getDefaultQuestionByType(QuestionType type){
-        switch (type){
-            case MULTIPLE_CHOICE: return new MultipleChoice();
-            case QUESTION_RESPONSE: return new QuestionResponse();
-            case MULTI_SELECT: return new MultiSelect();
-            case FILL_IN_THE_BLANK: return new FillInQuestion();
-            case PICTURE_RESPONSE: return new PictureResponse();
-            default: return null;
-        }
-    }
     private void addOptions(QuestionsDAO questionsDAO,  int question_id, HttpServletRequest req, HttpServletResponse resp) throws SQLException, IOException {
         String str = req.getParameter("numOptions");
         int numOptions = getIntParameter(str, resp);
@@ -163,7 +188,6 @@ public class AddQuestion extends HttpServlet {
                     // Ignore invalid correct option indices or log warning
                 }
             }
-
         }
         return res;
     }

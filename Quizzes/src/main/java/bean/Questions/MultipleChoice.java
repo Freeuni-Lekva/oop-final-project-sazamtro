@@ -3,8 +3,11 @@ package bean.Questions;
 public class MultipleChoice extends ChoiceQuestions {
 
 
-    public MultipleChoice(int id, int quiz_id, String questionText, int position) {
-        super(id, quiz_id, QuestionType.MULTIPLE_CHOICE, questionText, position);
+    public MultipleChoice(int id, int quizId, String questionText, int position) {
+        super(id, quizId, QuestionType.MULTIPLE_CHOICE, questionText, position);
+    }
+    public MultipleChoice(int quizId, String questionText, int position) {
+        super(quizId, QuestionType.MULTIPLE_CHOICE, questionText, position);
     }
     public MultipleChoice() {
         super();

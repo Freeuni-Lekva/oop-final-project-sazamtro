@@ -9,8 +9,11 @@ import java.sql.SQLException;
 public class TextQuestion extends Question {
 
 
-    public TextQuestion(int id, int quiz_id, QuestionType type, String questionText, int position) {
-        super(id, quiz_id, type, questionText, position);
+    public TextQuestion(int id, int quizId, QuestionType type, String questionText, int position) {
+        super(id, quizId, type, questionText, position);
+    }
+    public TextQuestion(int quizId, QuestionType type, String questionText, int position) {
+        super(quizId, type, questionText, position);
     }
     public TextQuestion() {
         super();

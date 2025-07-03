@@ -23,10 +23,9 @@ public class QuestionsDAO {
             st.setInt(1, question.getQuizId());
             st.setString(2, question.getQuestionType().toString());
             st.setString(3, question.getQuestionText());
-            st.setString(4, (question instanceof PictureResponse)
-                    ? ((PictureResponse) question).getImage_url()
-                    : null);
+            st.setString(4, question.getImageUrl());
             st.setInt(5, question.getPosition());
+
 
             int rows = st.executeUpdate();
             if (rows == 0) {
