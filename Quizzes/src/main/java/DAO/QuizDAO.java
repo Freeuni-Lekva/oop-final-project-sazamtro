@@ -1,5 +1,7 @@
 package DAO;
 
+import bean.Questions.Question;
+import bean.Questions.QuestionType;
 import bean.Quiz;
 
 import java.sql.*;
@@ -81,5 +83,21 @@ public class QuizDAO {
             st.setInt(1, quiz_id);
             st.executeUpdate();
         }
+    }
+
+    public List<Question> getQuizQuestions(int quiz_id) throws SQLException {
+        List<Question> result = new ArrayList<>();
+        String sqlCommand = "SELECT * FROM Questions WHERE quiz_id = ?";
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+            st.setInt(1, quiz_id);
+            ResultSet rs = st.executeQuery();
+            Question curr = new Question(rs.getInt("question_id"),
+                                         rs.getInt("quiz_id"),
+                                         QuestionType.valueOf(rs.getString("type").toUpperCase()),
+                                         rs.getString("prompt"),
+                                         rs.getInt("position"));
+            result.add(curr);
+        }
+        return result;
     }
 }
