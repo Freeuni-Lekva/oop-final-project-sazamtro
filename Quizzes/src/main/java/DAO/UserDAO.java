@@ -72,4 +72,15 @@ public class UserDAO {
             }
         }
     }
+
+    // removes user
+    // using 'ON DELETE CASCADE' in the SQL to automatically remove its records from all tables."
+    public void removeUser(int userId) throws SQLException {
+        String query = "DELETE FROM Users WHERE user_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ps.executeUpdate();
+        }
+    }
 }

@@ -14,30 +14,6 @@ public class AdministratorDAO {
     }
 
 
-    // remove user by its id
-    // using 'ON DELETE CASCADE' in the SQL to automatically remove its records from all tables."
-    public void removeUser(int userId) throws SQLException {
-        String query = "DELETE FROM Users WHERE user_id = ?";
-
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, userId);
-            ps.executeUpdate();
-        }
-    }
-
-
-    // remove quiz by its id
-    // using 'ON DELETE CASCADE' in the SQL to automatically remove its records from all tables."
-    public void removeQuiz(int quizId) throws SQLException {
-        String query = "DELETE FROM Quizzes WHERE quiz_id = ?";
-
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, quizId);
-            ps.executeUpdate();
-        }
-    }
-
-
     // clear quiz history
     // using 'ON DELETE CASCADE' in the SQL to automatically remove its records from all tables."
     public void clearQuizHistory(int quizId) throws SQLException {
