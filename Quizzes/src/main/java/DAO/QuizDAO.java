@@ -77,7 +77,7 @@ public class QuizDAO {
         return result;
     }
 
-    public void deleteQuiz(int quiz_id) throws SQLException {
+    public void removeQuiz(int quiz_id) throws SQLException {
         String sqlCommand = "DELETE FROM Quizzes WHERE quiz_id = ?";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
             st.setInt(1, quiz_id);

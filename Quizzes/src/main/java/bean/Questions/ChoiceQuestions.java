@@ -10,8 +10,11 @@ import java.util.List;
 public class ChoiceQuestions extends Question {
 
 
-    public ChoiceQuestions(int id, int quiz_id, QuestionType type, String questionText, int position) {
-        super(id, quiz_id, type, questionText, position);
+    public ChoiceQuestions(int id, int quizId, QuestionType type, String questionText, int position) {
+        super(id, quizId, type, questionText, position);
+    }
+    public ChoiceQuestions(int quizId, QuestionType type, String questionText, int position) {
+        super(quizId, type, questionText, position);
     }
     public ChoiceQuestions() {
         super();
@@ -22,5 +25,10 @@ public class ChoiceQuestions extends Question {
         List<AnswerOption> answerOptions =  dao.getOptions(getId());
         connection.close();
         return answerOptions;
+    }
+
+    @Override
+    public boolean hasChoices(){
+        return true;
     }
 }

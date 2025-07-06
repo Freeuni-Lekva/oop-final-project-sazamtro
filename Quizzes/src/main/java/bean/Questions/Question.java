@@ -8,19 +8,26 @@ public class Question {
     private int id;
     private String questionText;
     private int position;
-    private int quiz_id;
+    private int quizId;
 
     private static final int defaultId = -1, defaultPosition = -1, defaultQuiz_id = -1;
     private static final String defaultText = null;
     private static final QuestionType defaultType = QuestionType.UNSPECIFIED;
 
 
-    public Question(int id, int quiz_id, QuestionType type, String questionText, int position) {
+    public Question(int id, int quizId, QuestionType type, String questionText, int position) {
         this.questionType = type;
         this.id = id;
         this.questionText = questionText;
         this.position = position;
-        this.quiz_id = quiz_id;
+        this.quizId = quizId;
+    }
+    public Question(int quiz_id, QuestionType type, String questionText, int position) {
+        this.questionType = type;
+        this.id = defaultId;
+        this.questionText = questionText;
+        this.position = position;
+        this.quizId = quiz_id;
     }
     public Question(){
         this(defaultId, defaultQuiz_id, defaultType, defaultText, defaultPosition);
@@ -43,7 +50,7 @@ public class Question {
     }
 
     public int getQuizId() {
-        return quiz_id;
+        return quizId;
     }
 
 
@@ -64,7 +71,15 @@ public class Question {
     }
 
     public void setQuiz_id(int quiz_id) {
-        this.quiz_id = quiz_id;
+        this.quizId = quiz_id;
+    }
+
+
+    public String getImageUrl(){
+        return null;
+    }
+    public boolean hasChoices(){
+        return false;
     }
 
 }
