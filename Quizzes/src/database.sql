@@ -20,6 +20,7 @@ CREATE TABLE Users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
+    profilePicture_url VARCHAR(255),
     is_admin BOOLEAN DEFAULT FALSE
 );
 
