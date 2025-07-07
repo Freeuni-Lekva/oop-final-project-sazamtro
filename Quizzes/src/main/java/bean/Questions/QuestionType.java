@@ -6,5 +6,5 @@ public enum QuestionType {
     FILL_IN_THE_BLANK,
     MULTIPLE_CHOICE,
     MULTI_SELECT,
-    MultipleChoice, PICTURE_RESPONSE
+    PICTURE_RESPONSE
 }

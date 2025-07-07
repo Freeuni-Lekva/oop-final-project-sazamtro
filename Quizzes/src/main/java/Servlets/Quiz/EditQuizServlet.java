@@ -5,6 +5,7 @@ import DAO.QuizDAO;
 import bean.Questions.AnswerOption;
 import bean.Questions.ChoiceQuestions;
 import bean.Questions.Question;
+import bean.Questions.QuestionType;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,7 +34,8 @@ public class EditQuizServlet extends HttpServlet {
             QuestionsDAO questionsDAO = new QuestionsDAO(connection);
             for(Question curr : quizQuestions){
                 List<AnswerOption> answers = new ArrayList<>();
-                if (curr instanceof ChoiceQuestions){
+                if (curr.getQuestionType() == QuestionType.MULTIPLE_CHOICE ||
+                        curr.getQuestionType() == QuestionType.MULTI_SELECT){
                     answers = questionsDAO.getOptions(curr.getId());
                 }
                 questionAnswerOptionMap.putIfAbsent(curr, answers);

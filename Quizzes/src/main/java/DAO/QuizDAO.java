@@ -1,6 +1,7 @@
 package DAO;
 
 import bean.Questions.Question;
+import bean.Questions.QuestionFactory;
 import bean.Questions.QuestionType;
 import bean.Quiz;
 
@@ -91,12 +92,19 @@ public class QuizDAO {
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
             st.setInt(1, quiz_id);
             ResultSet rs = st.executeQuery();
-            Question curr = new Question(rs.getInt("question_id"),
-                                         rs.getInt("quiz_id"),
-                                         QuestionType.valueOf(rs.getString("type").toUpperCase()),
-                                         rs.getString("prompt"),
-                                         rs.getInt("position"));
-            result.add(curr);
+            while (rs.next()){
+                String typeStr = rs.getString("type").toUpperCase();
+                QuestionType type = QuestionType.valueOf(typeStr);
+                int id = rs.getInt("question_id");
+                int quizId = rs.getInt("quiz_id");
+                String prompt = rs.getString("prompt");
+                int position = rs.getInt("position");
+                String picUrl = rs.getString("image_url");
+                Question curr = QuestionFactory.createQuestion(quizId, type, prompt, position, picUrl);
+                assert curr != null;
+                curr.setId(id);
+                result.add(curr);
+            }
         }
         return result;
     }

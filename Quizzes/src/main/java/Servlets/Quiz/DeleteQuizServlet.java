@@ -24,7 +24,7 @@ public class DeleteQuizServlet extends HttpServlet {
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         try{
             QuizDAO qDAO = new QuizDAO(connection);
-            qDAO.deleteQuiz(quiz_id);
+            qDAO.removeQuiz(quiz_id);
             resp.sendRedirect("/quiz_deleted.jsp");
         } catch (Exception e) {
             throw new RuntimeException(e);
