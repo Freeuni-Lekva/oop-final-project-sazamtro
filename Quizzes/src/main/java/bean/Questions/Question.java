@@ -1,6 +1,6 @@
 package bean.Questions;
 
-public class Question {
+public abstract class Question {
     private static final int DEFAULT_QUESTION_ID = -1;
     private static final int DEFAULT_POSITION = -1;
 
