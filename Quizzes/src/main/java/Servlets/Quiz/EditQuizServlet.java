@@ -34,8 +34,7 @@ public class EditQuizServlet extends HttpServlet {
             QuestionsDAO questionsDAO = new QuestionsDAO(connection);
             for(Question curr : quizQuestions){
                 List<AnswerOption> answers = new ArrayList<>();
-                if (curr.getQuestionType() == QuestionType.MULTIPLE_CHOICE ||
-                        curr.getQuestionType() == QuestionType.MULTI_SELECT){
+                if (curr.hasChoices()){
                     answers = questionsDAO.getOptions(curr.getId());
                 }
                 questionAnswerOptionMap.putIfAbsent(curr, answers);
