@@ -20,13 +20,13 @@ import java.sql.SQLException;
 public class SendRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getServletContext().getAttribute("DBConnection");
+        Connection connection = (Connection) req.getServletContext().getAttribute(RequestAtributeNames.CONNECTION);
         UserDAO userDAO = new UserDAO(connection);
         FriendRequestDAO requestDAO = new FriendRequestDAO(connection);
         MessageDAO messageDAO = new MessageDAO(connection);
 
-        User sender = (User) req.getSession().getAttribute("user");
-        String receiverUsername = req.getParameter("receiver");
+        User sender = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
+        String receiverUsername = req.getParameter(RequestAtributeNames.RECEIVER_USERNAME);
 
         if(receiverUsername == null || receiverUsername.trim().isEmpty()){
             resp.sendRedirect("/error.jsp");

@@ -15,12 +15,12 @@ import java.sql.SQLException;
 public class DeleteFriendServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getServletContext().getAttribute("DBConnection");
+        Connection connection = (Connection) req.getServletContext().getAttribute(RequestAtributeNames.CONNECTION);
         FriendRequestDAO requestDAO = new FriendRequestDAO(connection);
         UserDAO userDAO = new UserDAO(connection);
 
-        User user = (User) req.getSession().getAttribute("user");
-        String friend_user_name = req.getParameter("friend");
+        User user = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
+        String friend_user_name = req.getParameter(RequestAtributeNames.FRIEND);
 
         if(friend_user_name == null || friend_user_name.trim().isEmpty()){
             resp.sendRedirect("/error.jsp");
