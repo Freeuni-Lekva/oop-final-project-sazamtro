@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ChoiceQuestions extends Question {
+public abstract class ChoiceQuestions extends Question {
 
 
     public ChoiceQuestions(int id, int quizId, QuestionType type, String questionText, int position) {

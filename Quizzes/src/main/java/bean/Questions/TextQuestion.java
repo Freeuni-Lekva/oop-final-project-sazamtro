@@ -6,7 +6,7 @@ import DAO.QuestionsDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class TextQuestion extends Question {
+public abstract class TextQuestion extends Question {
 
 
     public TextQuestion(int id, int quizId, QuestionType type, String questionText, int position) {
