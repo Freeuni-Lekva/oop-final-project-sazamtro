@@ -25,7 +25,7 @@ public class MessageDAO {
         try (PreparedStatement st = connection.prepareStatement(insert)){
             st.setInt(1, message.getSender_id());
             st.setInt(2, message.getReceiver_id());
-            st.setString(3, message.getType().name());
+            st.setString(3, message.getMessageType().name());
             st.setString(4, message.getContent());
 
             st.executeUpdate();
@@ -66,7 +66,7 @@ public class MessageDAO {
         try (PreparedStatement st = connection.prepareStatement(insert)){
             st.setInt(1, challengeMessage.getSender_id());
             st.setInt(2, challengeMessage.getReceiver_id());
-            st.setString(3, challengeMessage.getType().name());
+            st.setString(3, MessageType.CHALLENGE.toString());
             st.setString(4, challengeMessage.getContent());
             st.setInt(5, challengeMessage.getQuiz_id());
 

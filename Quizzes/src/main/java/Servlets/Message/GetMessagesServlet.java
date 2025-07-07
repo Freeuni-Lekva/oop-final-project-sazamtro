@@ -1,11 +1,9 @@
 package Servlets.Message;
 
-import DAO.DatabaseConnection;
 import DAO.MessageDAO;
 import bean.Message.*;
 import bean.User;
 
-import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,15 +16,15 @@ import java.util.List;
 public class GetMessagesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = DatabaseConnection.getConnection();
+        Connection connection = (Connection) req.getServletContext().getAttribute(MessageAtributeNames.CONNECTION);
         MessageDAO mDAO = new MessageDAO(connection);
         HttpSession session = req.getSession();
 
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute(MessageAtributeNames.USER);
 
-        String type = req.getParameter("type");
+        String type = req.getParameter(MessageAtributeNames.TYPE);
 
-        String sender = req.getParameter("sender");
+        String sent_received = req.getParameter(MessageAtributeNames.SENT_RECEIVED);
 
         if (type ==  null) {
             resp.sendRedirect("/message-fail.jsp");
@@ -43,7 +41,7 @@ public class GetMessagesServlet extends HttpServlet {
             return;
         }
         List<Message> messageList;
-        switch (sender){
+        switch (sent_received){
             case "received":
                 messageList = mDAO.getReceivedTypeMessages(user.getUserId(), messageType);
                 break;

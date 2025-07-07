@@ -16,13 +16,13 @@ import java.sql.SQLException;
 public class RespondToRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getServletContext().getAttribute("DBConnection");
+        Connection connection = (Connection) req.getServletContext().getAttribute(RequestAtributeNames.CONNECTION);
         FriendRequestDAO requestDAO = new FriendRequestDAO(connection);
         UserDAO userDAO = new UserDAO(connection);
 
-        User user = (User) req.getSession().getAttribute("user");
-        String sender_user_name = req.getParameter("sender");
-        String response = req.getParameter("response");
+        User user = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
+        String sender_user_name = req.getParameter(RequestAtributeNames.SENDER_USERNAME);
+        String response = req.getParameter(RequestAtributeNames.RESPONSE);
 
         if(sender_user_name == null || sender_user_name.trim().isEmpty()){
             resp.sendRedirect("/error.jsp");

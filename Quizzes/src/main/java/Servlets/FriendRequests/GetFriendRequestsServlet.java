@@ -16,13 +16,13 @@ import java.util.List;
 public class GetFriendRequestsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection connection = (Connection) req.getServletContext().getAttribute("DBConnection");
+        Connection connection = (Connection) req.getServletContext().getAttribute(RequestAtributeNames.CONNECTION);
         FriendRequestDAO requestDAO = new FriendRequestDAO(connection);
 
-        User user = (User) req.getSession().getAttribute("user");
+        User user = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
 
         List<FriendRequest> requests = requestDAO.getPendingReceivedRequests(user.getUserId());
-        req.setAttribute("FriendRequests", requests);
+        req.setAttribute(RequestAtributeNames.FIREND_REQUESTS, requests);
         req.getRequestDispatcher("/friend-requests.jsp").forward(req, resp);
     }
 }
