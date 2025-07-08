@@ -149,7 +149,7 @@ class QuestionsDAOTest {
         questionsDAO.updateAnswerOption(new AnswerOption(id1, questionId, "okokok", true));
         List<AnswerOption> ans = questionsDAO.getOptions(questionId);
         assertEquals(1, ans.size());
-        assertEquals("okokok", ans.getFirst().getAnswerText());
+        assertEquals("okokok", ans.get(0).getAnswerText());
     }
 
     @Test
