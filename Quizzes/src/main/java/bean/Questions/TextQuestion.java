@@ -21,7 +21,7 @@ public abstract class TextQuestion extends Question {
 
     public String getCorrectAnswer(Connection connection) throws SQLException {
         QuestionsDAO dao = new QuestionsDAO(connection);
-        String res = dao.getCorrectAnswerTexts(getId());
+        String res = dao.getCorrectAnswerText(getId());
         connection.close();
         return res;
     }
