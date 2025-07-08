@@ -47,23 +47,27 @@ public class RespondToRequestServlet extends HttpServlet {
             return;
         }
 
-        if(!requestDAO.friendRequestExists(user.getUserId(), sender.getUserId())){
-            resp.sendRedirect("/error.jsp");
-            return;
-        }
-
-        FriendRequest fr = new FriendRequest(sender.getUserId(), user.getUserId());
-        switch (response.toLowerCase()) {
-            case "accept":
-                requestDAO.approveRequest(fr);
-                resp.sendRedirect("/request-approved.jsp");
-                break;
-            case "reject":
-                requestDAO.rejectRequest(fr);
-                resp.sendRedirect("/request-rejected.jsp");
-                break;
-            default:
+        try {
+            if (!requestDAO.friendRequestExists(user.getUserId(), sender.getUserId())) {
                 resp.sendRedirect("/error.jsp");
+                return;
+            }
+
+            FriendRequest fr = new FriendRequest(sender.getUserId(), user.getUserId());
+            switch (response.toLowerCase()) {
+                case "accept":
+                    requestDAO.approveRequest(fr);
+                    resp.sendRedirect("/request-approved.jsp");
+                    break;
+                case "reject":
+                    requestDAO.rejectRequest(fr);
+                    resp.sendRedirect("/request-rejected.jsp");
+                    break;
+                default:
+                    resp.sendRedirect("/error.jsp");
+            }
+        }catch (SQLException e){
+            throw new RuntimeException("Failed To Respond TO Friend Request", e);
         }
     }
 }

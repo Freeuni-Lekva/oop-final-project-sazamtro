@@ -37,12 +37,16 @@ public class DeleteFriendServlet extends HttpServlet {
             return;
         }
 
-        if(!requestDAO.areFriends(user, friend)){
-            resp.sendRedirect("/error.jsp");
-            return;
-        }
+        try {
+            if (!requestDAO.areFriends(user, friend)) {
+                resp.sendRedirect("/error.jsp");
+                return;
+            }
 
-        requestDAO.removeFriendship(user, friend);
-        resp.sendRedirect("/friend-deleted.jsp");
+            requestDAO.removeFriendship(user, friend);
+            resp.sendRedirect("/friend-deleted.jsp");
+        }catch (SQLException e){
+            throw new RuntimeException("Failed To Delete Friend", e);
+        }
     }
 }

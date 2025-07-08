@@ -21,13 +21,6 @@ public class FriendRequest {
         this.status = status;
     }
 
-    public FriendRequest(int request_id, int sender_id, int receiver_id){
-        this.request_id = request_id;
-        this.sender_id = sender_id;
-        this.receiver_id = receiver_id;
-        this.status = FriendRequestStatus.PENDING;
-    }
-
     public FriendRequest(int sender_id, int receiver_id){
         this.request_id = DEFAULT_ID;
         this.sender_id = sender_id;
@@ -45,9 +38,15 @@ public class FriendRequest {
 
     public void setRequest_id(int request_id){this.request_id = request_id;}
 
-    public void accept(){this.status = FriendRequestStatus.ACCEPTED;}
-
-    public void reject(){this.status = FriendRequestStatus.REJECTED;}
-
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(! (o instanceof FriendRequest)) return false;
+        FriendRequest other = (FriendRequest) o;
+        return other.getRequestId() == this.getRequestId() &&
+                other.getSenderId() == this.getSenderId() &&
+                other.getReceiverId() == this.getReceiverId() &&
+                other.getStatus() == this.getStatus();
+    }
 
 }
