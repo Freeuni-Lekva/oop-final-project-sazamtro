@@ -50,7 +50,11 @@ public class SendMessageServlet extends HttpServlet {
         }
         NoteMessage noteMessage = new NoteMessage(message_id, sender.getUserId(), receiver.getUserId(), content, null, false);
         MessageDAO mDAO = new MessageDAO(connection);
-        mDAO.sendNote(noteMessage);
+        try {
+            mDAO.sendNote(noteMessage);
+        }catch (SQLException e){
+            throw new RuntimeException("Failed To Send Note Message", e);
+        }
         resp.sendRedirect("/note-sent.jsp");
     }
 }

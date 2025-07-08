@@ -67,7 +67,11 @@ public class SendChallengeServlet extends HttpServlet {
 
         ChallengeMessage challengeMessage = new ChallengeMessage(message_id, sender.getUserId(), receiver.getUserId(), content, quiz.getQuiz_id(), null,false);
         MessageDAO mDAO = new MessageDAO(connection);
-        mDAO.sendChallenge(challengeMessage);
+        try {
+            mDAO.sendChallenge(challengeMessage);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed To Send Challenge Message" ,e);
+        }
         resp.sendRedirect("/note-sent.jsp");
     }
 }

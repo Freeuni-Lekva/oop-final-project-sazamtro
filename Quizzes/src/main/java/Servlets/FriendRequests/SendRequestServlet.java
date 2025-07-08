@@ -55,7 +55,11 @@ public class SendRequestServlet extends HttpServlet {
 
         FriendRequest friendRequest = new FriendRequest(sender.getUserId(), receiver.getUserId());
         RequestMessage requestMessage = new RequestMessage(Message.DEFAULT_MESSAGE_ID, sender.getUserId(), receiver.getUserId(), "NEED A DISCORD MEETING FOR THIS", null, false);
-        messageDAO.sendFriendRequest(requestMessage);
+        try {
+            messageDAO.sendFriendRequest(requestMessage);
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed To Send Friend Request Message" ,e);
+        }
         requestDAO.sendFriendRequest(friendRequest);
         resp.sendRedirect("/request-sent.jsp");
     }
