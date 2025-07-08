@@ -55,7 +55,7 @@ public class QuestionsDAO {
         }
     }
     public void insertCorrectAnswerText(int question_id, String text) throws SQLException {
-        String sqlCommand = "INSERT INTO CorrectAnswer (question_id, text) VALUES (?, ?)";
+        String sqlCommand = "INSERT INTO CorrectAnswers (question_id, text) VALUES (?, ?)";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
             st.setInt(1, question_id);
             st.setString(2, text);
