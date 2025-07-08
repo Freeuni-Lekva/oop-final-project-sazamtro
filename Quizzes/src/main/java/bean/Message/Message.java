@@ -9,6 +9,7 @@ public abstract class Message {
     private int message_id;
     private final int sender_id;
     private final int receiver_id;
+    private MessageType type;
     private final Date timestamp;
     private boolean is_read;
 
