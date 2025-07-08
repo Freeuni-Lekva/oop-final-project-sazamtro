@@ -105,9 +105,13 @@ class UserDAOTest {
 
         User dbUser = userDAO.getUserByUsername("taso");
 
+        String profilePictureUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Lavandula_angustifolia_1.jpg/320px-Lavandula_angustifolia_1.jpg";
+        dbUser.setProfilePictureUrl(profilePictureUrl);
+
         assertNotNull(dbUser);
         assertEquals("taso", dbUser.getUsername());
         assertEquals(hashedPassword, dbUser.getPassword());
+        assertEquals(profilePictureUrl, dbUser.getProfilePictureUrl());
         assertFalse(dbUser.checkIfAdmin());
     }
 
