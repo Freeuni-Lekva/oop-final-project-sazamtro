@@ -56,7 +56,7 @@ public class SingleQuestionServlet extends HttpServlet {
         int currScore = (int) req.getSession().getAttribute("current_score");
 
         @SuppressWarnings("unchecked")
-        Map<Integer, String> userResponses = (Map<Integer, String>) req.getSession().getAttribute("user_responses");
+        Map<Integer, String[]> userResponses = (Map<Integer, String[]>) req.getSession().getAttribute("user_responses");
         @SuppressWarnings("unchecked")
         List<Question> quizQuestions = (List<Question>) req.getSession().getAttribute("quiz_questions");
 
@@ -64,20 +64,23 @@ public class SingleQuestionServlet extends HttpServlet {
         AnswerDAO answerDAO = new AnswerDAO(connection);
 
         Question currQuestion = quizQuestions.get(currIndex);
-        String currAnswer = req.getParameter("answer");
-        userResponses.put(currQuestion.getId(), currAnswer);
+        String[] currAnswers = req.getParameterValues("answer");
+        userResponses.put(currQuestion.getId(), currAnswers);
         boolean isCorrect;
+        int singleQuesScore = 0;
         try{
-            isCorrect = answerDAO.checkAnswer(currQuestion.getId(), currAnswer);
+            for (String curr : currAnswers) {
+                if (answerDAO.checkAnswer(currQuestion.getId(), curr)) singleQuesScore++;
+            }
         } catch(SQLException e){
             throw new RuntimeException();
         }
-        if(isCorrect){
-            currScore++;
-        }
+
+            currScore = currScore + singleQuesScore;
+
         req.getSession().setAttribute("current_score", currScore);
         req.getSession().setAttribute("user_responses", userResponses);
-        req.getSession().setAttribute("is_correct", isCorrect);
+        req.getSession().setAttribute("is_correct", singleQuesScore);
         req.getSession().setAttribute("current_index", currIndex + 1);
         resp.sendRedirect("/quizzes/" + req.getSession().getAttribute("quiz_id") + "/question");
     }

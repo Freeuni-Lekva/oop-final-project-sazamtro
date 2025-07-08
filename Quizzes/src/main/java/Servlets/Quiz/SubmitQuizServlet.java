@@ -1,6 +1,7 @@
 package Servlets.Quiz;
 
 import DAO.AnswerDAO;
+import DAO.MessageDAO;
 import DAO.QuestionsDAO;
 import DAO.QuizDAO;
 import bean.Questions.AnswerOption;
@@ -47,6 +48,7 @@ public class SubmitQuizServlet extends HttpServlet {
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         QuizDAO quizDAO = new QuizDAO(connection);
         AnswerDAO answerDAO = new AnswerDAO(connection);
+
         try {
 
             Quiz q = quizDAO.getOneQuiz(quiz_id);
@@ -55,12 +57,14 @@ public class SubmitQuizServlet extends HttpServlet {
             if(!q.checkIfMultipage()){
 
                 List<Question> questions = quizDAO.getQuizQuestions(quiz_id);
-                Map<Integer, String> userAnswers = new HashMap<>();
+                Map<Integer, String[]> userAnswers = new HashMap<>();
 
                 for(Question curr : questions){
-                    String userAnswer = req.getParameter("q_" + curr.getId());
-                    if(answerDAO.checkAnswer(curr.getId(), userAnswer)){
-                        score = score + 1;
+                    String[] userAnswer = req.getParameterValues("q_" + curr.getId());
+                    for (String currAns : userAnswer) {
+                        if (answerDAO.checkAnswer(curr.getId(), currAns)) {
+                            score = score + 1;
+                        }
                     }
                     userAnswers.put(curr.getId(), userAnswer);
                 }
@@ -70,7 +74,7 @@ public class SubmitQuizServlet extends HttpServlet {
             }
             else{
                 @SuppressWarnings("unchecked")
-                Map<Integer, String> userAnswers = (Map<Integer, String>)session.getAttribute("user_responses");
+                Map<Integer, String[]> userAnswers = (Map<Integer, String[]>)session.getAttribute("user_responses");
                 score = (int) req.getSession().getAttribute("current_score");
                 int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
@@ -85,12 +89,14 @@ public class SubmitQuizServlet extends HttpServlet {
         }
     }
 
-    private void insertAnswers(Map<Integer, String> userAnswers, AnswerDAO answerDAO, int attempt_id) throws SQLException {
-        for(Map.Entry<Integer, String> entry : userAnswers.entrySet()){
+    private void insertAnswers(Map<Integer, String[]> userAnswers, AnswerDAO answerDAO, int attempt_id) throws SQLException {
+        for(Map.Entry<Integer, String[]> entry : userAnswers.entrySet()){
             Integer question_id = entry.getKey();
-            String answer = entry.getValue();
-            boolean isCorrect = answerDAO.checkAnswer(question_id, answer);
-            answerDAO.insertUserAnswer(answer, attempt_id, question_id, isCorrect);
+            String[] answer = entry.getValue();
+            for (String curr : answer) {
+                boolean isCorrect = answerDAO.checkAnswer(question_id, curr);
+                answerDAO.insertUserAnswer(curr, attempt_id, question_id, isCorrect);
+            }
         }
     }
 }

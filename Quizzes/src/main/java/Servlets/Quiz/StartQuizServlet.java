@@ -60,7 +60,7 @@ public class StartQuizServlet extends HttpServlet {
                 session.setAttribute("quiz_questions", quizQuestions);
                 session.setAttribute("current_index", 0);
                 session.setAttribute("current_score", 0);
-                session.setAttribute("user_responses", new HashMap<Integer, String>());
+                session.setAttribute("user_responses", new HashMap<Integer, String[]>());
                 resp.sendRedirect("/quizzes/" + quiz_id + "/question");
             }
 
