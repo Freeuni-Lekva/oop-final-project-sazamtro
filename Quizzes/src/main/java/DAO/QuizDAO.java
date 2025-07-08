@@ -6,6 +6,7 @@ import bean.Questions.QuestionType;
 import bean.Quiz;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class QuizDAO {
@@ -106,6 +107,37 @@ public class QuizDAO {
                 result.add(curr);
             }
         }
+        Quiz q = getOneQuiz(quiz_id);
+        if(!q.checkIfRandom()){
+            result.sort(Comparator.comparingInt(Question::getPosition));
+        } else{
+            Collections.shuffle(result);
+        }
         return result;
+    }
+
+    public int insertAttempt(int user_id, int quiz_id, int score, long time_taken,
+                             boolean isPractice) throws SQLException {
+        String sqlCommand = "INSERT INTO Attempts (user_id, quiz_id, score, time_taken_sec, is_practice, taken_at)" +
+                " VALUES (? ? ? ? ? NOW())";
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+            st.setInt(1, user_id);
+            st.setInt(2, quiz_id);
+            st.setInt(3, score);
+            st.setLong(4, time_taken);
+            st.setBoolean(5, isPractice);
+
+            int rows = st.executeUpdate();
+            if (rows == 0) {
+                throw new SQLException("Creating attempt failed");
+            }
+            try (ResultSet rs = st.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                } else {
+                    throw new SQLException("Error, no ID");
+                }
+            }
+        }
     }
 }
