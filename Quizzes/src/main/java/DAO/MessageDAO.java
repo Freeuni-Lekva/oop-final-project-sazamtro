@@ -192,14 +192,18 @@ public class MessageDAO {
     }
 
     /**
-     * Returns a list of every type of messages received by user_id.
+     * Returns a list of every note message between the user and the other user.
      * @param user_id
      * @return
      */
-    public List<Message> getInbox(int user_id){
-        String query = "SELECT * FROM Messages WHERE to_user_id = ?";
+    public List<Message> getConversation(int user_id, int other_id){
+        String query = "SELECT * FROM Messages WHERE type like 'NOTE' AND" +
+                " (from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)";
         try(PreparedStatement st = connection.prepareStatement(query)) {
             st.setInt(1, user_id);
+            st.setInt(2, other_id);
+            st.setInt(3, other_id);
+            st.setInt(4, user_id);
 
             return messageQuery(st);
         } catch (SQLException e) {
