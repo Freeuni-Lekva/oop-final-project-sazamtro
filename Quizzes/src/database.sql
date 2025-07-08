@@ -1,4 +1,4 @@
-USE sazamtro;
+USE database_name;
 
 
 DROP TABLE IF EXISTS Announcements;
