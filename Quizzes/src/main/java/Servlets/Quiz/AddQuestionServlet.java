@@ -166,7 +166,7 @@ public class AddQuestionServlet extends HttpServlet {
         String[] correctOptions = req.getParameterValues("correct_options");
         Set<Integer> correctOptionSet = getCorrectOptionsSet(correctOptions);
 
-        for (int i = 0; i < numOptions; i++) {
+        for (int i = 1; i <= numOptions; i++) {
             String optionText = req.getParameter("option" + i);
             if (optionText == null || optionText.trim().isEmpty()) {
                 resp.sendRedirect("/error.jsp?reason=empty_option_text");
