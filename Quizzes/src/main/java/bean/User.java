@@ -4,12 +4,15 @@ public class User {
     private int user_id;
     private String username;
     private String hashedPassword;
+    private String profilePictureUrl;
     private boolean isAdmin;
 
-    public User(int id, String name, String hashedPassword, boolean b){
+
+    public User(int id, String name, String hashedPassword, String profilePictureUrl, boolean b){
         this.user_id = id;
         this.username = name;
         this.hashedPassword = hashedPassword;
+        this.profilePictureUrl = profilePictureUrl;
         this.isAdmin = b;
     }
 
@@ -33,4 +36,11 @@ public class User {
         return isAdmin;
     }
 
+    public String getProfilePictureUrl() {
+        return profilePictureUrl;
+    }
+
+    public void setProfilePictureUrl(String url) {
+        this.profilePictureUrl = url;
+    }
 }

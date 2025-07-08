@@ -1,6 +1,7 @@
 USE sazamtro;
 
 
+DROP TABLE IF EXISTS Announcements;
 DROP TABLE IF EXISTS UserAnswers;
 DROP TABLE IF EXISTS AnswerOptions;
 DROP TABLE IF EXISTS CorrectAnswers;
@@ -19,6 +20,7 @@ CREATE TABLE Users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
+    profilePicture_url VARCHAR(255),
     is_admin BOOLEAN DEFAULT FALSE
 );
 
@@ -27,10 +29,10 @@ CREATE TABLE FriendRequests (
     request_id INT PRIMARY KEY AUTO_INCREMENT,
     from_user_id INT NOT NULL,
     to_user_id INT NOT NULL,
-    status ENUM('pending', 'accepted', 'rejected') NOT NULL DEFAULT 'pending',
+    status ENUM('PENDING', 'ACCEPTED', 'REJECTED') NOT NULL DEFAULT 'PENDING',
 
-    FOREIGN KEY (from_user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (to_user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (from_user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (to_user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 
@@ -44,7 +46,7 @@ CREATE TABLE Quizzes (
     immediate_correction BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (creator_id) REFERENCES Users(user_id)
+    FOREIGN KEY (creator_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 
@@ -56,7 +58,7 @@ CREATE TABLE Questions (
     image_url TEXT,
     position INT,
 
-    FOREIGN KEY (quiz_id) REFERENCES Quizzes (quiz_id)
+    FOREIGN KEY (quiz_id) REFERENCES Quizzes (quiz_id) ON DELETE CASCADE
 );
 
 
@@ -66,7 +68,7 @@ CREATE TABLE AnswerOptions (
     text TEXT NOT NULL,
     is_correct BOOLEAN DEFAULT FALSE,
 
-    FOREIGN KEY (question_id) REFERENCES Questions(question_id)
+    FOREIGN KEY (question_id) REFERENCES Questions(question_id) ON DELETE CASCADE
 );
 
 
@@ -75,7 +77,7 @@ CREATE TABLE CorrectAnswers (
     question_id INT NOT NULL,
     text TEXT NOT NULL,
 
-    FOREIGN KEY (question_id) REFERENCES Questions(question_id)
+    FOREIGN KEY (question_id) REFERENCES Questions(question_id) ON DELETE CASCADE
 );
 
 
@@ -88,8 +90,8 @@ CREATE TABLE QuizAttempts (
     is_practice BOOLEAN DEFAULT FALSE,
     taken_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (quiz_id) REFERENCES Quizzes(quiz_id)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (quiz_id) REFERENCES Quizzes(quiz_id) ON DELETE CASCADE
 );
 
 
@@ -100,8 +102,8 @@ CREATE TABLE UserAnswers (
     response_text TEXT,
     is_correct BOOLEAN,
 
-    FOREIGN KEY (attempt_id) REFERENCES QuizAttempts(attempt_id),
-    FOREIGN KEY (question_id) REFERENCES Questions(question_id)
+    FOREIGN KEY (attempt_id) REFERENCES QuizAttempts(attempt_id) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES Questions(question_id) ON DELETE CASCADE
 );
 
 
@@ -115,9 +117,9 @@ CREATE TABLE Messages (
     sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_read BOOLEAN DEFAULT FALSE,
 
-    FOREIGN KEY (from_user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (to_user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (quiz_id) REFERENCES Quizzes(quiz_id)
+    FOREIGN KEY (from_user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (to_user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (quiz_id) REFERENCES Quizzes(quiz_id) ON DELETE CASCADE
 );
 
 
@@ -136,10 +138,19 @@ CREATE TABLE UserAchievements (
 
     PRIMARY KEY (user_id, achievement_id),
 
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (achievement_id) REFERENCES Achievements(achievement_id)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (achievement_id) REFERENCES Achievements(achievement_id) ON DELETE CASCADE
 );
 
+
+CREATE TABLE Announcements (
+    announcement_id INT PRIMARY KEY AUTO_INCREMENT,
+    administrator_id INT NOT NULL,
+    announcement_text TEXT NOT NULL,
+    done_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (administrator_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
 
 
 

@@ -22,9 +22,10 @@ public class UserDAO {
                 if (rs.next()) {
                     int userId = rs.getInt("user_id");
                     String hashedPassword = rs.getString("password_hash");
+                    String profilePictureUrl = rs.getString("profilePicture_url");
                     boolean isAdmin = rs.getBoolean("is_admin");
 
-                    return new User(userId, username, hashedPassword, isAdmin);
+                    return new User(userId, username, hashedPassword, profilePictureUrl, isAdmin);
                 }
             }
         }
@@ -32,14 +33,36 @@ public class UserDAO {
         return null;
     }
 
+    // Returns User with the same userId
+    public User getUserById(int userId) throws SQLException{
+        String query = "SELECT * FROM Users WHERE user_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    String username = rs.getString("username");
+                    String hashedPassword = rs.getString("password_hash");
+                    String profilePictureUrl = rs.getString("profilePicture_url");
+                    boolean isAdmin = rs.getBoolean("is_admin");
+
+                    return new User(userId, username, hashedPassword, profilePictureUrl, isAdmin);
+                }
+            }
+        }
+        return null;
+    }
+
     // add new user
     public void addUser(User user) throws SQLException {
-        String query = "INSERT INTO Users (username, password_hash, is_admin) VALUES (?, ?, ?)";
+        String query = "INSERT INTO Users (username, password_hash, profilePicture_url, is_admin) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
-            ps.setBoolean(3, user.checkIfAdmin());
+            ps.setString(3, user.getProfilePictureUrl());
+            ps.setBoolean(4, user.checkIfAdmin());
 
             ps.executeUpdate();
 
@@ -50,6 +73,17 @@ public class UserDAO {
                     user.setUserId(newUserId);
                 }
             }
+        }
+    }
+
+    // removes user
+    // using 'ON DELETE CASCADE' in the SQL to automatically remove its records from all tables."
+    public void removeUser(int userId) throws SQLException {
+        String query = "DELETE FROM Users WHERE user_id = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, userId);
+            ps.executeUpdate();
         }
     }
 }

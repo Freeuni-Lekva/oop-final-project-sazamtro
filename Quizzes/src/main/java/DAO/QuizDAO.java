@@ -1,5 +1,8 @@
 package DAO;
 
+import bean.Questions.Question;
+import bean.Questions.QuestionFactory;
+import bean.Questions.QuestionType;
 import bean.Quiz;
 
 import java.sql.*;
@@ -75,11 +78,34 @@ public class QuizDAO {
         return result;
     }
 
-    public void deleteQuiz(int quiz_id) throws SQLException {
+    public void removeQuiz(int quiz_id) throws SQLException {
         String sqlCommand = "DELETE FROM Quizzes WHERE quiz_id = ?";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
             st.setInt(1, quiz_id);
             st.executeUpdate();
         }
+    }
+
+    public List<Question> getQuizQuestions(int quiz_id) throws SQLException {
+        List<Question> result = new ArrayList<>();
+        String sqlCommand = "SELECT * FROM Questions WHERE quiz_id = ?";
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+            st.setInt(1, quiz_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                String typeStr = rs.getString("type").toUpperCase();
+                QuestionType type = QuestionType.valueOf(typeStr);
+                int id = rs.getInt("question_id");
+                int quizId = rs.getInt("quiz_id");
+                String prompt = rs.getString("prompt");
+                int position = rs.getInt("position");
+                String picUrl = rs.getString("image_url");
+                Question curr = QuestionFactory.createQuestion(quizId, type, prompt, position, picUrl);
+                assert curr != null;
+                curr.setId(id);
+                result.add(curr);
+            }
+        }
+        return result;
     }
 }

@@ -41,9 +41,10 @@ public class SignupServlet extends HttpServlet {
 
             int defaultUserId = 0;
             String hashedPassword = Hasher.hashPassword(password);
+            String defaultProfilePictureUrl = "";
             boolean defaultIsAdmin = false;
 
-            User userToAdd = new User(defaultUserId, username, hashedPassword, defaultIsAdmin);
+            User userToAdd = new User(defaultUserId, username, hashedPassword, defaultProfilePictureUrl, defaultIsAdmin);
             userDAO.addUser(userToAdd);
 
             HttpSession session = request.getSession();
