@@ -28,7 +28,7 @@ public class SendRequestServlet extends HttpServlet {
         User sender = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
         String receiverUsername = req.getParameter(RequestAtributeNames.RECEIVER_USERNAME);
 
-        if(receiverUsername == null || receiverUsername.trim().isEmpty()){
+        if (receiverUsername == null || receiverUsername.trim().isEmpty()) {
             resp.sendRedirect("/error.jsp");
             return;
         }
@@ -36,11 +36,11 @@ public class SendRequestServlet extends HttpServlet {
         User receiver;
         try {
             receiver = userDAO.getUserByUsername(receiverUsername);
-            if(receiver == null){
+            if (receiver == null) {
                 resp.sendRedirect("/error.jsp");
                 return;
             }
-            if(receiver.getUserId() == sender.getUserId()){
+            if (receiver.getUserId() == sender.getUserId()) {
                 resp.sendRedirect("/error.jsp");
                 return;
             }
@@ -48,7 +48,8 @@ public class SendRequestServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-        if(requestDAO.friendRequestExists(sender.getUserId(), receiver.getUserId())){
+        try{
+        if (requestDAO.friendRequestExists(sender.getUserId(), receiver.getUserId())) {
             resp.sendRedirect("/request-exists.jsp");
             return;
         }
@@ -62,5 +63,8 @@ public class SendRequestServlet extends HttpServlet {
         }
         requestDAO.sendFriendRequest(friendRequest);
         resp.sendRedirect("/request-sent.jsp");
+        }catch (SQLException e){
+            throw new RuntimeException("Failed To Send Friend Request", e);
+        }
     }
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class GetFriendRequestsServlet extends HttpServlet {
@@ -20,9 +21,12 @@ public class GetFriendRequestsServlet extends HttpServlet {
         FriendRequestDAO requestDAO = new FriendRequestDAO(connection);
 
         User user = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
-
-        List<FriendRequest> requests = requestDAO.getPendingReceivedRequests(user.getUserId());
-        req.setAttribute(RequestAtributeNames.FIREND_REQUESTS, requests);
-        req.getRequestDispatcher("/friend-requests.jsp").forward(req, resp);
+        try {
+            List<FriendRequest> requests = requestDAO.getPendingReceivedRequests(user.getUserId());
+            req.setAttribute(RequestAtributeNames.FIREND_REQUESTS, requests);
+            req.getRequestDispatcher("/friend-requests.jsp").forward(req, resp);
+        }catch (SQLException e){
+            throw new RuntimeException("Failed To Get Friend Requests", e);
+        }
     }
 }
