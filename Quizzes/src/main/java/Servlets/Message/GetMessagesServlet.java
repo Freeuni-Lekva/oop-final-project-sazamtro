@@ -34,14 +34,14 @@ public class GetMessagesServlet extends HttpServlet {
         UserDAO uDAO = new UserDAO(connection);
         User other;
 
+        List<Message> messageList;
         try {
             other = uDAO.getUserByUsername(other_username);
+            messageList = mDAO.getConversation(user.getUserId(), other.getUserId());
+            req.setAttribute("messageList", messageList);
+            req.getRequestDispatcher("/messages.jsp").forward(req, resp);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed To Get Conversation", e);
         }
-
-        List<Message> messageList = mDAO.getConversation(user.getUserId(), other.getUserId());
-        req.setAttribute("messageList", messageList);
-        req.getRequestDispatcher("/messages.jsp").forward(req, resp);
     }
 }
