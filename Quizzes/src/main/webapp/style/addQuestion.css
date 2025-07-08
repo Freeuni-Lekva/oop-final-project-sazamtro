@@ -1,0 +1,87 @@
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-top: 40px;
+    font-size: 28px;
+}
+
+form {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #222;
+}
+
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #0077cc;
+    outline: none;
+}
+
+button[type="button"],
+input[type="submit"] {
+    background-color: #0077cc;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="button"]:hover,
+input[type="submit"]:hover {
+    background-color: #005fa3;
+}
+
+#imagePreview {
+    display: block;
+    margin-top: 10px;
+    max-width: 100%;
+    border-radius: 6px;
+}
+
+#optionsContainer > div {
+    margin-bottom: 10px;
+}
+
+#mcHint {
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}

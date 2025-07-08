@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.Connection;
 
 
-@WebServlet("/quizzes/*")
+@WebServlet("/quizzes/show")
 public class ShowOneQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
