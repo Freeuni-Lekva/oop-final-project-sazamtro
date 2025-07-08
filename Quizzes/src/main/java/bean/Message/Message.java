@@ -16,7 +16,6 @@ public abstract class Message {
         this.message_id = message_id;
         this.sender_id = sender_id;
         this.receiver_id = receiver_id;
-        this.type = type;
         this.timestamp = timestamp;
         this.is_read = is_read;
     }
