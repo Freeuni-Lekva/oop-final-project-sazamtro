@@ -20,7 +20,7 @@ public class QuizDAO {
                                     boolean is_random, boolean is_multipage, boolean immediate_correction) throws SQLException {
         String sqlCommand = "INSERT INTO Quizzes (title, description, creator_id, is_random, is_multipage, immediate_correction, created_at) " +
                 " VALUES (?, ?, ?, ?, ?, ?, NOW())";
-        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand, Statement.RETURN_GENERATED_KEYS)){
             st.setString(1, title);
             st.setString(2, description);
             st.setInt(3, creator_id);
