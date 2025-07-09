@@ -18,11 +18,11 @@
 
     <div class="page-content">
         <%-- Topbar includes friend dropdown and notifications --%>
-        <%@ include file="topbar.jsp" %>
+        <jsp:include page="/TopBarServlet"/>
 
         <div class="main">
             <%-- Announcements display --%>
-            <%@ include file="announcements.jsp" %>
+                <jsp:include page="/AnnouncementServlet"/>
         </div>
     </div>
 </div>
