@@ -2,10 +2,12 @@ package Servlets.FriendRequests;
 
 import DAO.FriendRequestDAO;
 import DAO.UserDAO;
+import Servlets.HomePageServlet;
 import bean.FriendRequest;
 import bean.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,55 +15,48 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@WebServlet("/RespondToRequestServlet")
 public class RespondToRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection connection = (Connection) req.getServletContext().getAttribute(RequestAtributeNames.CONNECTION);
         FriendRequestDAO requestDAO = new FriendRequestDAO(connection);
+
+//        User user = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
+        String request_id = req.getParameter(RequestAtributeNames.REQUEST_ID);
+
+        if(request_id == null || request_id.trim().isEmpty()){
+            resp.sendRedirect("/error.jsp");
+            return;
+        }
+
         UserDAO userDAO = new UserDAO(connection);
-
-        User user = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
-        String sender_user_name = req.getParameter(RequestAtributeNames.SENDER_USERNAME);
-        String response = req.getParameter(RequestAtributeNames.RESPONSE);
-
-        if(sender_user_name == null || sender_user_name.trim().isEmpty()){
-            resp.sendRedirect("/error.jsp");
-            return;
-        }
-
-        if(response == null || response.trim().isEmpty()){
-            resp.sendRedirect("/error.jsp");
-            return;
-        }
-
-        User sender;
-
+        FriendRequest fr;
         try {
-            sender = userDAO.getUserByUsername(sender_user_name);
+            User user = userDAO.getUserById(1);
+            fr = requestDAO.getRequestByID(Integer.parseInt(request_id));
         } catch (SQLException e) {
-            throw new RuntimeException("Failed To Get Sender",e);
+            throw new RuntimeException(e);
         }
 
-        if(sender == null){
+        String response = req.getParameter(RequestAtributeNames.RESPONSE);
+        if(fr == null){
             resp.sendRedirect("/error.jsp");
             return;
         }
 
+
         try {
-            if (!requestDAO.friendRequestExists(user.getUserId(), sender.getUserId())) {
+            if (!requestDAO.friendRequestExists(fr.getSenderId(), fr.getReceiverId())) {
                 resp.sendRedirect("/error.jsp");
                 return;
             }
-
-            FriendRequest fr = new FriendRequest(sender.getUserId(), user.getUserId());
             switch (response.toLowerCase()) {
                 case "accept":
                     requestDAO.approveRequest(fr);
-                    resp.sendRedirect("/request-approved.jsp");
                     break;
                 case "reject":
                     requestDAO.rejectRequest(fr);
-                    resp.sendRedirect("/request-rejected.jsp");
                     break;
                 default:
                     resp.sendRedirect("/error.jsp");
@@ -69,5 +64,6 @@ public class RespondToRequestServlet extends HttpServlet {
         }catch (SQLException e){
             throw new RuntimeException("Failed To Respond TO Friend Request", e);
         }
+        resp.sendRedirect("/HomePageServlet");
     }
 }

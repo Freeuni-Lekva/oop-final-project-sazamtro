@@ -53,7 +53,7 @@ public class SignupServlet extends HttpServlet {
             response.sendRedirect("/homepage.jsp");
         } catch (SQLException | NoSuchAlgorithmException e) {
             e.printStackTrace();
-            response.sendRedirect("/error-page.jsp");
+            response.sendRedirect("/error.jsp");
         }
     }
 }

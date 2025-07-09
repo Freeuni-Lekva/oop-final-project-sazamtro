@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
             }
         } catch (SQLException | NoSuchAlgorithmException e) {
             e.printStackTrace();
-            response.sendRedirect("/error-page.jsp");
+            response.sendRedirect("/error.jsp");
         }
     }
 }
