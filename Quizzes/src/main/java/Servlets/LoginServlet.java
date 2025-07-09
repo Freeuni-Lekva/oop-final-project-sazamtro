@@ -34,14 +34,20 @@ public class LoginServlet extends HttpServlet {
             UserDAO userDAO = new UserDAO(connection);
             User user = userDAO.getUserByUsername(username);
 
+            if (user == null) {
+                // user not found
+                response.sendRedirect("/user-not-found.jsp");
+                return;
+            }
+
             String hashedPassword = Hasher.hashPassword(password);
-            if (user != null && hashedPassword.equals(user.getPassword())) {
+            if (hashedPassword.equals(user.getPassword())) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
 
                 response.sendRedirect("/homepage.jsp");
             } else {
-                response.sendRedirect("/failed-login.jsp");
+                response.sendRedirect("/incorrect-password.jsp");
             }
         } catch (SQLException | NoSuchAlgorithmException e) {
             e.printStackTrace();
