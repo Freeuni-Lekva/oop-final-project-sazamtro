@@ -10,30 +10,31 @@
 </head>
 <body>
 
-<jsp:include page="/TopBarServlet" />
+<div class="container">
 
-<div class="page-content">
-    <jsp:include page="sidebar.jsp" />
+    <%@ include file="sidebar.jsp" %>
 
-    <div class="quizzes-list">
-        <%
-            List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
-            if (quizzes != null) {
-                for (Quiz quiz : quizzes) {
-                    request.setAttribute("quiz", quiz);
-        %>
-        <jsp:include page="quizCard.jsp" />
-        <%
-            }
-        } else {
-        %>
-        <p>No quizzes available.</p>
-        <%
-            }
-        %>
+    <div class="page-content">
+        <jsp:include page="/TopBarServlet" />
+        <div class="quizzes-list">
+            <%
+                List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
+                if (quizzes != null) {
+                    for (Quiz quiz : quizzes) {
+                        request.setAttribute("quiz", quiz);
+            %>
+            <jsp:include page="quizCard.jsp" />
+            <%
+                }
+            } else {
+            %>
+            <p>No quizzes available.</p>
+            <%
+                }
+            %>
+        </div>
     </div>
 </div>
-
 
 
 </body>
