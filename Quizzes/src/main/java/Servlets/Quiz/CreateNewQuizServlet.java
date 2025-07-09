@@ -4,6 +4,7 @@ import DAO.DatabaseConnection;
 import DAO.QuizDAO;
 import bean.User;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,7 +38,10 @@ public class CreateNewQuizServlet extends HttpServlet {
             QuizDAO qDAO = new QuizDAO(connection);
             int quiz_id = qDAO.insertNewQuiz(title, description, creator_id,
                                                 is_random, is_multipage, immediate_correction);
-            resp.sendRedirect("/quizzes/"+quiz_id+"/add-question");
+            req.setAttribute("quizId", quiz_id);
+            RequestDispatcher rd = req.getRequestDispatcher("/AddQuestion.jsp");
+            rd.forward(req, resp);
+            //resp.sendRedirect("/quizzes/"+quiz_id+"/add-question");
         } catch (SQLException e){
             e.printStackTrace();
         }
