@@ -31,6 +31,7 @@ label {
 input[type="text"],
 textarea,
 select {
+    resize: vertical;
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -46,23 +47,6 @@ textarea:focus,
 select:focus {
     border-color: #0077cc;
     outline: none;
-}
-
-button[type="button"],
-input[type="submit"] {
-    background-color: #0077cc;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button[type="button"]:hover,
-input[type="submit"]:hover {
-    background-color: #005fa3;
 }
 
 #imagePreview {
@@ -85,3 +69,105 @@ input[type="submit"]:hover {
     color: red;
     font-size: 14px;
 }
+
+/* Shared styles for all buttons */
+button,
+input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+/* Blue buttons (Add Question, Add Option) */
+/* Shared styles for all buttons except background color */
+button,
+input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Blue buttons (Add Question, Add Option) */
+.primary-button {
+    background-color: #0077cc;
+    color: #fff;
+}
+.primary-button:hover {
+    background-color: #005fa3;
+}
+button.finish-button[type="button"] {
+    background-color: #28a745 !important;
+    color: #fff !important;
+    width: 200px;
+    text-align: center;
+}
+
+button.finish-button[type="button"]:hover {
+    background-color: #218838 !important;
+}
+.center-button {
+    text-align: center;
+}
+.add-option-container {
+    margin-top: 50px;
+}
+
+.add-option-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    gap: 8px;
+    position: relative;
+}
+
+.add-option-icon {
+    width: 36px;
+    height: 36px;
+    transition: transform 0.2s ease;
+}
+
+.add-option-link:hover .add-option-icon {
+    transform: scale(1.1);
+}
+
+.add-option-text {
+    opacity: 0;
+    visibility: hidden;
+    color: #0077cc;
+    font-weight: bold;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.add-option-link:hover .add-option-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+.option-section {
+    border: 2px solid #0077cc;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+}
+
+.option-section h4 {
+    margin-top: 0;
+    color: #0077cc;
+}
+.single-option {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background-color: #ffffff;
+}
+
