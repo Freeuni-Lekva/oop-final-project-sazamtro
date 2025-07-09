@@ -1,5 +1,17 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
 .page-content {
-    display: flex;
+    display: grid;
+    grid-template-columns: 220px auto;
+    grid-template-rows: 60px auto;
+    grid-template-areas:
+        "sidebar topnav"
+        "sidebar main";
+    height: 100vh;
 }
 
 .quizzes-list {
@@ -8,4 +20,62 @@
     gap: 16px;
     padding: 20px;
     flex: 1; /* So it doesn't get squished by sidebar */
+}
+/* Sidebar (optional: adjust height separately if needed) */
+.page-content > .sidebar {
+    flex-shrink: 0;
+}
+
+/* Container for quiz cards */
+.quizzes-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+
+/* Quiz Card Style */
+.quiz-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quiz-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.quiz-title {
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Buttons */
+.quiz-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.quiz-buttons button {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 0.95em;
+    border: none;
+    border-radius: 6px;
+    background-color: #1976d2;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.quiz-buttons button:hover {
+    background-color: #135ba1;
 }

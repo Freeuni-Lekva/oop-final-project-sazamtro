@@ -35,7 +35,7 @@ public class CreateNewQuizServlet extends HttpServlet {
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         try{
             QuizDAO qDAO = new QuizDAO(connection);
-            int quiz_id = qDAO.insertNewQuiz(title, description, creator_id,
+            int quiz_id =    qDAO.insertNewQuiz(title, description, creator_id,
                                                 is_random, is_multipage, immediate_correction);
             resp.sendRedirect("/quizzes/"+quiz_id+"/add-question");
         } catch (SQLException e){

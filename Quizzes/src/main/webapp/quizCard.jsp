@@ -1,46 +1,71 @@
 <%@ page import="bean.Quiz" %>
+<%@ page import="java.util.List" %>
+<%@ page import="bean.User" %> <!-- Assuming User bean for friends -->
 <%
-    bean.Quiz quiz = (bean.Quiz) request.getAttribute("quiz");
+    Quiz quiz = (Quiz) request.getAttribute("quiz");
+    List<User> friends = (List<User>) request.getAttribute("friends");
+    // Pass this from your servlet/controller — friends list of logged-in user
 %>
 
-<style>
-    .quiz-card {
-        border: 1px solid #ccc;
-        padding: 16px;
-        margin: 12px;
-        border-radius: 12px;
-        background-color: #f9f9f9;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        width: 300px;
-        display: inline-block;
-        vertical-align: top;
-        text-align: center;
-    }
-
-    .quiz-card h3 {
-        margin-top: 0;
-        font-size: 20px;
-        color: #333;
-    }
-
-    .quiz-card button {
-        margin: 6px;
-        padding: 8px 16px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        background-color: #007BFF;
-        color: white;
-        font-weight: bold;
-    }
-
-    .quiz-card button:hover {
-        background-color: #0056b3;
-    }
-</style>
-
 <div class="quiz-card">
-    <h3><%= quiz.getQuizTitle() %></h3>
-    <button onclick="startQuiz(<%= quiz.getQuiz_id() %>)">Start</button>
-    <button onclick="shareQuiz(<%= quiz.getQuiz_id() %>)">Share</button>
+    <h3 class="quiz-title"><%= quiz.getQuizTitle() %></h3>
+
+    <form action="StartQuizServlet" method="get" class="start-form">
+        <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>" />
+        <button type="submit" class="btn start-btn">Start</button>
+    </form>
+
+    <button class="btn share-btn" onclick="toggleFriendsList('<%= quiz.getQuiz_id() %>')">Share</button>
+
+    <div class="friends-list" id="friends-list-<%= quiz.getQuiz_id() %>" style="display:none;">
+        <% if (friends != null && !friends.isEmpty()) { %>
+        <ul>
+            <% for (User friend : friends) { %>
+            <li>
+                <span><%= friend.getUsername() %></span>
+                <button class="btn send-challenge-btn" onclick="sendChallenge('<%= quiz.getQuiz_id() %>',
+                        '<%= friend.getUserId() %>', this)">Send Challenge</button>
+            </li>
+            <% } %>
+        </ul>
+        <% } else { %>
+        <p>No friends available.</p>
+        <% } %>
+    </div>
 </div>
+
+<script>
+    function toggleFriendsList(quizId) {
+        const panel = document.getElementById('friends-list-' + quizId);
+        if (panel.style.display === 'none' || panel.style.display === '') {
+            panel.style.display = 'block';
+        } else {
+            panel.style.display = 'none';
+        }
+    }
+
+    function sendChallenge(quizId, friendId, btn) {
+        btn.disabled = true; // Disable button to avoid double click
+        btn.textContent = "Sending...";
+
+        fetch('SendChallengeServlet', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `quizId=${encodeURIComponent(quizId)}&friendId=${encodeURIComponent(friendId)}`
+        })
+            .then(response => {
+                if (response.ok) {
+                    btn.textContent = "Sent!";
+                } else {
+                    btn.textContent = "Failed, try again";
+                    btn.disabled = false;
+                }
+            })
+            .catch(() => {
+                btn.textContent = "Failed, try again";
+                btn.disabled = false;
+            });
+    }
+</script>

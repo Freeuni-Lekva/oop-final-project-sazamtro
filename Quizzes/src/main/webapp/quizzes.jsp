@@ -5,7 +5,8 @@
 <head>
     <meta charset="UTF-8" />
     <title>All Quizzes</title>
-    <link rel="stylesheet" href="style/quizzes.css" /> <!-- Your external CSS -->
+    <link rel="stylesheet" href="style/quizzes.css" />
+    <link rel="stylesheet" href="style/quizCard.css" />
 </head>
 <body>
 
@@ -33,17 +34,7 @@
     </div>
 </div>
 
-<script>
-    function startQuiz(id) {
-        window.location.href = "StartQuizServlet?id=" + id;
-    }
 
-    function shareQuiz(id) {
-        const link = window.location.origin + "/TakeQuiz.jsp?id=" + id;
-        navigator.clipboard.writeText(link);
-        alert("Quiz link copied!");
-    }
-</script>
 
 </body>
 </html>
