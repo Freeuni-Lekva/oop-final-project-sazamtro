@@ -1,0 +1,216 @@
+:root {
+    /* Primary blues */
+    --blue-light: #dbeafe;
+    --blue-lighter: #e0e7ff;
+    --blue-muted: #34495e;
+    --blue-dark: #2c3e50;
+
+    /* Grays and slate */
+    --gray-light: #f0f3f4;
+    --gray-muted: #e2e8f0;
+    --gray-medium: #7f8c8d;
+    --gray-dark: #475569;
+
+    /* Pinks and accents */
+    --pink-lightest: #fdf2f8;
+    --pink-hover-bg: #fff1f5;
+    --pink-border: #fbcfe8;
+    --pink-shadow-1: rgba(236, 72, 153, 0.2);
+    --pink-shadow-2: rgba(244, 114, 182, 0.12);
+
+    /* Extra pinks for gradient */
+    --pink-rosy: #f9d5e5;
+    --pink-bright: #fbcce7;
+
+    /* Shadows */
+    --shadow-light: rgba(44, 62, 80, 0.05);
+    --shadow-medium: rgba(127, 140, 141, 0.08);
+    --shadow-strong: rgba(127, 140, 141, 0.25);
+
+    /* Buttons */
+    --indigo: #6366f1;
+    --indigo-light: #8b5cf6;
+    --pink: #f472b6;
+    --pink-light: #f9a8d4;
+}
+
+/* Base and Body */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(
+            to right,
+            var(--blue-light) 0%,
+            var(--blue-lighter) 40%,
+            var(--pink-rosy) 70%,
+            var(--pink-bright) 85%,
+            var(--pink-lightest) 100%
+    );
+    color: var(--blue-dark);
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+/* Header Section */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+    color: var(--blue-muted);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.brand {
+    color: var(--gray-dark);
+}
+
+.subheading {
+    font-size: 18px;
+    color: var(--gray-medium);
+    margin-top: 10px;
+}
+
+/* Card Slider */
+.card-slider-wrapper {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.card-container {
+    display: flex;
+    gap: 24px;
+    padding: 20px 10px;
+    justify-content: flex-start;
+    width: max-content;
+    margin: 0 auto;
+}
+
+/* Card Style */
+.card {
+    flex: 0 0 240px;
+    height: 240px;
+    background: #ffffff;
+    padding: 20px 18px;
+    border-radius: 16px;
+    border: 1.5px solid var(--gray-muted);
+    box-shadow: 0 4px 12px var(--shadow-medium);
+    text-decoration: none;
+    color: var(--blue-dark);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: center;
+    position: relative;
+}
+
+.card-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--blue-muted);
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: var(--gray-dark);
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* Card Hover - Pink Glow */
+.card:hover {
+    transform: translateY(-6px);
+    background: var(--pink-hover-bg);
+    border-color: var(--pink-border);
+    box-shadow:
+            0 12px 24px var(--pink-shadow-1),
+            0 6px 18px var(--pink-shadow-2);
+}
+
+/* Auth Section - Smaller & Lower */
+.auth {
+    text-align: center;
+    margin-top: 80px;
+    padding: 30px 0;
+    background: linear-gradient(to right, var(--gray-light), var(--pink-lightest));
+    border-radius: 20px;
+    box-shadow: 0 3px 12px var(--shadow-light);
+}
+
+.auth-box {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.auth-card {
+    background: #ffffff;
+    padding: 18px 24px;
+    border-radius: 14px;
+    border: 1.5px solid var(--gray-muted);
+    box-shadow: 0 5px 14px var(--shadow-medium);
+    width: 220px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.auth-card:hover {
+    background: var(--pink-hover-bg);
+    border-color: var(--pink-border);
+    box-shadow: 0 8px 20px var(--pink-shadow-1);
+}
+
+.auth-title {
+    font-size: 17px;
+    color: var(--blue-dark);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* Buttons */
+.btn-auth {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 28px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-auth.login {
+    background: linear-gradient(to right, var(--indigo), var(--indigo-light));
+    color: #ffffff;
+}
+
+.btn-auth.signup {
+    background: linear-gradient(to right, var(--pink), var(--pink-light));
+    color: #ffffff;
+}
+
+.btn-auth:hover {
+    opacity: 0.97;
+    box-shadow:
+            0 4px 10px rgba(139, 92, 246, 0.15),
+            0 0 6px rgba(251, 207, 232, 0.18);
+}
+
+.auth-card,
+.auth-card * {
+    text-decoration: none !important;
+}

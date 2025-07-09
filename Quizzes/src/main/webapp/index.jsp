@@ -1,7 +1,6 @@
 <html>
 <body>
 <h2>Hello World!</h2>
-<a href="AddQuestion.jsp">midi</a>
-<a href="homepage.jsp">Feels just like home</a>
+<a href="index-page.jsp">midi</a>
 </body>
 </html>
