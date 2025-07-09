@@ -53,6 +53,21 @@ public class FriendRequestDAO {
         return new FriendRequest(request_id, sender_id, receiver_id, status);
     }
 
+    public FriendRequest getRequestByID(int request_id) throws SQLException{
+        String query = "SELECT * FROM FriendRequests where request_id = ?";
+
+        PreparedStatement st = connection.prepareStatement(query);
+
+        st.setInt(1, request_id);
+
+        ResultSet rs = st.executeQuery();
+
+        if(rs.next()){
+            return getRequestFromRow(rs);
+        }
+        return null;
+    }
+
     public List<FriendRequest> getPendingReceivedRequests(int user_id) throws SQLException{
         ArrayList<FriendRequest> requests = new ArrayList<>();
 
