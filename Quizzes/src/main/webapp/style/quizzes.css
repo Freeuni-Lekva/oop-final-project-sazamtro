@@ -1,0 +1,11 @@
+.page-content {
+    display: flex;
+}
+
+.quizzes-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 20px;
+    flex: 1; /* So it doesn't get squished by sidebar */
+}
