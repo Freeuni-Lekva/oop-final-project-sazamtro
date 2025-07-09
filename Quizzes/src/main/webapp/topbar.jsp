@@ -39,16 +39,12 @@
 
     <!-- Challenges icon -->
     <div class="topbar-circle" onclick="toggleChallengeDropdown()" title="Challenges" style="position: relative;">
-      <i class="fas fa-bullseye"></i>
+      <i class="fas fa-bolt"></i>
       <% if (challengeCount > 0) { %>
       <span class="notif-dot"><%= challengeCount %></span>
       <% } %>
     </div>
 
-    <!-- Messages icon -->
-    <div class="topbar-circle" title="Messages">
-      <i class="fas fa-comments"></i>
-    </div>
 
     <!-- Profile icon -->
     <div class="topbar-circle" title="Profile">
