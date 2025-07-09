@@ -5,6 +5,7 @@ import DAO.QuizDAO;
 import bean.Questions.*;
 import bean.Quiz;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +36,7 @@ public class AddQuestionServlet extends HttpServlet {
 
         QuestionType type = getType(req, resp);
         String prompt = getPrompt(req, resp);
-        int quizId = (int)req.getAttribute("quizId");       //getQuizId(req, resp);
+        int quizId = getQuizId(req, resp);
 
         if (type == null || prompt == null || quizId < 0) {
             resp.sendRedirect("/error.jsp?reason=missing_parameters");
@@ -54,6 +55,10 @@ public class AddQuestionServlet extends HttpServlet {
         Question question;
         try {
             question = QuestionFactory.createQuestion(quizId, type, prompt, position, imageUrl);
+            System.out.println("quiz: " + quizId);
+            System.out.println("type: " + type.toString());
+            System.out.println("prompt: " + prompt);
+            System.out.println("position: " + position);
             if (question == null) {
                 resp.sendRedirect("/error.jsp?reason=question_creation_failed");
                 return;
@@ -81,12 +86,12 @@ public class AddQuestionServlet extends HttpServlet {
         } catch (SQLException | NumberFormatException e) {
             throw new ServletException("Database error", e);
         }
-        resp.sendRedirect("/error.jsp?reason=ALL_GOOD");
-
-//        resp.sendRedirect("/add-question?quizId=" + question.getQuizId() +
-//                "&position=" + (question.getPosition() + 1));
+        req.setAttribute("quizId", quizId);
+        int newPosition = position == -1 ? -1 : position + 1;
+        req.setAttribute("position", newPosition);
+        RequestDispatcher rd = req.getRequestDispatcher("/AddQuestion.jsp");
+        rd.forward(req, resp);
     }
-
 
     private QuestionType getType(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String typeStr = req.getParameter("type");
@@ -111,6 +116,7 @@ public class AddQuestionServlet extends HttpServlet {
     }
     private int getQuizId(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String quizIdStr = req.getParameter("quizId");
+        System.out.println("QUIZ ID FROM PARAM: " + quizIdStr);  // <-- Add this line
         return getIntParameter(quizIdStr, resp);
     }
     private String getImageUrl(QuestionType type, HttpServletRequest req, HttpServletResponse resp) throws IOException {
