@@ -6,15 +6,19 @@ import bean.Questions.*;
 import bean.Quiz;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.rowset.RowSetWarning;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
+@WebServlet("/add-question")
 public class AddQuestionServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -77,9 +81,10 @@ public class AddQuestionServlet extends HttpServlet {
         } catch (SQLException | NumberFormatException e) {
             throw new ServletException("Database error", e);
         }
+        resp.sendRedirect("/error.jsp?reason=ALL_GOOD");
 
-        resp.sendRedirect("/add-question?quizId=" + question.getQuizId() +
-                "&position=" + (question.getPosition() + 1));
+//        resp.sendRedirect("/add-question?quizId=" + question.getQuizId() +
+//                "&position=" + (question.getPosition() + 1));
     }
 
 
@@ -87,20 +92,20 @@ public class AddQuestionServlet extends HttpServlet {
         String typeStr = req.getParameter("type");
         if (typeStr == null) {
             resp.sendRedirect("/error.jsp?reason=type_not_specified");
-            return null;
+            throw new RuntimeException("Type not specified");
         }
         try {
             return QuestionType.valueOf(typeStr);
         } catch (IllegalArgumentException e) {
             resp.sendRedirect("/error.jsp?reason=invalid_type");
-            return null;
+            throw new RuntimeException("Invalid type");
         }
     }
     private String getPrompt(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String prompt = req.getParameter("prompt");
         if (prompt == null) {
             resp.sendRedirect("/error.jsp?reason=prompt_not_specified");
-            return null;
+            throw new RuntimeException("Prompt not specified");
         }
         return prompt;
     }
@@ -143,7 +148,7 @@ public class AddQuestionServlet extends HttpServlet {
     private int getIntParameter(String parameter, HttpServletResponse resp) throws IOException {
         if (parameter == null || parameter.trim().isEmpty()) {
             resp.sendRedirect("/error.jsp?reason=invalid_integer_input");
-            return -1;
+            throw new InvalidParameterException("invalid_integer_input");
         }
         int result;
         try {
@@ -151,7 +156,7 @@ public class AddQuestionServlet extends HttpServlet {
             if (result < 0) throw new NumberFormatException();
         } catch (NumberFormatException e) {
             resp.sendRedirect("/error.jsp?reason=invalid_integer_input");
-            return -1;
+            throw new RuntimeException("couldn't parse integer");
         }
         return result;
     }
@@ -170,7 +175,7 @@ public class AddQuestionServlet extends HttpServlet {
             String optionText = req.getParameter("option" + i);
             if (optionText == null || optionText.trim().isEmpty()) {
                 resp.sendRedirect("/error.jsp?reason=empty_option_text");
-                return;
+                throw new RuntimeException("empty option_text");
             }
             AnswerOption option = new AnswerOption(question_id, optionText, correctOptionSet.contains(i));
             questionsDAO.insertAnswerOptions(option);
