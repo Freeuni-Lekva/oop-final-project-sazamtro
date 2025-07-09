@@ -1,0 +1,148 @@
+:root {
+    /* Blues */
+    --blue-light: #dbeafe;
+    --blue-lighter: #e0e7ff;
+    --blue-muted: #34495e;
+    --blue-dark: #1e293b;
+
+    /* Grays */
+    --gray-light: #f0f3f4;
+    --gray-muted: #e2e8f0;
+    --gray-medium: #64748b;
+    --gray-dark: #475569;
+
+    /* Pinks */
+    --pink-lightest: #fdf2f8;
+    --pink-hover-bg: #fff1f5;
+    --pink-border: #fbcfe8;
+    --pink-shadow-1: rgba(236, 72, 153, 0.2);
+    --pink-shadow-2: rgba(244, 114, 182, 0.12);
+    --pink-accent: #ec4899;           /* for visible links */
+    --pink-accent-hover: #db2777;     /* darker hover */
+
+    /* Shadows */
+    --shadow-light: rgba(100, 116, 139, 0.1);
+}
+
+/* Body with gradient */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, var(--blue-light), var(--blue-lighter), var(--pink-lightest));
+    color: var(--blue-dark);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form container */
+.login-signup-container {
+    background: #ffffff;
+    padding: 40px 48px;
+    border-radius: 20px;
+    box-shadow: 0 8px 28px var(--shadow-light);
+    width: 360px;
+    max-width: 90vw;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.login-signup-container:hover {
+    box-shadow:
+            0 12px 40px var(--pink-shadow-1),
+            0 8px 30px var(--pink-shadow-2);
+}
+
+.login-signup-container h1 {
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 32px;
+    color: var(--blue-muted);
+}
+
+.login-signup-container p {
+    margin-bottom: 24px;
+    color: var(--gray-medium);
+    font-size: 16px;
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1.5px solid var(--gray-muted);
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: var(--pink-border);
+    box-shadow: 0 0 8px var(--pink-shadow-1);
+}
+
+/* Buttons */
+button {
+    padding: 14px 0;
+    border: none;
+    border-radius: 28px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.6;
+    transition: box-shadow 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 6px 15px rgba(100, 116, 139, 0.1);
+    margin-bottom: 28px;
+}
+
+button.login-btn {
+    background: linear-gradient(to right, var(--blue-light), var(--blue-lighter));
+}
+
+button.signup-btn {
+    background: linear-gradient(to right, var(--pink-hover-bg), var(--pink-border));
+    color: var(--blue-dark);
+}
+
+button:hover:enabled {
+    opacity: 1;
+    cursor: pointer;
+    box-shadow:
+            0 8px 25px var(--pink-shadow-1),
+            0 0 10px var(--pink-shadow-2);
+}
+
+/* Switch section */
+.switch-link {
+    font-size: 14px;
+    color: var(--blue-dark);
+    letter-spacing: 0.3px;
+}
+
+.switch-link p {
+    margin: 4px 0;
+}
+
+.switch-link p:last-child a {
+    color: var(--pink-accent);
+    font-weight: 700;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.switch-link p:last-child a:hover {
+    color: var(--pink-accent-hover);
+    text-decoration: none;
+}
