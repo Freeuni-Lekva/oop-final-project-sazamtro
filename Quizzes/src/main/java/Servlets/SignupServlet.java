@@ -50,7 +50,7 @@ public class SignupServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", userToAdd);
 
-            response.sendRedirect("/home-page.jsp");
+            response.sendRedirect("/homepage.jsp");
         } catch (SQLException | NoSuchAlgorithmException e) {
             e.printStackTrace();
             response.sendRedirect("/error-page.jsp");
