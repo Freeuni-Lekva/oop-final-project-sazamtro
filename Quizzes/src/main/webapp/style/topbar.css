@@ -1,0 +1,53 @@
+.topbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    height: 60px;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+    padding: 0 20px;
+}
+
+/* Center section */
+.topbar-center {
+    display: flex;
+    gap: 36px; /* or 32px for a softer feel */
+}
+
+
+/* Right section */
+.topbar-right {
+    display: flex;
+    gap: 16px;
+    position: absolute;
+    right: 20px;
+}
+
+/* Circle icons */
+.topbar-circle {
+    width: 38px;
+    height: 38px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.topbar-circle i {
+    font-size: 16px;
+    color: #333;
+}
+
+a.topbar-circle {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.topbar-circle:hover {
+    background-color: #dedede;
+}
