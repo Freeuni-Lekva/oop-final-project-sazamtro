@@ -39,7 +39,7 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
 
-                response.sendRedirect("/home-page.jsp");
+                response.sendRedirect("/homepage.jsp");
             } else {
                 response.sendRedirect("/failed-login.jsp");
             }
