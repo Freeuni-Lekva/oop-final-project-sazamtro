@@ -35,7 +35,7 @@ public class AddQuestionServlet extends HttpServlet {
 
         QuestionType type = getType(req, resp);
         String prompt = getPrompt(req, resp);
-        int quizId = getQuizId(req, resp);
+        int quizId = (int)req.getAttribute("quizId");       //getQuizId(req, resp);
 
         if (type == null || prompt == null || quizId < 0) {
             resp.sendRedirect("/error.jsp?reason=missing_parameters");
