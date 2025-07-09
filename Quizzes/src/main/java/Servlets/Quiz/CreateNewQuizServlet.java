@@ -39,6 +39,8 @@ public class CreateNewQuizServlet extends HttpServlet {
             int quiz_id =    qDAO.insertNewQuiz(title, description, creator_id,
                                                 is_random, is_multipage, immediate_correction);
             req.setAttribute("quizId", quiz_id);
+            int position = is_random?-1:1;
+            req.setAttribute("position", position);
             RequestDispatcher rd = req.getRequestDispatcher("/AddQuestion.jsp");
             rd.forward(req, resp);
             //resp.sendRedirect("/quizzes/"+quiz_id+"/add-question");

@@ -35,7 +35,7 @@
 `;
             container.appendChild(div);
 
-            document.getElementById("numOptions").value = index + 1;
+            document.getElementById("numOptions").value = index;
         }
 
         function updateImagePreview() {
@@ -86,8 +86,8 @@
 <h2>Add a Question</h2>
 
 <form method="post" action="/add-question" onsubmit="return validateForm()">
-    <input type="hidden" name="quizId" value="${param.quizId}" />
-    <input type="hidden" name="position" value="${param.position}" />
+    <input type="hidden" name="quizId" value="<%= request.getAttribute("quizId") %>" />
+    <input type="hidden" name="position" value="<%= request.getAttribute("position") %>" />
 
     <label for="type">Question Type:</label>
     <select name="type" id="type" onchange="showRelevantFields()" required>
@@ -152,7 +152,7 @@
 
 <div class="center-button">
     <button type="button" class="finish-button"
-            onclick="location.href='${pageContext.request.contextPath}/quiz-info?quizId=${param.quizId}'">
+            onclick="location.href='/single_quiz_page.jsp?quizId=<%= request.getAttribute("quizId") %>'">
         Finish
     </button>
 </div>

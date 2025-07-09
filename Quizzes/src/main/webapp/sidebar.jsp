@@ -11,7 +11,7 @@
         <li><a href="friends.jsp"><i class="fas fa-user-friends"></i> <span>Friends</span></a></li>
         <li><a href="history.jsp"><i class="fas fa-clock"></i> <span>History</span></a></li>
         <li><a href="my-quizzes.jsp"><i class="fas fa-list"></i> <span>My Quizzes</span></a></li>
-        <li><a href="quizzes.jsp"><i class="fas fa-clipboard-question"></i> <span>Quizzes</span></a></li>
+        <li><a href="/showAllQuizzes"><i class="fas fa-clipboard-question"></i> <span>Quizzes</span></a></li>
         <li><a href="achievements.jsp"><i class="fas fa-trophy"></i> <span>Achievements</span></a></li>
         <li><a href="AnnouncementServlet"><i class="fas fa-bullhorn"></i> <span>Announcements</span></a></li>
     </ul>

@@ -53,7 +53,7 @@ CREATE TABLE Quizzes (
 CREATE TABLE Questions (
     question_id INT PRIMARY KEY AUTO_INCREMENT,
     quiz_id INT NOT NULL,
-    type ENUM('response', 'fill', 'mc', 'pic') NOT NULL,
+    type ENUM('QUESTION_RESPONSE', 'FILL_IN_THE_BLANK', 'MULTIPLE_CHOICE', 'MULTI_SELECT', 'PICTURE_RESPONSE') NOT NULL,
     prompt TEXT NOT NULL,
     image_url TEXT,
     position INT,
