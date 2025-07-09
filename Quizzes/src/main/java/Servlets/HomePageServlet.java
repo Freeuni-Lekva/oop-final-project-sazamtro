@@ -2,8 +2,11 @@ package Servlets;
 
 import DAO.AnnouncementDAO;
 import DAO.FriendRequestDAO;
+import DAO.MessageDAO;
 import DAO.UserDAO;
 import bean.FriendRequest;
+import bean.Message.Message;
+import bean.Message.MessageType;
 import bean.User;
 
 import javax.servlet.ServletException;
@@ -17,39 +20,51 @@ import java.util.List;
 
 @WebServlet("/HomePageServlet")
 public class HomePageServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        // ✅ Get DB connection and user from session
         Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
-//        User user = (User) req.getSession().getAttribute("user");
-        UserDAO userDAO = new UserDAO(conn);
-        User user = null;
-        try {
-            user = userDAO.getUserById(2);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        HttpSession session = req.getSession(false);
+
+        if (conn == null || session == null || session.getAttribute("user") == null) {
+            // Redirect safely if no connection or no logged-in user
+            resp.sendRedirect("login.jsp");
+            return;
         }
-        AnnouncementDAO annDAO = new AnnouncementDAO(conn);
-        FriendRequestDAO frDAO = new FriendRequestDAO(conn);
+
+        User user = (User) session.getAttribute("user");
 
         try {
-            req.setAttribute("announcements", annDAO.getAllAnnouncements());
-            req.setAttribute("friendRequests", frDAO.getPendingReceivedRequests(user.getUserId()));
+            // ✅ Initialize DAOs
+            AnnouncementDAO annDAO = new AnnouncementDAO(conn);
+            FriendRequestDAO frDAO = new FriendRequestDAO(conn);
+            MessageDAO mDAO = new MessageDAO(conn);
+            UserDAO userDAO = new UserDAO(conn);
 
-            List<FriendRequest> friendRequestList = (List) req.getAttribute("friendRequests");
-            List<User> senders = new ArrayList<>();
-            for(FriendRequest fr : friendRequestList){
-                senders.add(userDAO.getUserById(fr.getSenderId()));
+            // ✅ Fetch data
+            List<FriendRequest> friendRequests = frDAO.getPendingReceivedRequests(user.getUserId());
+//            List<Message> challengeMessages = mDAO.getReceivedTypeMessages(user.getUserId(), MessageType.CHALLENGE);
+
+            // ✅ Fetch sender users
+            List<User> requestSenders = new ArrayList<>();
+            for (FriendRequest fr : friendRequests) {
+                requestSenders.add(userDAO.getUserById(fr.getSenderId()));
             }
-            req.setAttribute("requestSenders", senders);
-        } catch (SQLException e) {
-            System.out.println("Failed To Load HomePage");
-        }
 
-        try {
+            // ✅ Set attributes
+            req.setAttribute("announcements", annDAO.getAllAnnouncements());
+            req.setAttribute("friendRequests", friendRequests);
+            req.setAttribute("requestSenders", requestSenders);
+
+            // ✅ Forward to JSP safely (no output written yet)
             req.getRequestDispatcher("/homepage.jsp").forward(req, resp);
-        } catch (ServletException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Optionally redirect to an error page
+            resp.sendRedirect("error.jsp");
         }
     }
 }

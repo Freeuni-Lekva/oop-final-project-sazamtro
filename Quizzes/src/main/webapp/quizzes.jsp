@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<jsp:include page="topbar.jsp" />
+<jsp:include page="/TopBarServlet" />
 
 <div class="page-content">
     <jsp:include page="sidebar.jsp" />
