@@ -3,9 +3,9 @@ package DAO;
 import java.sql.*;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/database_name";  //Use your database!!!
+    private static final String URL = "jdbc:mysql://localhost:3306/sazamtro";  //Use your database!!!
     private static final String ACCOUNT = "root";
-    private static final String PASSWORD = "";      //Change to yours!!!!!
+    private static final String PASSWORD = "AlfredTheButtler2006";      //Change to yours!!!!!
 
 
 
