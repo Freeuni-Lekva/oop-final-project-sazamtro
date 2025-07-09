@@ -1,4 +1,4 @@
-USE database_name;
+USE sazamtro;
 
 
 DROP TABLE IF EXISTS Announcements;
@@ -149,7 +149,7 @@ CREATE TABLE Announcements (
     announcement_text TEXT NOT NULL,
     done_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (administrator_id) REFERENCES users(user_id) ON DELETE CASCADE
+    FOREIGN KEY (administrator_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 
