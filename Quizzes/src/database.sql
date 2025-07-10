@@ -57,6 +57,7 @@ CREATE TABLE Questions (
     prompt TEXT NOT NULL,
     image_url TEXT,
     position INT,
+    is_active BOOLEAN DEFAULT TRUE,
 
     FOREIGN KEY (quiz_id) REFERENCES Quizzes (quiz_id) ON DELETE CASCADE
 );
@@ -86,7 +87,7 @@ CREATE TABLE QuizAttempts (
     user_id INT NOT NULL,
     quiz_id INT NOT NULL,
     score INT,
-    time_taken_sec INT,
+    time_taken_min DOUBLE,
     is_practice BOOLEAN DEFAULT FALSE,
     taken_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 

@@ -36,6 +36,17 @@ public class QuestionsDAO {
         }
     }
 
+    public void deleteQuestion(int questionId) throws SQLException {
+        String sqlCommand = "DELETE FROM Questions WHERE question_id = ?";
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+            st.setInt(1, questionId);
+            int rows = st.executeUpdate();
+            if (rows == 0) {
+                throw new SQLException("Deleting question failed");
+            }
+        }
+    }
+
     //returns number of rows updated
     public int updateQuestion(Question question) throws SQLException {
         String sql = "UPDATE Questions SET quiz_id = ?, type = ?, prompt = ?, image_url = ?, position = ? WHERE question_id = ?";
@@ -82,11 +93,12 @@ public class QuestionsDAO {
             throw new RuntimeException("Error deleting question answers", e);
         }
     }
-    public void deleteOption(int optionId) throws SQLException {
+    public boolean deleteOption(int optionId) throws SQLException {
         String sql = "DELETE FROM AnswerOptions WHERE option_id = ?";
         try(PreparedStatement st = connection.prepareStatement(sql)){
             st.setInt(1, optionId);
             int rows = st.executeUpdate();
+            return rows > 0;
         }
         catch (SQLException e) {
             throw new RuntimeException("Error deleting option answers", e);
@@ -199,4 +211,59 @@ public class QuestionsDAO {
             } else {return null;}
         }
     }
+
+    public void deactivateQuestion(int questionID) throws SQLException {
+        String query = "UPDATE Questions SET is_active = ? WHERE question_id = ?";
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setBoolean(1, false);
+            st.setInt(2, questionID);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deactivating question", e);
+        }
+    }
+
+    public void updateQuestionText(int questionId, String text) {
+        String query = "UPDATE Questions SET prompt = ? WHERE question_id = ?";
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setString(1, text);
+            st.setInt(2, questionId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating question text", e);
+        }
+    }
+
+    public void updateImageUrl(int questionId, String imageUrl) {
+        String query = "UPDATE Questions SET image_url = ? WHERE question_id = ?";
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setString(1, imageUrl);
+            st.setInt(2, questionId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating imageURL", e);
+        }
+    }
+    public List<Integer> getOrderedQuestionIds(int quizId) throws SQLException {
+        List<Integer> ids = new ArrayList<>();
+        String query = "SELECT question_id FROM Questions WHERE quiz_id = ? AND is_active = true ORDER BY question_id";
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setInt(1, quizId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                ids.add(rs.getInt("question_id"));
+            }
+        }
+        return ids;
+    }
+    public void updateQuestionPosition(int questionId, int position) throws SQLException {
+        String query = "UPDATE Questions SET position = ? WHERE question_id = ?";
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setInt(1, position);
+            st.setInt(2, questionId);
+            st.executeUpdate();
+        }
+    }
+
+
 }

@@ -1,0 +1,367 @@
+/* Container for all content */
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+}
+
+/* Each question card rectangle */
+.question-card {
+    background-color: #fefefe;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Hover effect for question card */
+.question-card:hover {
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0.15);
+    border-color: #4a90e2;
+}
+
+/* Header area inside question card */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+
+/* Labels and inputs */
+label {
+    font-weight: 600;
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+input[type="text"], input[type="url"] {
+    width: 95%;
+    padding: 8px 10px;
+    font-size: 15px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, input[type="url"]:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+/* Options container inside question card */
+.options-container {
+    margin-top: 10px;
+}
+
+/* Each option row */
+.option-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+/* Option text input */
+.option-text {
+    flex-grow: 1;
+}
+
+/* Correct label styles */
+.option-row label {
+    font-weight: normal;
+}
+
+/* Add option button */
+.add-option-btn {
+    margin-top: 10px;
+    background-color: #27ae60;
+    border: none;
+    color: white;
+    padding: 7px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.25s ease;
+}
+
+.add-option-btn:hover {
+    background-color: #1e8449;
+}
+
+
+/* Delete option button inside options */
+.option-row button {
+    background-color: #ffffff;
+    border: 1.5px solid #e74c3c; /* red border */
+    color: #e74c3c; /* red text */
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.option-row button:hover {
+    background-color: #e74c3c; /* red background */
+    color: white;             /* white text */
+}
+
+/* Image preview container */
+.image-preview {
+    margin-top: 10px;
+}
+
+.image-preview img {
+    max-width: 300px;
+    max-height: 180px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Submit/save button */
+.form-actions {
+    text-align: center;
+    margin: 30px 0 60px;
+}
+
+.save-btn {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+    background-color: #357ABD;
+}
+.delete-btn {
+    background-color: white;
+    border: 1.5px solid #e74c3c; /* bright red border */
+    color: #e74c3c; /* red text */
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.delete-btn:hover {
+    background-color: #e74c3c; /* red background */
+    color: white;             /* white text */
+}
+
+/* New Question section container */
+.new-question-form {
+    margin-top: 40px;
+    padding: 25px;
+    border: 2px dashed #4a90e2;
+    border-radius: 8px;
+    background-color: #f0f6ff;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Section title */
+.new-question-form h2 {
+    margin-top: 0;
+    color: #2a5d9f;
+    font-size: 22px;
+    border-bottom: 1px solid #d0dce8;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+/* Select field for question type */
+.new-question-form select {
+    width: 300px;
+    padding: 8px 10px;
+    font-size: 15px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Add Question Section */
+.add-question-section {
+    background-color: #f8f9fa;
+    border: 2px dashed #ccc;
+    padding: 25px;
+    margin-top: 40px;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+}
+
+.add-question-section h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.add-question-section label {
+    font-weight: 600;
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+.add-question-section input[type="text"],
+.add-question-section textarea,
+.add-question-section select {
+    width: 96%;
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.add-question-section input[type="text"]:focus,
+.add-question-section textarea:focus,
+.add-question-section select:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+.option-section {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.option-section h4 {
+    margin-bottom: 10px;
+}
+
+.add-option-container {
+    margin-top: 10px;
+}
+
+.add-option-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #2d8f4d;
+    transition: color 0.2s ease;
+}
+
+.add-option-link:hover {
+    color: #1e6d38;
+}
+
+.add-option-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Add Question Buttons */
+.primary-button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.primary-button:hover {
+    background-color: #357ABD;
+}
+
+.finish-button {
+    background-color: #888;
+    color: white;
+    padding: 8px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.center-button {
+    text-align: center;
+}
+
+/* Hide/show animation (optional) */
+.hidden {
+    display: none;
+}
+
+.image-preview {
+    margin-top: 10px;
+}
+
+.image-preview img {
+    max-width: 300px;
+    max-height: 180px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.quiz-settings {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 15px 20px;
+    margin-bottom: 30px;
+    border-radius: 6px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.quiz-settings legend {
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+}
+
+.quiz-settings label {
+    display: block;
+    margin: 8px 0;
+    font-weight: normal;
+}
+
+.quiz-info {
+    margin-bottom: 25px;
+    background-color: #fafafa;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.quiz-info label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 6px;
+}
+
+#quizTitle {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    border: 1px solid #bbb;
+}
+
+#quizDescription {
+    width: 100%;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 4px;
+    border: 1px solid #bbb;
+    resize: vertical;
+}
+
+

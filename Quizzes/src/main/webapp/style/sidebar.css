@@ -1,4 +1,4 @@
-/* Sidebar */
+/* Sidebar container */
 .sidebar {
     grid-area: sidebar;
     background-color: #dadada;
@@ -7,19 +7,21 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    overflow: visible;
 }
 
+/* Logo section */
 .logo {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     background-color: #ffffff;
-    border: 3px solid #1de00d; /* outline */
+    border: 3px solid #1de00d;
     margin: 20px auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0 8px rgba(0,0,0,0.08);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
 }
 
 .logo img {
@@ -28,11 +30,8 @@
     object-fit: contain;
 }
 
-
-
-
-
-.sidebar ul {
+/* Navigation links */
+.nav-links {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -42,38 +41,39 @@
     align-items: center;
 }
 
-.sidebar li {
+.nav-links li {
     margin: 8px 0;
     width: 100%;
 }
 
-.sidebar li a {
+.nav-links a {
     display: block;
-    width: 85%; /* decreased from 90% */
-    padding: 10px 15px; /* added right padding */
+    width: 85%;
+    padding: 10px 15px;
     background-color: #b5b5b5;
     color: #000;
     font-size: 14px;
     text-decoration: none;
     border-radius: 4px;
-    transition: background-color 0.2s;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
     text-align: left;
     text-transform: capitalize;
     margin-left: auto;
     margin-right: auto;
 }
 
-.sidebar li a:hover {
+.nav-links a:hover {
     background-color: #999;
+    transform: scale(1.07);
 }
 
-.sidebar i {
+.nav-links i {
     margin-right: 10px;
     width: 20px;
     text-align: center;
 }
 
-
+/* Bottom action buttons */
 .sidebar-actions {
     display: flex;
     flex-direction: column;
@@ -93,20 +93,24 @@
     border-radius: 4px;
     text-decoration: none;
     font-weight: bold;
-    transition: background-color 0.3s;
+    transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
     text-transform: capitalize;
     margin-left: auto;
     margin-right: auto;
 }
 
 .sidebar-button:hover {
+    transform: scale(1.07);
     background-color: #4a4a4a;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
+/* Logout button specifically */
 .logout {
     background-color: #c0392b;
 }
 
 .logout:hover {
+    transform: scale(1.07);
     background-color: #a93226;
 }

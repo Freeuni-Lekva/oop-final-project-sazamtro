@@ -9,34 +9,44 @@
         function showRelevantFields() {
             const type = document.getElementById("type").value;
 
-            document.getElementById("mcOptions").style.display = (type === "MULTIPLE_CHOICE" || type === "MULTI_SELECT") ? "block" : "none";
+            document.getElementById("mcOptions").style.display =
+                (type === "MULTIPLE_CHOICE" || type === "MULTI_SELECT") ? "block" : "none";
 
             document.getElementById("responseAnswer").style.display =
                 (type === "QUESTION_RESPONSE" || type === "FILL_IN_THE_BLANK" || type === "PICTURE_RESPONSE") ? "block" : "none";
 
             document.getElementById("imageUrlRow").style.display = (type === "PICTURE_RESPONSE") ? "block" : "none";
+
+            // Clear existing options when type changes
+            document.getElementById("optionsContainer").innerHTML = "";
+            document.getElementById("numOptions").value = 0;
         }
+
 
 
 
         function addOptionField() {
             const container = document.getElementById("optionsContainer");
             const index = container.children.length + 1;
+            const type = document.getElementById("type").value;
+
+            const inputType = (type === "MULTIPLE_CHOICE") ? "radio" : "checkbox";
 
             const div = document.createElement("div");
             div.className = "single-option";
             div.innerHTML = `
-    <label for="option${index}">Option ${index}:</label>
-    <input type="text" name="option${index}" id="option${index}" required />
-    <label for="correct${index}">
-        <input type="checkbox" name="correct_options" id="correct${index}" value="${index}" />
-        Correct
-    </label>
-`;
+        <label for="option${index}">Option ${index}:</label>
+        <input type="text" name="option${index}" id="option${index}" required />
+        <label>
+            <input type="${inputType}" name="correct_options" value="${index}" />
+            Correct
+        </label>
+    `;
             container.appendChild(div);
 
             document.getElementById("numOptions").value = index;
         }
+
 
         function updateImagePreview() {
             const url = document.getElementById("image_url").value.trim();

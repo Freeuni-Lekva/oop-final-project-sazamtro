@@ -1,0 +1,108 @@
+:root {
+    --blue-light: #dbeafe;
+    --blue-lighter: #e0e7ff;
+    --blue-muted: #0381bf;
+    --blue-dark: #1e293b;
+
+    --gray-light: #f0f3f4;
+    --gray-muted: #e2e8f0;
+    --gray-medium: #64748b;
+
+    --pink: #f472b6;
+    --pink-light: #f9a8d4;
+
+    --indigo: #6366f1;
+    --indigo-light: #8b5cf6;
+
+    --shadow-light: rgba(100, 116, 139, 0.1);
+    --shadow-medium: rgba(127, 140, 141, 0.2);
+    --shadow-strong: rgba(127, 140, 141, 0.35);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, var(--blue-light), var(--blue-lighter), var(--pink-light));
+    color: var(--blue-dark);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.options-frame {
+    background: #ffffff;
+    padding: 50px 60px;
+    border-radius: 20px;
+    box-shadow:
+            0 8px 28px var(--shadow-light);
+    max-width: 1000px;
+    width: 90%;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.options-frame:hover {
+    box-shadow:
+            0 12px 40px var(--shadow-medium),
+            0 8px 30px var(--shadow-strong);
+}
+
+.options-frame h1 {
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 40px;
+    color: var(--blue-muted);
+}
+
+.options-frame p {
+    margin-bottom: 40px;
+    color: var(--gray-medium);
+    font-size: 18px;
+}
+
+.auth-cards {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+/* Card base */
+.option-card {
+    padding: 40px 20px;
+    border-radius: 16px;
+    width: 200px;
+    font-weight: 600;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    box-shadow:
+            0 5px 14px var(--shadow-medium);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+
+.option-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+            0 12px 24px rgba(244, 114, 182, 0.4),
+            0 6px 18px rgba(236, 72, 153, 0.3);
+}
+
+/* Real card gradient */
+.card-real {
+    background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
+}
+
+/* All card gradient */
+.card-all {
+    background: linear-gradient(135deg, var(--blue-muted), var(--blue-light));
+}
+
+/* Practice card gradient */
+.card-practice {
+    background: linear-gradient(135deg, var(--pink), var(--pink-light));
+}

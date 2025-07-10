@@ -4,11 +4,11 @@
 <%@ page import="Servlets.FriendRequests.RequestAtributeNames" %>
 
 <%
-  List<FriendRequest> requests = (List<FriendRequest>) request.getAttribute("friendRequests");
+  List<FriendRequest> requests = (List<FriendRequest>) request.getAttribute(RequestAtributeNames.FIREND_REQUESTS);
   List<User> senders = (List<User>)request.getAttribute("requestSenders");
 %>
 
-<link rel="stylesheet" href="style/topbar.css">
+<link rel="stylesheet" href="style/friend-request-dropdown.css">
 
 <div id="friend-dropdown" class="friend-dropdown">
   <%

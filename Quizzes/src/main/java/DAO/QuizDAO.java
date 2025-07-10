@@ -89,7 +89,7 @@ public class QuizDAO {
 
     public List<Question> getQuizQuestions(int quiz_id) throws SQLException {
         List<Question> result = new ArrayList<>();
-        String sqlCommand = "SELECT * FROM Questions WHERE quiz_id = ?";
+        String sqlCommand = "SELECT * FROM Questions WHERE quiz_id = ? AND is_active";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
             st.setInt(1, quiz_id);
             ResultSet rs = st.executeQuery();
@@ -118,9 +118,11 @@ public class QuizDAO {
 
     public int insertAttempt(int user_id, int quiz_id, int score, long time_taken,
                              boolean isPractice) throws SQLException {
+
         String sqlCommand = "INSERT INTO QuizAttempts (user_id, quiz_id, score, time_taken_sec, is_practice, taken_at)" +
                 " VALUES (?, ?, ?, ?, ?, NOW())";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand, Statement.RETURN_GENERATED_KEYS)){
+
             st.setInt(1, user_id);
             st.setInt(2, quiz_id);
             st.setInt(3, score);
@@ -129,15 +131,55 @@ public class QuizDAO {
 
             int rows = st.executeUpdate();
             if (rows == 0) {
-                throw new SQLException("Creating attempt failed");
+                throw new SQLException("Creating attempt failed, no rows affected.");
             }
+
             try (ResultSet rs = st.getGeneratedKeys()) {
                 if (rs.next()) {
                     return rs.getInt(1);
                 } else {
-                    throw new SQLException("Error, no ID");
+                    throw new SQLException("Creating attempt failed, no ID obtained.");
                 }
             }
         }
     }
+
+
+    public List<Quiz> getUserQuizzes(int user_id) throws SQLException {
+        List<Quiz> result = new ArrayList<>();
+        String sqlCommand = "SELECT * FROM Quizzes WHERE creator_id = ?";
+        try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
+            st.setInt(1, user_id);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                Quiz curr = new Quiz(rs.getInt("quiz_id"), rs.getString("title"),
+                        rs.getString("description"), rs.getInt("creator_id"),
+                        rs.getBoolean("is_random"), rs.getBoolean("is_multipage"),
+                        rs.getBoolean("immediate_correction"),
+                        rs.getTimestamp("created_at").toLocalDateTime());
+                result.add(curr);
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public void updateQuizMeta(int quizId, String title, String description, boolean random, boolean multiPage, boolean immediateCorrection) {
+        String sql = "UPDATE Quizzes SET title = ?, description = ?, is_random = ?, is_multipage = ?, immediate_correction = ? WHERE quiz_id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, title);
+            stmt.setString(2, description);
+            stmt.setBoolean(3, random);
+            stmt.setBoolean(4, multiPage);
+            stmt.setBoolean(5, immediateCorrection);
+            stmt.setInt(6, quizId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to update quiz metadata for quiz ID: " + quizId, e);
+        }
+    }
+
 }
