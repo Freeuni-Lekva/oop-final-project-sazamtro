@@ -38,6 +38,10 @@ public class CreateNewQuizServlet extends HttpServlet {
             QuizDAO qDAO = new QuizDAO(connection);
             int quiz_id =    qDAO.insertNewQuiz(title, description, creator_id,
                                                 is_random, is_multipage, immediate_correction);
+
+            DAO.AchievementsDAO aDAO = new DAO.AchievementsDAO(connection);
+            aDAO.checkAmateurAuthor(creator_id); // Award Amateur Author
+
             req.setAttribute("quizId", quiz_id);
             int position = is_random?-1:1;
             req.setAttribute("position", position);

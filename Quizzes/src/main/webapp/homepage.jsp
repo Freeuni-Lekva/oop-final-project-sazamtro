@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="bean.Announcement" %>
+<%@ page import="bean.Achievement" %>
+
 <%@ page import="Servlets.FriendRequests.RequestAtributeNames" %>
 
 <!DOCTYPE html>
@@ -18,9 +20,33 @@
         <jsp:include page="/TopBarServlet"/>
 
         <div class="main">
-            <!-- Left side: Announcements -->
             <div class="details">
+                <%
+                    Boolean showFriendsAchievements = (Boolean) request.getAttribute("showFriendsAchievements");
+                    if (showFriendsAchievements != null && showFriendsAchievements) {
+                        List<Achievement> achievements = (List<Achievement>) request.getAttribute("friendsAchievements");
+                %>
+                <h2>Friends' Achievements</h2>
+                <div class="achievement-cards">
+                    <% if (achievements != null && !achievements.isEmpty()) {
+                        for (Achievement ach : achievements) { %>
+                    <div class="achievement-card">
+                        <h3><%= ach.getUsername() %></h3>
+                        <h4><%= ach.getAchievement_name() %></h4>
+                        <p><%= ach.getAchievement_descr() %></p>
+                    </div>
+                    <%     }
+                    } else { %>
+                    <p>No achievements found.</p>
+                    <% } %>
+                </div>
+                <%
+                } else {
+                %>
                 <jsp:include page="/AnnouncementServlet"/>
+                <%
+                    }
+                %>
             </div>
 
             <!-- Right side: Friends sidebar -->
@@ -29,8 +55,6 @@
 
     </div>
 </div>
-
-
 
 </body>
 </html>

@@ -1,9 +1,6 @@
 package Servlets.Quiz;
 
-import DAO.AnswerDAO;
-import DAO.MessageDAO;
-import DAO.QuestionsDAO;
-import DAO.QuizDAO;
+import DAO.*;
 import bean.Questions.AnswerOption;
 import bean.Questions.Question;
 import bean.Quiz;
@@ -34,6 +31,7 @@ public class SubmitQuizServlet extends HttpServlet {
             resp.sendRedirect("/login");
             return;
         }
+        int user_id = user.getUserId();
 
         /*String path = req.getPathInfo();
         String[] pathParts = path.split("/");*/
@@ -43,16 +41,18 @@ public class SubmitQuizServlet extends HttpServlet {
         LocalDateTime endTime = LocalDateTime.now();
         long seconds = Duration.between(startTime, endTime).getSeconds();
 
-        //boolean isPractice = (Boolean) session.getAttribute("is_practice");
+        boolean isPractice = (Boolean) session.getAttribute("is_practice");
 
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         QuizDAO quizDAO = new QuizDAO(connection);
         AnswerDAO answerDAO = new AnswerDAO(connection);
+        AchievementsDAO achievementsDAO = new AchievementsDAO(connection);
 
         try {
 
             Quiz q = quizDAO.getOneQuiz(quiz_id);
             int score = 0;
+            int attempt_id = -1;
 
             if(!q.checkIfMultipage()){
 
@@ -69,20 +69,27 @@ public class SubmitQuizServlet extends HttpServlet {
                     userAnswers.put(curr.getId(), userAnswer);
                 }
 
-                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
+                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
+
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
             else{
                 @SuppressWarnings("unchecked")
                 Map<Integer, String[]> userAnswers = (Map<Integer, String[]>)session.getAttribute("user_responses");
                 score = (int) req.getSession().getAttribute("current_score");
-                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
+
+                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
 
-            req.setAttribute("score", score);
-            req.setAttribute("quiz", q);
-            req.getRequestDispatcher("/quiz_result.jsp").forward(req, resp);
+             achievementsDAO.checkQuizMachine(user_id);
+             achievementsDAO.checkPracticeMode(user_id);
+             achievementsDAO.checkPerfectionist(user_id, quiz_id);
+             achievementsDAO.checkNightOwl(user_id, attempt_id);
+             
+             req.setAttribute("quiz", q);
+             req.setAttribute("score", score);
+             req.getRequestDispatcher("/quiz_result.jsp").forward(req, resp);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

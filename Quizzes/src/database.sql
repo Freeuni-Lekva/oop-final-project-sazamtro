@@ -131,6 +131,38 @@ CREATE TABLE Achievements (
     icon_url TEXT
 );
 
+INSERT INTO Achievements (name, description, icon_url) VALUES
+-- Amateur Author
+('Amateur Author',
+ 'You’ve crafted your very first quiz. Every legend starts with one.',
+ 'https://cdn-icons-png.flaticon.com/512/7601/7601260.png'),
+
+-- Quiz Machine
+('Quiz Machine',
+ 'You’ve taken 10 quizzes! At this point, you basically *live* here.',
+ 'https://cdn-icons-png.flaticon.com/512/3261/3261154.png'),
+
+-- Practice Makes Perfect
+('Practice Makes Perfect',
+ 'Tried a quiz in practice mode. A disciplined learner always sharpens the blade.',
+ 'https://cdn-icons-png.flaticon.com/512/6747/6747027.png'),
+
+-- Perfectionist
+('Perfectionist',
+ 'You scored perfectly on a quiz. Precision. Focus. Victory.',
+ 'https://cdn-icons-png.flaticon.com/512/5377/5377848.png'),
+
+-- Social Butterfly
+('Social Butterfly',
+ 'You made 5 friends! Your quiz circle just got a whole lot warmer.',
+ 'https://cdn-icons-png.flaticon.com/512/4713/4713808.png'),
+
+-- Night Owl
+('Night Owl',
+ 'Took a quiz between 2–5 AM. Who needs sleep when there’s learning to do?',
+ 'https://cdn-icons-png.flaticon.com/512/3643/3643401.png');
+
+
 
 CREATE TABLE UserAchievements (
     user_id INT NOT NULL,

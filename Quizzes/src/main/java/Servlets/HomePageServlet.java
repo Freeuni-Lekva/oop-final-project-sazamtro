@@ -23,6 +23,6 @@ public class HomePageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-            req.getRequestDispatcher("/homepage.jsp").forward(req, resp);
+        req.getRequestDispatcher("/homepage.jsp").forward(req, resp);
     }
 }
