@@ -14,13 +14,13 @@ import java.io.IOException;
 import java.sql.Connection;
 
 
-@WebServlet("/quizzes/*/show")
+@WebServlet("/quizzes/show")
 public class ShowOneQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
         String path = req.getPathInfo();
-        int quiz_id = Integer.parseInt(path.substring(1));
+        int quiz_id = Integer.parseInt(req.getParameter("quizId"));
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         try{
             QuizDAO qDAO = new QuizDAO(connection);

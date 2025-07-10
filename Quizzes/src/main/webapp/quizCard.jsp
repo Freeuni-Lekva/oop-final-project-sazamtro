@@ -10,7 +10,7 @@
 <div class="quiz-card">
     <h3 class="quiz-title"><%= quiz.getQuizTitle() %></h3>
 
-    <form action="StartQuizServlet" method="get" class="start-form">
+    <form action="/quizzes/start" method="get" class="start-form">
         <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>" />
         <button type="submit" class="btn start-btn">Start</button>
     </form>

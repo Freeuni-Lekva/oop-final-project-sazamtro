@@ -23,20 +23,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/quizzes/*/start")
+@WebServlet("/quizzes/start")
 public class StartQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
-        String path = req.getPathInfo();
-        String[] pathParts = path.split("/");
-        int quiz_id = Integer.parseInt(pathParts[1]);
+       /* String path = req.getPathInfo();
+        String[] pathParts = path.split("/");*/
+        int quiz_id = Integer.parseInt(req.getParameter("id"));
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         LocalDateTime startTime = LocalDateTime.now();
-        req.setAttribute("start_time", startTime);
+        HttpSession session = req.getSession();
+        session.setAttribute("start_time", startTime);
         try{
             QuizDAO qDAO = new QuizDAO(connection);
             Quiz quiz = qDAO.getOneQuiz(quiz_id);
+            req.setAttribute("quiz", quiz);
             List<Question> quizQuestions = qDAO.getQuizQuestions(quiz_id);
             Map<Question, List<AnswerOption>> questionAnswerOptionMap = new HashMap<>();
             QuestionsDAO questionsDAO = new QuestionsDAO(connection);
@@ -44,19 +46,20 @@ public class StartQuizServlet extends HttpServlet {
             if(!quiz.checkIfMultipage()){
                 for(Question curr : quizQuestions){
                     List<AnswerOption> answers = new ArrayList<>();
-                    if (curr.hasChoices()){
+                    //if (curr.hasChoices()){
                         answers = questionsDAO.getOptions(curr.getId());
-                    }
+                    //}
                     questionAnswerOptionMap.putIfAbsent(curr, answers);
                 }
                 req.setAttribute("quiz_id", quiz_id);
                 req.setAttribute("question_answers", questionAnswerOptionMap);
-                RequestDispatcher rd = req.getRequestDispatcher("start_quiz.jsp");
+                RequestDispatcher rd = req.getRequestDispatcher("/start_quiz.jsp");
                 rd.forward(req, resp);
             }
 
             else{
-                HttpSession session = req.getSession();
+                //HttpSession session = req.getSession();
+                session.setAttribute("start_time", startTime);
                 session.setAttribute("quiz_questions", quizQuestions);
                 session.setAttribute("current_index", 0);
                 session.setAttribute("current_score", 0);

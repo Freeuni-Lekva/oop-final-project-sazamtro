@@ -6,6 +6,9 @@
     </head>
     <body>
     <div class="container">
+    <%-- Sidebar --%>
+                <%@ include file="sidebar.jsp" %>
+        <div class="main-content">
         <h2>Create a New Quiz</h2>
         <form action="/quizzes/new" method="post">
             <label for="title">Quiz Title</label>
@@ -22,6 +25,7 @@
 
             <button type="submit">Create Quiz</button>
         </form>
+        </div>
     </div>
 </body>
 </html>

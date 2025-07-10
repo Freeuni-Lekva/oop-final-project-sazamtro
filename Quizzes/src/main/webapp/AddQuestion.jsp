@@ -162,7 +162,7 @@
 
 <div class="center-button">
     <button type="button" class="finish-button"
-            onclick="location.href='/single_quiz_page.jsp?quizId=<%= request.getAttribute("quizId") %>'">
+            onclick="location.href='/quizzes/show?quizId=<%= request.getAttribute("quizId") %>'">
         Finish
     </button>
 </div>
