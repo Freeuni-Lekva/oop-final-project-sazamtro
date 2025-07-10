@@ -3,14 +3,14 @@
 
 <div class="sidebar">
     <div class="logo">
-        <img src="https://cdn-icons-png.flaticon.com/128/1791/1791301.png" alt="Logo">
+        <a href = "HomePageServlet"><img src="https://cdn-icons-png.flaticon.com/128/1791/1791301.png" alt="Logo"></a>
     </div>
 
     <ul class="nav-links">
         <li><a href="HomePageServlet"><i class="fas fa-house"></i> <span>Home</span></a></li>
         <li><a href="friends.jsp"><i class="fas fa-user-friends"></i> <span>Friends</span></a></li>
         <li><a href="quizAttempts-userOptions.jsp"><i class="fas fa-clock"></i> <span>History</span></a></li>
-        <li><a href="my-quizzes.jsp"><i class="fas fa-list"></i> <span>My Quizzes</span></a></li>
+        <li><a href="/myQuizzes"><i class="fas fa-list"></i> <span>My Quizzes</span></a></li>
         <li><a href="/showAllQuizzes"><i class="fas fa-clipboard-question"></i> <span>Quizzes</span></a></li>
         <li><a href="achievements.jsp"><i class="fas fa-trophy"></i> <span>Achievements</span></a></li>
         <li><a href="HomePageServlet"><i class="fas fa-bullhorn"></i> <span>Announcements</span></a></li>
