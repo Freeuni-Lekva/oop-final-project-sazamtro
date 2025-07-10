@@ -1,7 +1,8 @@
 package bean.Questions;
 
 public class QuestionFactory {
-    public static Question createQuestion(int quizId, QuestionType type, String questionText, int position, String imageUrl) {
+    public static Question createQuestion(int quizId, QuestionType type, String questionText,
+                                          int position, String imageUrl) {
         switch (type) {
             case MULTIPLE_CHOICE: return new MultipleChoice(quizId, questionText, position);
             case QUESTION_RESPONSE: return new QuestionResponse(quizId, questionText, position);
