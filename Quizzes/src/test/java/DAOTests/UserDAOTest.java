@@ -121,6 +121,17 @@ class UserDAOTest {
     }
 
     @Test
+    void testSetProfilePictureUrl() {
+        User user = new User(0, "testuser", "hashedPass", null, false);
+        assertNull(user.getProfilePictureUrl());
+
+        String newUrl = "https://example.com/profilePicture.png";
+        user.setProfilePictureUrl(newUrl);
+
+        assertEquals(newUrl, user.getProfilePictureUrl());
+    }
+
+    @Test
     void testRemoveUser() throws Exception {
         String hashedPassword = Hasher.hashPassword("pass");
         User user = new User(0, "taso", hashedPassword, null, false);
