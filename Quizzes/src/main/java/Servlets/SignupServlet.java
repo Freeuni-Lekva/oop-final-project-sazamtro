@@ -22,9 +22,15 @@ public class SignupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String passwordConfirm = request.getParameter("passwordConfirm");
 
-        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty() || passwordConfirm == null || passwordConfirm.trim().isEmpty()) {
             response.sendRedirect("/invalid-input.jsp");
+            return;
+        }
+
+        if (!password.equals(passwordConfirm)) {
+            response.sendRedirect("password-confirmationError.jsp");
             return;
         }
 
