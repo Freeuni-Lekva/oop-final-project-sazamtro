@@ -12,37 +12,25 @@
 </head>
 <body>
 <div class="container">
-
-    <%-- Sidebar --%>
     <%@ include file="sidebar.jsp" %>
 
     <div class="page-content">
-        <%-- Topbar includes friend dropdown and notifications --%>
-        <%@ include file="topbar.jsp" %>
+        <jsp:include page="/TopBarServlet"/>
 
         <div class="main">
-            <%-- Announcements display --%>
-            <%@ include file="announcements.jsp" %>
+            <!-- Left side: Announcements -->
+            <div class="details">
+                <jsp:include page="/AnnouncementServlet"/>
+            </div>
+
+            <!-- Right side: Friends sidebar -->
+            <jsp:include page="/GetFriendListServlet"/>
         </div>
+
     </div>
 </div>
 
-<script>
-    function handleAction(action) {
-        switch(action) {
-            case 'start':
-                alert("Starting the quiz...");
-                break;
-            case 'practice':
-                alert("Opening practice mode...");
-                break;
-            case 'share':
-                alert("Sharing the quiz...");
-                break;
-            default:
-                console.log("Unknown action: " + action);
-        }
-    }
-</script>
+
+
 </body>
 </html>

@@ -4,44 +4,42 @@ body {
     background-color: #f0f0f0;
 }
 
-.page-content {
+/* Grid Layout */
+.container {
     display: grid;
     grid-template-columns: 220px auto;
-    grid-template-rows: 60px auto;
-    grid-template-areas:
-        "sidebar topnav"
-        "sidebar main";
+    grid-template-areas: "sidebar content";
     height: 100vh;
 }
 
-.quizzes-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 20px;
-    flex: 1; /* So it doesn't get squished by sidebar */
-}
-/* Sidebar (optional: adjust height separately if needed) */
-.page-content > .sidebar {
-    flex-shrink: 0;
+.sidebar {
+    grid-area: sidebar;
 }
 
-/* Container for quiz cards */
+.content-area {
+    grid-area: content;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* Quiz Cards List */
 .quizzes-list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start; /* Changed from center */
     gap: 20px;
     padding: 20px;
-    flex-grow: 1;
     box-sizing: border-box;
 }
+
 
 /* Quiz Card Style */
 .quiz-card {
     background-color: white;
     border-radius: 10px;
     padding: 20px;
-    width: 250px;
+    width: 260px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -54,6 +52,7 @@ body {
 .quiz-title {
     font-size: 1.4em;
     margin-bottom: 15px;
+    text-align: center;
     color: #333;
 }
 

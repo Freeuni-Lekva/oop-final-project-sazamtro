@@ -1,3 +1,4 @@
+/* --- topbar.css --- */
 .topbar {
     display: flex;
     justify-content: center;
@@ -7,14 +8,14 @@
     border-bottom: 1px solid #e0e0e0;
     position: relative;
     padding: 0 20px;
+    z-index: 10;
 }
 
 /* Center section */
 .topbar-center {
     display: flex;
-    gap: 36px; /* or 32px for a softer feel */
+    gap: 36px;
 }
-
 
 /* Right section */
 .topbar-right {
@@ -35,6 +36,7 @@
     align-items: center;
     cursor: pointer;
     transition: background-color 0.2s;
+    position: relative;
 }
 
 .topbar-circle i {
@@ -46,7 +48,6 @@ a.topbar-circle {
     text-decoration: none;
     color: inherit;
 }
-
 
 .topbar-circle:hover {
     background-color: #dedede;
@@ -62,70 +63,11 @@ a.topbar-circle {
     position: absolute;
     top: -5px;
     right: -5px;
+    z-index: 11;
 }
 
-/* Friend Dropdown */
-.friend-dropdown {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 10px;
-    background-color: white;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    width: 280px;
-    z-index: 999;
-}
-
-.friend-request {
-    margin-bottom: 15px;
-}
-
-.request-text {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: #333;
-    text-align: left;
-    font-family: sans-serif;
-}
-
-/* Button Group Layout */
-.friend-request form {
-    display: inline-block;
-    margin-right: 8px;
-}
-
-/* Accept and Reject Buttons */
-.accept-btn, .reject-btn {
-    border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    color: white;
-    cursor: pointer;
-}
-
-.accept-btn {
-    background-color: #28a745;
-}
-
-.accept-btn:hover {
-    background-color: #218838;
-}
-
-.reject-btn {
-    background-color: #dc3545;
-}
-
-.reject-btn:hover {
-    background-color: #c82333;
-}
-
-/* No Requests Text */
-.no-requests {
-    font-size: 14px;
-    color: #999;
-    text-align: center;
+/* Dropdown Wrapper */
+.dropdown-wrapper {
+    position: relative;
+    z-index: 100;
 }

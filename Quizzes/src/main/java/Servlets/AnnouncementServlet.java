@@ -30,6 +30,6 @@ public class AnnouncementServlet extends HttpServlet {
             request.setAttribute("announcements", new ArrayList<>());
         }
 
-        request.getRequestDispatcher("/homepage.jsp").forward(request, response);
+        request.getRequestDispatcher("/announcements.jsp").include(request, response);
     }
 }
