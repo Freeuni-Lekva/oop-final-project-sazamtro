@@ -30,9 +30,8 @@ public class ShowAllQuizzesServlet extends HttpServlet {
             FriendRequestDAO friendDAO = new FriendRequestDAO(connection);
             List<User> friends = friendDAO.getFriendsList(user);
             req.setAttribute("friends", friends);
-
-
-            RequestDispatcher rd = req.getRequestDispatcher("quizzes.jsp");
+            req.setAttribute("showAllQuizzes", true);
+            RequestDispatcher rd = req.getRequestDispatcher("homepage.jsp");
             rd.forward(req, resp);
         } catch (Exception e) {
             throw new RuntimeException(e);
