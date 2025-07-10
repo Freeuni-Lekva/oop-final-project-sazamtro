@@ -1,0 +1,78 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f9fc;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.quiz-card {
+    background-color: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 20px 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.quiz-card:hover {
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.quiz-name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #222;
+    max-width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    padding: 10px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+    user-select: none;
+}
+
+.edit-btn {
+    background-color: #4caf50; /* Green */
+}
+
+.edit-btn:hover {
+    background-color: #3a8b37;
+}
+
+.grade-btn {
+    background-color: #2196f3; /* Blue */
+}
+
+.grade-btn:hover {
+    background-color: #176bb5;
+}
