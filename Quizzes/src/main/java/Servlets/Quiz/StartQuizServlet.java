@@ -27,9 +27,6 @@ import java.util.Map;
 public class StartQuizServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //super.doGet(req, resp);
-       /* String path = req.getPathInfo();
-        String[] pathParts = path.split("/");*/
         int quiz_id = Integer.parseInt(req.getParameter("id"));
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         LocalDateTime startTime = LocalDateTime.now();
@@ -58,13 +55,15 @@ public class StartQuizServlet extends HttpServlet {
             }
 
             else{
-                //HttpSession session = req.getSession();
+                req.setAttribute("quiz_id", quiz_id);
+                session.setAttribute("quiz_id", quiz_id);
+                session.setAttribute("quiz", quiz);
                 session.setAttribute("start_time", startTime);
                 session.setAttribute("quiz_questions", quizQuestions);
                 session.setAttribute("current_index", 0);
                 session.setAttribute("current_score", 0);
                 session.setAttribute("user_responses", new HashMap<Integer, String[]>());
-                resp.sendRedirect("/quizzes/" + quiz_id + "/question");
+                resp.sendRedirect("/quizzes/question");
             }
 
         } catch(SQLException e){

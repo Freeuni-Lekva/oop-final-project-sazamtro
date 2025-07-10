@@ -116,17 +116,17 @@ public class QuizDAO {
         return result;
     }
 
-    public int insertAttempt(int user_id, int quiz_id, int score, long time_taken,
+    public int insertAttempt(int user_id, int quiz_id, int score, double time_taken,
                              boolean isPractice) throws SQLException {
 
-        String sqlCommand = "INSERT INTO QuizAttempts (user_id, quiz_id, score, time_taken_sec, is_practice, taken_at)" +
+        String sqlCommand = "INSERT INTO QuizAttempts (user_id, quiz_id, score, time_taken_min, is_practice, taken_at)" +
                 " VALUES (?, ?, ?, ?, ?, NOW())";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand, Statement.RETURN_GENERATED_KEYS)){
 
             st.setInt(1, user_id);
             st.setInt(2, quiz_id);
             st.setInt(3, score);
-            st.setLong(4, time_taken);
+            st.setDouble(4, time_taken);
             st.setBoolean(5, isPractice);
 
             int rows = st.executeUpdate();

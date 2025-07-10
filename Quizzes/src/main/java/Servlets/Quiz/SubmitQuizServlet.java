@@ -1,8 +1,12 @@
 package Servlets.Quiz;
 
-import DAO.*;
+import DAO.AnswerDAO;
+import DAO.MessageDAO;
+import DAO.QuestionsDAO;
+import DAO.QuizDAO;
 import bean.Questions.AnswerOption;
 import bean.Questions.Question;
+import bean.Questions.QuestionType;
 import bean.Quiz;
 import bean.User;
 
@@ -31,28 +35,22 @@ public class SubmitQuizServlet extends HttpServlet {
             resp.sendRedirect("/login");
             return;
         }
-        int user_id = user.getUserId();
-
-        /*String path = req.getPathInfo();
-        String[] pathParts = path.split("/");*/
         int quiz_id = Integer.parseInt(req.getParameter("id"));
 
         LocalDateTime startTime = (LocalDateTime) session.getAttribute("start_time");
         LocalDateTime endTime = LocalDateTime.now();
-        long seconds = Duration.between(startTime, endTime).getSeconds();
+        double seconds = (double) Duration.between(startTime, endTime).getSeconds() / 60;
 
-        boolean isPractice = (Boolean) session.getAttribute("is_practice");
+        //boolean isPractice = (Boolean) session.getAttribute("is_practice");
 
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         QuizDAO quizDAO = new QuizDAO(connection);
         AnswerDAO answerDAO = new AnswerDAO(connection);
-        AchievementsDAO achievementsDAO = new AchievementsDAO(connection);
 
         try {
 
             Quiz q = quizDAO.getOneQuiz(quiz_id);
             int score = 0;
-            int attempt_id = -1;
 
             if(!q.checkIfMultipage()){
 
@@ -60,6 +58,13 @@ public class SubmitQuizServlet extends HttpServlet {
                 Map<Integer, String[]> userAnswers = new HashMap<>();
 
                 for(Question curr : questions){
+                   /* String paramName = curr.getQuestionType() == QuestionType.MULTI_SELECT
+                            ? "q_" + curr.getId() + "[]"
+                            : "q_" + curr.getId();
+                    System.out.println(paramName);
+
+                    String[] userAnswer = req.getParameterValues(paramName);*/
+
                     String[] userAnswer = req.getParameterValues("q_" + curr.getId());
                     for (String currAns : userAnswer) {
                         if (answerDAO.checkAnswer(curr.getId(), currAns)) {
@@ -69,27 +74,20 @@ public class SubmitQuizServlet extends HttpServlet {
                     userAnswers.put(curr.getId(), userAnswer);
                 }
 
-                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
-
+                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
             else{
                 @SuppressWarnings("unchecked")
                 Map<Integer, String[]> userAnswers = (Map<Integer, String[]>)session.getAttribute("user_responses");
                 score = (int) req.getSession().getAttribute("current_score");
-
-                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
+                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
 
-             achievementsDAO.checkQuizMachine(user_id);
-             achievementsDAO.checkPracticeMode(user_id);
-             achievementsDAO.checkPerfectionist(user_id, quiz_id);
-             achievementsDAO.checkNightOwl(user_id, attempt_id);
-             
-             req.setAttribute("quiz", q);
-             req.setAttribute("score", score);
-             req.getRequestDispatcher("/quiz_result.jsp").forward(req, resp);
+            req.setAttribute("score", score);
+            req.setAttribute("quiz", q);
+            req.getRequestDispatcher("/quiz_result.jsp").forward(req, resp);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -100,6 +98,7 @@ public class SubmitQuizServlet extends HttpServlet {
         for(Map.Entry<Integer, String[]> entry : userAnswers.entrySet()){
             Integer question_id = entry.getKey();
             String[] answer = entry.getValue();
+            if (answer == null) continue;
             for (String curr : answer) {
                 boolean isCorrect = answerDAO.checkAnswer(question_id, curr);
                 answerDAO.insertUserAnswer(curr, attempt_id, question_id, isCorrect);
@@ -107,3 +106,4 @@ public class SubmitQuizServlet extends HttpServlet {
         }
     }
 }
+
