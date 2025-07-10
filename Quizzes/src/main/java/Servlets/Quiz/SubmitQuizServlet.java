@@ -1,9 +1,6 @@
 package Servlets.Quiz;
 
-import DAO.AnswerDAO;
-import DAO.MessageDAO;
-import DAO.QuestionsDAO;
-import DAO.QuizDAO;
+import DAO.*;
 import bean.Questions.AnswerOption;
 import bean.Questions.Question;
 import bean.Questions.QuestionType;
@@ -35,6 +32,7 @@ public class SubmitQuizServlet extends HttpServlet {
             resp.sendRedirect("/login");
             return;
         }
+        int user_id = user.getUserId();
         int quiz_id = Integer.parseInt(req.getParameter("id"));
 
         LocalDateTime startTime = (LocalDateTime) session.getAttribute("start_time");
@@ -46,11 +44,14 @@ public class SubmitQuizServlet extends HttpServlet {
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         QuizDAO quizDAO = new QuizDAO(connection);
         AnswerDAO answerDAO = new AnswerDAO(connection);
+        AchievementsDAO achievementsDAO = new AchievementsDAO(connection);
+
 
         try {
 
             Quiz q = quizDAO.getOneQuiz(quiz_id);
             int score = 0;
+            int attempt_id = -1;
 
             if(!q.checkIfMultipage()){
 
@@ -74,16 +75,20 @@ public class SubmitQuizServlet extends HttpServlet {
                     userAnswers.put(curr.getId(), userAnswer);
                 }
 
-                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
+                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
             else{
                 @SuppressWarnings("unchecked")
                 Map<Integer, String[]> userAnswers = (Map<Integer, String[]>)session.getAttribute("user_responses");
                 score = (int) req.getSession().getAttribute("current_score");
-                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
+                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
+            achievementsDAO.checkQuizMachine(user_id);
+            achievementsDAO.checkPracticeMode(user_id);
+            achievementsDAO.checkPerfectionist(user_id, quiz_id);
+            achievementsDAO.checkNightOwl(user_id, attempt_id);
 
             req.setAttribute("score", score);
             req.setAttribute("quiz", q);
