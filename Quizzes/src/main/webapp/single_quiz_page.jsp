@@ -12,7 +12,6 @@
     <title><%= quiz.getQuizTitle() %> - Quiz Summary</title>
     <link rel="stylesheet" type="text/css" href="/style/single_quiz_page.css" />
 </head>
-<body>
 
     <div class="container">
         <h1><%= quiz.getQuizTitle() %></h1>

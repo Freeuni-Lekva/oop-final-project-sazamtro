@@ -58,7 +58,7 @@ public class EditQuizServlet extends HttpServlet {
             req.setAttribute("question_textAnswer", questionTextAnswerMap);
 
             RequestDispatcher rd = req.getRequestDispatcher("editQuiz.jsp");
-            System.out.println("Quiz title in doGet: " + quiz.getQuizTitle());
+//            System.out.println("Quiz title in doGet: " + quiz.getQuizTitle());
             rd.forward(req, resp);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -66,10 +66,10 @@ public class EditQuizServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("All params:");
-        for (String paramName : req.getParameterMap().keySet()) {
-            System.out.println(paramName + ": " + req.getParameter(paramName));
-        }
+//        System.out.println("All params:");
+//        for (String paramName : req.getParameterMap().keySet()) {
+//            System.out.println(paramName + ": " + req.getParameter(paramName));
+//        }
 
 
         int quizId = Integer.parseInt(req.getParameter("quiz_id"));
@@ -248,7 +248,9 @@ public class EditQuizServlet extends HttpServlet {
                 }
             }
 
-            resp.sendRedirect("/single_quiz_page.jsp?quizId=" + quizId);
+            req.setAttribute("quiz", quizDAO.getOneQuiz(quizId));
+            req.getRequestDispatcher("/single_quiz_page.jsp").forward(req, resp);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
