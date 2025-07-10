@@ -22,7 +22,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@WebServlet("/quizzes/*/submit")
+@WebServlet("/quizzes/submit")
 public class SubmitQuizServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,15 +35,15 @@ public class SubmitQuizServlet extends HttpServlet {
             return;
         }
 
-        String path = req.getPathInfo();
-        String[] pathParts = path.split("/");
-        int quiz_id = Integer.parseInt(pathParts[1]);
+        /*String path = req.getPathInfo();
+        String[] pathParts = path.split("/");*/
+        int quiz_id = Integer.parseInt(req.getParameter("id"));
 
         LocalDateTime startTime = (LocalDateTime) session.getAttribute("start_time");
         LocalDateTime endTime = LocalDateTime.now();
         long seconds = Duration.between(startTime, endTime).getSeconds();
 
-        boolean isPractice = (Boolean) session.getAttribute("is_practice");
+        //boolean isPractice = (Boolean) session.getAttribute("is_practice");
 
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         QuizDAO quizDAO = new QuizDAO(connection);
@@ -69,14 +69,14 @@ public class SubmitQuizServlet extends HttpServlet {
                     userAnswers.put(curr.getId(), userAnswer);
                 }
 
-                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
+                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
             else{
                 @SuppressWarnings("unchecked")
                 Map<Integer, String[]> userAnswers = (Map<Integer, String[]>)session.getAttribute("user_responses");
                 score = (int) req.getSession().getAttribute("current_score");
-                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
+                int attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
 

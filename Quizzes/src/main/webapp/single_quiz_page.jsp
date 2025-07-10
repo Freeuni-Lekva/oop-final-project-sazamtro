@@ -1,27 +1,53 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="bean.Quiz" %>
+<%@ page import="javax.servlet.http.HttpSession" %>
 <%
-    String quizIdParam = request.getParameter("quizId");
-    int quizId = -1;
-    if (quizIdParam != null) {
-        try {
-            quizId = Integer.parseInt(quizIdParam);
-        } catch (NumberFormatException e) {
-            // Invalid number, keep quizId as -1
-        }
-    }
+    Quiz quiz = (Quiz) request.getAttribute("quiz");
+    bean.User user = (session != null) ? (bean.User) session.getAttribute("user") : null;
+    boolean isOwner = (user != null && user.getUserId() == quiz.getCreator_id());
+    boolean isAdmin = (user != null && user.checkIfAdmin());
 %>
 <html>
-<head>
-    <title>Quiz ID Display</title>
+<body>
+    <title><%= quiz.getQuizTitle() %> - Quiz Summary</title>
+    <link rel="stylesheet" type="text/css" href="/style/single_quiz_page.css" />
 </head>
 <body>
-<h2>Quiz ID:</h2>
-<p>
-    <% if (quizId != -1) { %>
-    <%= quizId %>
-    <% } else { %>
-    Invalid or missing quiz_id parameter.
-    <% } %>
-</p>
+
+    <div class="container">
+        <h1><%= quiz.getQuizTitle() %></h1>
+
+        <div class="metadata">
+            Created by User ID <%= quiz.getCreator_id() %> on <%= quiz.getCreationDate() %><br>
+            Settings:
+            <% if (quiz.checkIfRandom()) { %> Randomized Questions · <% } %>
+            <% if (quiz.checkIfMultipage()) { %> Multi-page · <% } %>
+            <% if (quiz.checkIfImmediate_correction()) { %> Immediate Correction <% } %>
+        </div>
+
+        <div class="description">
+            <%= quiz.getQuizDescription() != null ? quiz.getQuizDescription() : "No description provided." %>
+        </div>
+
+        <div class="actions">
+            <form action="/quizzes/<%= quiz.getQuiz_id() %>/start" method="get">
+                <button class="btn">Start Quiz</button>
+            </form>
+
+            <form action="/quizzes/<%= quiz.getQuiz_id() %>/start" method="get">
+                <input type="hidden" name="practice" value="true" />
+                <button class="btn">Practice Mode</button>
+            </form>
+
+            <% if (isOwner || isAdmin) { %>
+                <form action="/quizzes/<%= quiz.getQuiz_id() %>/edit" method="get">
+                    <button class="btn">Edit Quiz</button>
+                </form>
+                <form action="/quizzes/<%= quiz.getQuiz_id() %>/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this quiz?');">
+                    <button class="btn danger">Delete Quiz</button>
+                </form>
+            <% } %>
+        </div>
+    </div>
 </body>
 </html>
