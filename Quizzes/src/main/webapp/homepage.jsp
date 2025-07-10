@@ -23,6 +23,7 @@
             <div class="details">
                 <%
                     Boolean showFriendsAchievements = (Boolean) request.getAttribute("showFriendsAchievements");
+                    Boolean showAllQuizzes = (Boolean) request.getAttribute("showAllQuizzes");
                     if (showFriendsAchievements != null && showFriendsAchievements) {
                         List<Achievement> achievements = (List<Achievement>) request.getAttribute("friendsAchievements");
                 %>
@@ -40,10 +41,12 @@
                     <p>No achievements found.</p>
                     <% } %>
                 </div>
+                <% }else if(showAllQuizzes != null && showAllQuizzes){
+                   %> <jsp:include page="/quizzes.jsp"/>
                 <%
                 } else {
                 %>
-                <jsp:include page="/AnnouncementServlet"/>
+                <jsp:include page="/announcements.jsp"/>
                 <%
                     }
                 %>
