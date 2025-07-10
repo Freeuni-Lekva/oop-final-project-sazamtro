@@ -18,6 +18,10 @@
 
     <div class="sidebar-actions">
         <a href="create-quiz.jsp" class="sidebar-button"><i class="fas fa-plus-circle"></i> <span>Create Quiz</span></a>
-        <a href="/LogoutServlet" class="sidebar-button logout"><i class="fas fa-sign-out-alt"></i> <span>Log Out</span></a>
+        <form action="/LogoutServlet" method="post" style="margin: 0;">
+            <button type="submit" class="sidebar-button logout">
+                <i class="fas fa-sign-out-alt"></i> <span>Log Out</span>
+            </button>
+        </form>
     </div>
 </div>
