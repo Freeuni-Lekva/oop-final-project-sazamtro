@@ -22,9 +22,10 @@
     <a href="/showAllQuizzes" class="topbar-circle" title="Quizzes">
       <i class="fas fa-clipboard-question"></i>
     </a>
-    <a href="achievements.jsp" class="topbar-circle" title="Achievements">
+    <a href="ShowFriendsAchievementsServlet" class="topbar-circle" title="Achievements">
       <i class="fas fa-trophy"></i>
     </a>
+
   </div>
 
   <!-- Right-side icons -->

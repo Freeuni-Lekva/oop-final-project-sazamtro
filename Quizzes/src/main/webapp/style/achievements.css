@@ -1,0 +1,97 @@
+:root {
+    --blue-light: #dbeafe;
+    --blue-lighter: #e0e7ff;
+    --blue-muted: #34495e;
+    --blue-dark: #2c3e50;
+    --gray-light: #f0f3f4;
+    --gray-muted: #e2e8f0;
+    --gray-medium: #7f8c8d;
+    --gray-dark: #475569;
+    --pink-lightest: #fdf2f8;
+    --pink-hover-bg: #fff1f5;
+    --pink-border: #fbcfe8;
+    --pink-shadow-1: rgba(236, 72, 153, 0.2);
+    --pink-shadow-2: rgba(244, 114, 182, 0.12);
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, var(--blue-light), var(--blue-lighter), var(--pink-lightest));
+    color: var(--blue-dark);
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 40px;
+    color: var(--blue-muted);
+    margin-bottom: 8px;
+}
+
+.subheading {
+    color: var(--gray-medium);
+    font-size: 16px;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+}
+
+.card {
+    background: white;
+    border: 1.5px solid var(--gray-muted);
+    border-radius: 16px;
+    box-shadow: 0 6px 16px var(--pink-shadow-2);
+    width: 240px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    background: var(--pink-hover-bg);
+    border-color: var(--pink-border);
+    box-shadow:
+            0 12px 24px var(--pink-shadow-1),
+            0 6px 18px var(--pink-shadow-2);
+}
+
+.card-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--blue-muted);
+    margin-bottom: 8px;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: var(--gray-dark);
+    line-height: 1.4;
+}
+
+.card-username {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-medium);
+    margin-bottom: 10px;
+}
