@@ -5,6 +5,8 @@ import DAO.DatabaseConnection;
 import bean.Achievement;
 import bean.User;
 
+import java.sql.SQLException;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,10 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.List;
 
-@WebServlet("/ShowUserAchievementsServlet")
-public class ShowUserAchievementsServlet extends HttpServlet {
+@WebServlet("/ShowFriendsAchievementsServlet")
+public class ShowFriendsAchievementsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -34,14 +35,15 @@ public class ShowUserAchievementsServlet extends HttpServlet {
 
         try{
             AchievementsDAO aDAO = new AchievementsDAO(connection);
-            List<Achievement> achievements = aDAO.getUserAchievements(user.getUserId());
-            req.setAttribute("achievements", achievements);
-            RequestDispatcher rd = req.getRequestDispatcher("achievements-user.jsp");
+            List<Achievement> friendsAchievements = aDAO.getFriendsAchievements(user.getUserId());
+            req.setAttribute("friendsAchievements", friendsAchievements);
+            req.setAttribute("showFriendsAchievements", true);
+            RequestDispatcher rd = req.getRequestDispatcher("/homepage.jsp");
             rd.forward(req, resp);
         } catch (Exception e) {
             e.printStackTrace();
 
-            req.setAttribute("errorMessage", "Error loading achievements.");
+            req.setAttribute("errorMessage", "Error loading friends' achievements.");
             req.getRequestDispatcher("/error.jsp").forward(req, resp);
         }
     }
