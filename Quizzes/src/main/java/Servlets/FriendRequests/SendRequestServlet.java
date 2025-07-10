@@ -1,5 +1,6 @@
 package Servlets.FriendRequests;
 
+import DAO.AchievementsDAO;
 import DAO.FriendRequestDAO;
 import DAO.MessageDAO;
 import DAO.UserDAO;
@@ -24,6 +25,7 @@ public class SendRequestServlet extends HttpServlet {
         UserDAO userDAO = new UserDAO(connection);
         FriendRequestDAO requestDAO = new FriendRequestDAO(connection);
         MessageDAO messageDAO = new MessageDAO(connection);
+        AchievementsDAO achievementsDAO = new AchievementsDAO(connection);
 
         User sender = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
         String receiverUsername = req.getParameter(RequestAtributeNames.RECEIVER_USERNAME);
@@ -61,7 +63,12 @@ public class SendRequestServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException("Failed To Send Friend Request Message" ,e);
         }
+
         requestDAO.sendFriendRequest(friendRequest);
+
+        achievementsDAO.checkSocialButterfly(sender.getUserId());
+        achievementsDAO.checkSocialButterfly(receiver.getUserId());
+
         resp.sendRedirect("/request-sent.jsp");
         }catch (SQLException e){
             throw new RuntimeException("Failed To Send Friend Request", e);

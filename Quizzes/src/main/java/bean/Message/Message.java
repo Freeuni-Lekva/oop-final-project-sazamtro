@@ -2,6 +2,7 @@ package bean.Message;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public abstract class Message {
     public static final int DEFAULT_MESSAGE_ID = -1;
@@ -59,7 +60,7 @@ public abstract class Message {
                 other.getContent().equals(this.getContent()) &&
                 other.isRead() == this.isRead() &&
                 other.getMessageType() == this.getMessageType() &&
-                other.getMessageId() == this.getMessageId() &&
-                other.getTimestamp().equals(this.getTimestamp());
+                other.getMessageId() == this.getMessageId();
     }
+
 }

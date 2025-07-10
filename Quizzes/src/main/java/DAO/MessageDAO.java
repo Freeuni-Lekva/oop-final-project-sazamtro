@@ -28,10 +28,11 @@ public class MessageDAO {
         st.setString(3, message.getMessageType().name());
         st.setString(4, message.getContent());
         st.executeUpdate();
+
+
         ResultSet rs = st.getGeneratedKeys();
         if (rs.next()) {
             message.setMessage_id(rs.getInt(1));
-            message.setTimestamp(rs.getTimestamp(2));
         }
     }
 
@@ -70,7 +71,6 @@ public class MessageDAO {
         ResultSet rs = st.getGeneratedKeys();
         if (rs.next()) {
             challengeMessage.setMessage_id(rs.getInt(1));
-            challengeMessage.setTimestamp(rs.getTimestamp(2));
         }
     }
 
@@ -170,8 +170,12 @@ public class MessageDAO {
      * @return
      */
     public List<Message> getConversation(int user_id, int other_id) throws SQLException{
-        String query = "SELECT * FROM Messages WHERE type like 'NOTE' AND" +
-                " (from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?)";
+        String query = "SELECT * FROM Messages " +
+                "WHERE type = 'NOTE' AND " +
+                "((from_user_id = ? AND to_user_id = ?) OR " +
+                "(from_user_id = ? AND to_user_id = ?))" +
+                " ORDER BY sent_at ASC";
+                ;
         PreparedStatement st = connection.prepareStatement(query);
         st.setInt(1, user_id);
         st.setInt(2, other_id);

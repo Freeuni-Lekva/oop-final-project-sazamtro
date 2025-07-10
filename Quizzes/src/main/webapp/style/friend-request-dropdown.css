@@ -1,19 +1,27 @@
 /* Friend Dropdown */
-.friend-dropdown {
+#friend-dropdown {
     display: none;
     position: absolute;
     top: 60px;
     right: 10px;
     background-color: white;
     border-radius: 8px;
-    padding: 15px;
+    padding: 7px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     width: 280px;
     z-index: 999;
 }
 
 .friend-request {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    background-color: #f5f8fa;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.friend-request:hover {
+    background-color: #e8f0fe;
 }
 
 .request-text {
