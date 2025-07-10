@@ -6,6 +6,7 @@ import DAO.QuestionsDAO;
 import DAO.QuizDAO;
 import bean.Questions.AnswerOption;
 import bean.Questions.Question;
+import bean.Questions.QuestionType;
 import bean.Quiz;
 import bean.User;
 
@@ -34,14 +35,11 @@ public class SubmitQuizServlet extends HttpServlet {
             resp.sendRedirect("/login");
             return;
         }
-
-        /*String path = req.getPathInfo();
-        String[] pathParts = path.split("/");*/
         int quiz_id = Integer.parseInt(req.getParameter("id"));
 
         LocalDateTime startTime = (LocalDateTime) session.getAttribute("start_time");
         LocalDateTime endTime = LocalDateTime.now();
-        long seconds = Duration.between(startTime, endTime).getSeconds();
+        double seconds = (double) Duration.between(startTime, endTime).getSeconds() / 60;
 
         //boolean isPractice = (Boolean) session.getAttribute("is_practice");
 
@@ -60,6 +58,13 @@ public class SubmitQuizServlet extends HttpServlet {
                 Map<Integer, String[]> userAnswers = new HashMap<>();
 
                 for(Question curr : questions){
+                   /* String paramName = curr.getQuestionType() == QuestionType.MULTI_SELECT
+                            ? "q_" + curr.getId() + "[]"
+                            : "q_" + curr.getId();
+                    System.out.println(paramName);
+
+                    String[] userAnswer = req.getParameterValues(paramName);*/
+
                     String[] userAnswer = req.getParameterValues("q_" + curr.getId());
                     for (String currAns : userAnswer) {
                         if (answerDAO.checkAnswer(curr.getId(), currAns)) {
@@ -93,6 +98,7 @@ public class SubmitQuizServlet extends HttpServlet {
         for(Map.Entry<Integer, String[]> entry : userAnswers.entrySet()){
             Integer question_id = entry.getKey();
             String[] answer = entry.getValue();
+            if (answer == null) continue;
             for (String curr : answer) {
                 boolean isCorrect = answerDAO.checkAnswer(question_id, curr);
                 answerDAO.insertUserAnswer(curr, attempt_id, question_id, isCorrect);

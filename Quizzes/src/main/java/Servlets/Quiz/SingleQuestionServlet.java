@@ -14,11 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
 
-@WebServlet("/quizzes/*/question")
+@WebServlet("/quizzes/question")
 public class SingleQuestionServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,20 +30,37 @@ public class SingleQuestionServlet extends HttpServlet {
         List<Question> quizQuestions = (List<Question>) req.getSession().getAttribute("quiz_questions");
 
         if (currIndex >= quizQuestions.size()) {
-            resp.sendRedirect("/quizzes/" + req.getSession().getAttribute("quiz_id") + "/submit");
+            //resp.sendRedirect("/quizzes/submit"); //" + req.getSession().getAttribute("quiz_id") + "/
+            resp.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            out.println("<html><body>");
+            out.println("<form id='submitForm' method='POST' action='/quizzes/submit'>");
+            out.println("<input type='hidden' name='id' value='" + req.getSession().getAttribute("quiz_id") + "' />");
+            out.println("</form>");
+            out.println("<script>document.getElementById('submitForm').submit();</script>");
+            out.println("</body></html>");
             return;
         }
 
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         try {
+            QuizDAO qDAO = new QuizDAO(connection);
+            AnswerDAO answerDAO = new AnswerDAO(connection);
+
+            int quiz_id = (int) req.getSession().getAttribute("quiz_id"); // Assuming you store it in session
+            Quiz quiz = qDAO.getOneQuiz(quiz_id);
+            req.setAttribute("quiz", quiz);
             Question currQuestion = quizQuestions.get(currIndex);
+            List<AnswerOption> correctAnswers = answerDAO.getCorrectAnswers(currQuestion.getId());
             req.setAttribute("question", currQuestion);
+            req.setAttribute("correct_answers", correctAnswers);
+            List<AnswerOption> answers = new ArrayList<>();
             if(currQuestion.hasChoices()){
                 QuestionsDAO quesDAO = new QuestionsDAO(connection);
-                List<AnswerOption> answers = quesDAO.getOptions(currQuestion.getId());
-                req.setAttribute("answer_options", answers);
+                answers = quesDAO.getOptions(currQuestion.getId());
             }
-            RequestDispatcher rd = req.getRequestDispatcher("single_question.jsp");
+            req.setAttribute("answer_options", answers);
+            RequestDispatcher rd = req.getRequestDispatcher("/single_question.jsp");
             rd.forward(req, resp);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -64,24 +82,27 @@ public class SingleQuestionServlet extends HttpServlet {
         AnswerDAO answerDAO = new AnswerDAO(connection);
 
         Question currQuestion = quizQuestions.get(currIndex);
-        String[] currAnswers = req.getParameterValues("answer");
+        //String[] currAnswers = req.getParameterValues("answer");
+        String paramName = "q_" + currQuestion.getId();
+        String[] currAnswers = req.getParameterValues(paramName);
         userResponses.put(currQuestion.getId(), currAnswers);
-        boolean isCorrect;
         int singleQuesScore = 0;
-        try{
-            for (String curr : currAnswers) {
-                if (answerDAO.checkAnswer(currQuestion.getId(), curr)) singleQuesScore++;
-            }
-        } catch(SQLException e){
-            throw new RuntimeException();
-        }
 
+        if (currAnswers != null) {
+            try {
+                for (String curr : currAnswers) {
+                    if (answerDAO.checkAnswer(currQuestion.getId(), curr)) singleQuesScore++;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
             currScore = currScore + singleQuesScore;
 
         req.getSession().setAttribute("current_score", currScore);
         req.getSession().setAttribute("user_responses", userResponses);
         req.getSession().setAttribute("is_correct", singleQuesScore);
         req.getSession().setAttribute("current_index", currIndex + 1);
-        resp.sendRedirect("/quizzes/" + req.getSession().getAttribute("quiz_id") + "/question");
+        resp.sendRedirect("/quizzes/question"); ///" + req.getSession().getAttribute("quiz_id") + "
     }
 }
