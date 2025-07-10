@@ -41,7 +41,7 @@ public class SubmitQuizServlet extends HttpServlet {
         LocalDateTime endTime = LocalDateTime.now();
         long seconds = Duration.between(startTime, endTime).getSeconds();
 
-        //boolean isPractice = (Boolean) session.getAttribute("is_practice");
+        boolean isPractice = (Boolean) session.getAttribute("is_practice");
 
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         QuizDAO quizDAO = new QuizDAO(connection);
@@ -69,7 +69,6 @@ public class SubmitQuizServlet extends HttpServlet {
                     userAnswers.put(curr.getId(), userAnswer);
                 }
 
-
                 attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
 
                 insertAnswers(userAnswers, answerDAO, attempt_id);
@@ -80,7 +79,6 @@ public class SubmitQuizServlet extends HttpServlet {
                 score = (int) req.getSession().getAttribute("current_score");
 
                 attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
-
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
 
