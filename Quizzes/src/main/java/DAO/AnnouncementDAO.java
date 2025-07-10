@@ -16,11 +16,12 @@ public class AnnouncementDAO {
 
     // add new announcement
     public void addAnnouncement(Announcement announcement) throws SQLException {
-        String query = "INSERT INTO Announcements (administrator_id, announcement_text) VALUES (?, ?)";
+        String query = "INSERT INTO Announcements (administrator_id, announcement_text, done_at) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, announcement.getAdministratorId());
             ps.setString(2, announcement.getText());
+            ps.setTimestamp(3, announcement.getDoneAt());
 
             ps.executeUpdate();
 
