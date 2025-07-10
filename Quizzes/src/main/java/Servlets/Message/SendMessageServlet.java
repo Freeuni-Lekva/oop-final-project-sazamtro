@@ -6,6 +6,7 @@ import bean.Message.*;
 import bean.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@WebServlet("/SendMessageServlet")
 public class SendMessageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,19 +31,19 @@ public class SendMessageServlet extends HttpServlet {
         try {
             receiver_username = req.getParameter(MessageAtributeNames.RECEIVER_USERNAME);
             if(receiver_username == null){
-                resp.sendRedirect("/no-receiver-found.jsp");
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Receiver User Name Is Null");
                 return;
             }
             UserDAO uDAO = new UserDAO(connection);
             receiver = uDAO.getUserByUsername(receiver_username);
 
             if(receiver == null){
-                resp.sendRedirect("/no-receiver-found.jsp");
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Receiver Does Not Exist");;
                 return;
             }
             content =  req.getParameter(MessageAtributeNames.CONTENT);
             if(content == null || content.trim().isEmpty()){
-                resp.sendRedirect("/no-content.jsp");
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Message is Empty");
                 return;
             }
 
@@ -53,8 +55,10 @@ public class SendMessageServlet extends HttpServlet {
         try {
             mDAO.sendNote(noteMessage);
         }catch (SQLException e){
+            e.printStackTrace();
             throw new RuntimeException("Failed To Send Note Message", e);
         }
-        resp.sendRedirect("/note-sent.jsp");
+        resp.setStatus(HttpServletResponse.SC_OK);
+
     }
 }
