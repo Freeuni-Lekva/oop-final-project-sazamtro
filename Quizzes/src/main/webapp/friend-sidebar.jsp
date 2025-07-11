@@ -2,15 +2,16 @@
 <%@ page import="bean.User" %>
 <%@ page import="Servlets.FriendRequests.RequestAtributeNames" %>
 <%@ page import="Servlets.Message.MessageAtributeNames" %>
+<%@ page import="java.util.Set" %>
 
 <!-- Styles -->
-<%--
 <link rel="stylesheet" href="style/friend-bar.css">
+<%--<link rel="stylesheet" href="style/homepage.css">--%>
 <link rel="stylesheet" href="style/chatbox.css">
---%>
 
 <%
   List<User> friends = (List<User>) request.getAttribute(RequestAtributeNames.FRIEND_LIST);
+  Set<Integer> unreadUsernames = (Set<Integer>) request.getAttribute(MessageAtributeNames.UNREAD_SENDER_IDS);
 %>
 
 <!-- Friends Sidebar -->
@@ -18,18 +19,20 @@
   <h3>MY FRIENDS</h3>
   <ul>
     <% if (friends != null && !friends.isEmpty()) {
-      for (User friend : friends) { %>
+      for (User friend : friends) {boolean hasUnread = unreadUsernames != null && unreadUsernames.contains(friend.getUserId()); %>
     <li class="friend-name" onclick="openChatBox('<%= friend.getUsername() %>')">
-      <%= friend.getUsername() %>
+      <img class="friend-avatar" src="<%= friend.getProfilePictureUrl() != null ? friend.getProfilePictureUrl() : "https://cdn-icons-png.flaticon.com/512/847/847969.png\n" %>" alt="avatar">
+      <span class="friend-username"><%= friend.getUsername() %></span>
+      <% if (hasUnread) { %><span class="unread-dot"></span><% } %>
     </li>
-    <% }
+    <%}
     } else { %>
     <li>No friends found.</li>
     <% } %>
   </ul>
-  <div id="chat-container"></div>
 
 </div>
+<div id="chat-container"></div>
 
 <!-- Chatbox Frame -->
 

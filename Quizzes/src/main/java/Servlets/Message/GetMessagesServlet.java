@@ -44,6 +44,9 @@ public class GetMessagesServlet extends HttpServlet {
                 return;
             }
             List<Message> messageList = mDAO.getConversation(user.getUserId(), other.getUserId());
+            for(Message m : messageList){
+                mDAO.markAsRead(m.getMessageId());
+            }
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(toJsonArray(messageList, user.getUserId()));

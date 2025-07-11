@@ -61,12 +61,10 @@
                     <jsp:param name="mode" value="sidebar" />
                 </jsp:include>
             </div>
-
         </div>
 
     </div>
 
 </div>
-
 </body>
 </html>
