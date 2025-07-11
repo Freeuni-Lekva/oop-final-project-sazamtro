@@ -17,3 +17,7 @@
 %>
 
 <p><b><%= singleScore %></b></p>
+
+<form action="/HomePageServlet" method="get">
+                 <button class="btn">Home</button>
+            </form>

@@ -29,20 +29,27 @@
         </div>
 
         <div class="actions">
-            <form action="/quizzes/<%= quiz.getQuiz_id() %>/start" method="get">
+            <form action="/HomePageServlet" method="get">
+                 <button class="btn">Home</button>
+            </form>
+            <form action="/quizzes/start" method="get">
+                <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>">
                 <button class="btn">Start Quiz</button>
             </form>
 
-            <form action="/quizzes/<%= quiz.getQuiz_id() %>/start" method="get">
+            <form action="/quizzes/start" method="get">
                 <input type="hidden" name="practice" value="true" />
+                <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>">
                 <button class="btn">Practice Mode</button>
             </form>
 
             <% if (isOwner || isAdmin) { %>
-                <form action="/quizzes/<%= quiz.getQuiz_id() %>/edit" method="get">
+                <form action="/editQuiz" method="get">
+                    <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>">
                     <button class="btn">Edit Quiz</button>
                 </form>
-                <form action="/quizzes/<%= quiz.getQuiz_id() %>/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this quiz?');">
+                <form action="/quizzes/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this quiz?');">
+                    <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>">
                     <button class="btn danger">Delete Quiz</button>
                 </form>
             <% } %>
