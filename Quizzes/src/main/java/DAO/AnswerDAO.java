@@ -79,6 +79,7 @@ public class AnswerDAO {
                     String answerText = rs.getString("text");
                     boolean isCorrect = rs.getBoolean("is_correct");
                     AnswerOption answ = new AnswerOption(option_id, questionId, answerText, isCorrect);
+                    result.add(answ);
                 }
             }
 

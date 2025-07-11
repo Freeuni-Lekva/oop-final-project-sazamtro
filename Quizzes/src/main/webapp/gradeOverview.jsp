@@ -26,7 +26,6 @@
     <div class="attempt-box">
       <div class="tooltip">Grade attempt</div>
       <p><strong>Username:</strong> <%= attempts.get(a) %></p>
-      <p><strong>Attempt ID:</strong> <%= a.getAttemptId() %></p>
       <p><strong>Submitted At:</strong> <%= a.getTakenAt() %></p>
     </div>
   </a>

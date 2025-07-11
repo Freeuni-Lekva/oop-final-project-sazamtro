@@ -17,10 +17,14 @@
 
             document.getElementById("imageUrlRow").style.display = (type === "PICTURE_RESPONSE") ? "block" : "none";
 
+            document.getElementById("insertBlankButton").style.display =
+                (type === "FILL_IN_THE_BLANK") ? "inline" : "none";
+
             // Clear existing options when type changes
             document.getElementById("optionsContainer").innerHTML = "";
             document.getElementById("numOptions").value = 0;
         }
+
 
 
 
@@ -73,13 +77,14 @@
                     alert("Multi Select questions must have at least one correct option.");
                     return false;
                 }
-            } else if (type === "FILL_IN_THE_BLANK" || type === "QUESTION_RESPONSE" || type === "PICTURE_RESPONSE") {
-                const answer = document.getElementById("correctAnswer").value.trim();
-                if (answer === "") {
-                    alert("Please provide the correct answer.");
-                    return false;
-                }
             }
+            // else if (type === "FILL_IN_THE_BLANK" || type === "QUESTION_RESPONSE" || type === "PICTURE_RESPONSE") {
+            //     const answer = document.getElementById("correctAnswer").value.trim();
+            //     if (answer === "") {
+            //         alert("Please provide the correct answer.");
+            //         return false;
+            //     }
+            // }
             return true;
         }
 
@@ -89,6 +94,18 @@
             showRelevantFields();
             document.getElementById("image_url").addEventListener("input", updateImagePreview);
         };
+        function insertBlank() {
+            const promptField = document.getElementById("prompt");
+            const cursorPos = promptField.selectionStart;
+            const text = promptField.value;
+            const before = text.substring(0, cursorPos);
+            const after = text.substring(cursorPos);
+            const blank = " ______ ";
+
+            promptField.value = before + blank + after;
+            promptField.focus();
+            promptField.selectionStart = promptField.selectionEnd = cursorPos + blank.length;
+        }
     </script>
 
 </head>
@@ -121,6 +138,9 @@
 
     <label for="prompt">Prompt:</label>
     <textarea name="prompt" id="prompt" rows="3" cols="40" required></textarea>
+    <div id="insertBlankButton" style="display: none;">
+        <button type="button" onclick="insertBlank()">Insert Blank</button>
+    </div>
     <br/><br/>
 
     <div id="imageUrlRow" style="display: none;">

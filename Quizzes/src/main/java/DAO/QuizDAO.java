@@ -89,7 +89,7 @@ public class QuizDAO {
 
     public List<Question> getQuizQuestions(int quiz_id) throws SQLException {
         List<Question> result = new ArrayList<>();
-        String sqlCommand = "SELECT * FROM Questions WHERE quiz_id = ? AND is_active";
+        String sqlCommand = "SELECT * FROM Questions WHERE quiz_id = ?";
         try(PreparedStatement st = connection.prepareStatement(sqlCommand)){
             st.setInt(1, quiz_id);
             ResultSet rs = st.executeQuery();

@@ -23,15 +23,10 @@ public class QuestionsDAO {
 
 
             int rows = st.executeUpdate();
-            if (rows == 0) {
-                throw new SQLException("Creating question failed");
-            }
+            if (rows == 0) {throw new SQLException("Creating question failed");}
             try (ResultSet rs = st.getGeneratedKeys()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                } else {
-                    throw new SQLException("Error, no ID");
-                }
+                if (rs.next()) return rs.getInt(1);
+                else throw new SQLException("Error, no ID");
             }
         }
     }
@@ -179,9 +174,7 @@ public class QuestionsDAO {
             st.setInt(1, question_id);
             int rows = st.executeUpdate();
         }
-        catch (SQLException e) {
-            throw new RuntimeException("Error deleting CorrectAnswerText failed", e);
-        }
+        catch (SQLException e) {throw new RuntimeException("Error deleting CorrectAnswerText failed", e);}
     }
 
     //if question has options (multiple choice/answer questions)
@@ -229,9 +222,7 @@ public class QuestionsDAO {
             st.setString(1, text);
             st.setInt(2, questionId);
             st.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error updating question text", e);
-        }
+        } catch (SQLException e) {throw new RuntimeException("Error updating question text", e);}
     }
 
     public void updateImageUrl(int questionId, String imageUrl) {
@@ -240,13 +231,11 @@ public class QuestionsDAO {
             st.setString(1, imageUrl);
             st.setInt(2, questionId);
             st.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error updating imageURL", e);
-        }
+        } catch (SQLException e) {throw new RuntimeException("Error updating imageURL", e);}
     }
     public List<Integer> getOrderedQuestionIds(int quizId) throws SQLException {
         List<Integer> ids = new ArrayList<>();
-        String query = "SELECT question_id FROM Questions WHERE quiz_id = ? AND is_active = true ORDER BY question_id";
+        String query = "SELECT question_id FROM Questions WHERE quiz_id = ? ORDER BY question_id";
         try (PreparedStatement st = connection.prepareStatement(query)) {
             st.setInt(1, quizId);
             ResultSet rs = st.executeQuery();

@@ -32,6 +32,14 @@ class QuizAttemptDAOTest {
                             "taken_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                             ")"
             );
+            stmt.executeUpdate(
+                    "CREATE TABLE UserAnswers (" +
+                            "attempt_id INT NOT NULL, " +
+                            "question_id INT NOT NULL, " +
+                            "response_text TEXT" +
+                            ")"
+            );
+
         }
 
         dao = new QuizAttemptDAO(connection);
@@ -40,6 +48,7 @@ class QuizAttemptDAOTest {
     @AfterEach
     void tearDown() throws SQLException {
         try (Statement stmt = connection.createStatement()) {
+            stmt.execute("DROP TABLE IF EXISTS UserAnswers");
             stmt.execute("DROP TABLE IF EXISTS QuizAttempts");
         }
         connection.close();
@@ -169,4 +178,68 @@ class QuizAttemptDAOTest {
         assertTrue(attempt.isPractice());
         assertEquals(takenAt, attempt.getTakenAt());
     }
+
+    @Test
+    void testGetAttemptById() throws SQLException {
+        QuizAttempt attempt = new QuizAttempt();
+        attempt.setUserId(1);
+        attempt.setQuizId(2);
+        attempt.setScore(77);
+        attempt.setTimeTakenMin(12.0);
+        attempt.setPractice(false);
+        dao.addAttempt(attempt);
+
+        QuizAttempt loaded = dao.getAttempt(attempt.getAttemptId());
+        assertNotNull(loaded);
+        assertEquals(77, loaded.getScore());
+        assertEquals(1, loaded.getUserId());
+    }
+
+    @Test
+    void testGetResponsesByAttemptAndQuestion() throws SQLException {
+        // Manually insert attempt + responses
+        QuizAttempt attempt = new QuizAttempt();
+        attempt.setUserId(1);
+        attempt.setQuizId(3);
+        attempt.setScore(50);
+        attempt.setTimeTakenMin(9.0);
+        attempt.setPractice(true);
+        dao.addAttempt(attempt);
+        int attemptId = attempt.getAttemptId();
+
+        try (PreparedStatement st = connection.prepareStatement(
+                "INSERT INTO UserAnswers (attempt_id, question_id, response_text) VALUES (?, ?, ?)")) {
+            st.setInt(1, attemptId);
+            st.setInt(2, 42);
+            st.setString(3, "Answer A");
+            st.executeUpdate();
+
+            st.setInt(1, attemptId);
+            st.setInt(2, 42);
+            st.setString(3, "Answer B");
+            st.executeUpdate();
+        }
+
+        List<String> responses = dao.getResponsesByAttemptAndQuestion(attemptId, 42);
+        assertEquals(2, responses.size());
+        assertTrue(responses.contains("Answer A"));
+        assertTrue(responses.contains("Answer B"));
+    }
+
+    @Test
+    void testUpdateScore() throws SQLException {
+        QuizAttempt attempt = new QuizAttempt();
+        attempt.setUserId(1);
+        attempt.setQuizId(2);
+        attempt.setScore(60);
+        attempt.setTimeTakenMin(10.0);
+        attempt.setPractice(false);
+        dao.addAttempt(attempt);
+
+        dao.updateScore(attempt.getAttemptId(), 99);
+        QuizAttempt updated = dao.getAttempt(attempt.getAttemptId());
+
+        assertEquals(99, updated.getScore());
+    }
+
 }
