@@ -11,6 +11,7 @@ import org.junit.jupiter.api.TestClassOrder;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.testng.AssertJUnit.*;
 
@@ -180,19 +181,55 @@ public class MessageDAOTest{
             messageDAO.sendNote(note1);
             NoteMessage note2 = new NoteMessage(2, 1, "how are you?");
             messageDAO.sendNote(note2);
-            NoteMessage note3 = new NoteMessage(1, 2, "Fine, you?");
+            NoteMessage note3 = new NoteMessage(3, 2, "Fine, you?");
             messageDAO.sendNote(note3);
-            NoteMessage note4 = new NoteMessage(2, 1, "Me too?");
+            NoteMessage note4 = new NoteMessage(4, 1, "Me too?");
             messageDAO.sendNote(note4);
+
+            Set<Integer> unreadSenders = messageDAO.getUnreadSenderIds(1);
+            assertEquals(2, unreadSenders.size());
+            assertTrue(unreadSenders.contains(2));
+            assertTrue(unreadSenders.contains(4));
+
+            unreadSenders = messageDAO.getUnreadSenderIds(2);
+            assertEquals(2, unreadSenders.size());
+            assertTrue(unreadSenders.contains(1));
+            assertTrue(unreadSenders.contains(3));
 
             messageDAO.markAsRead(note1.getMessageId());
             assertTrue(messageDAO.getMessageById(note1.getMessageId()).isRead());
+            unreadSenders = messageDAO.getUnreadSenderIds(2);
+            assertEquals(1, unreadSenders.size());
+            assertFalse(unreadSenders.contains(1));
+            assertTrue(unreadSenders.contains(3));
+
+
             messageDAO.markAsRead(note2.getMessageId());
             assertTrue(messageDAO.getMessageById(note2.getMessageId()).isRead());
+            unreadSenders = messageDAO.getUnreadSenderIds(1);
+            messageDAO.getUnreadSenderIds(1);
+            assertEquals(1, unreadSenders.size());
+            assertFalse(unreadSenders.contains(2));
+            assertTrue(unreadSenders.contains(4));
+
+
+
             messageDAO.markAsRead(note3.getMessageId());
             assertTrue(messageDAO.getMessageById(note3.getMessageId()).isRead());
+            unreadSenders = messageDAO.getUnreadSenderIds(2);
+            messageDAO.getUnreadSenderIds(2);
+            assertEquals(0, unreadSenders.size());
+            assertFalse(unreadSenders.contains(1));
+            assertFalse(unreadSenders.contains(3));
+
+
             messageDAO.markAsRead(note4.getMessageId());
             assertTrue(messageDAO.getMessageById(note4.getMessageId()).isRead());
+            unreadSenders = messageDAO.getUnreadSenderIds(1);
+            messageDAO.getUnreadSenderIds(1);
+            assertEquals(0, unreadSenders.size());
+            assertFalse(unreadSenders.contains(2));
+            assertFalse(unreadSenders.contains(4));
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
