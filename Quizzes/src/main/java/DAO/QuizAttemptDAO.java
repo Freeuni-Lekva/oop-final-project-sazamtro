@@ -178,21 +178,6 @@ public class QuizAttemptDAO {
         }
         return null;
     }
-    public Set<Integer> getAttemptQuestions(int attemptId){
-        Set<Integer> result = new HashSet<>();
-        String query = "SELECT * FROM UserAnswers WHERE attempt_id = ?";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, attemptId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result.add(rs.getInt("question_id"));
-            }
-        }
-        catch (SQLException e) {
-            throw new RuntimeException("Failed to retrieve attempt with id " + attemptId, e);
-        }
-        return result;
-    }
 
     public List<String> getResponsesByAttemptAndQuestion(int attemptId, int qid) {
         String query = "SELECT * FROM UserAnswers WHERE attempt_id = ? AND question_id = ?";

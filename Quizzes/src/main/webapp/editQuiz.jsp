@@ -72,23 +72,35 @@
         function validateForm() {
             const cards = document.querySelectorAll('.question-card');
             for (const card of cards) {
-                const questionText = card.querySelector('.question-text');
-                if (!questionText.value.trim()) {
+                const questionText = card.querySelector('.question-text, .prompt-input');
+                if (!questionText || !questionText.value.trim()) {
                     alert("Question text is required.");
                     questionText.focus();
                     return false;
                 }
 
-                const type = card.dataset.qtype;
-                const options = card.querySelectorAll('.option-text');
-                for (const opt of options) {
-                    if (!opt.value.trim()) {
-                        alert("All option texts must be filled.");
-                        opt.focus();
-                        return false;
+                // Determine question type
+                let type = card.dataset.qtype;
+                if (!type) {
+                    const select = card.querySelector('select[name^="newQuestions"]');
+                    if (select) {
+                        type = select.value;
                     }
                 }
 
+                // Check for options if needed
+                const options = card.querySelectorAll('.option-text, .options-container input[type="text"]');
+                if (type === "MULTIPLE_CHOICE" || type === "MULTI_SELECT") {
+                    for (const opt of options) {
+                        if (!opt.value.trim()) {
+                            alert("All option texts must be filled.");
+                            opt.focus();
+                            return false;
+                        }
+                    }
+                }
+
+                // Validation rules by type
                 if (type === "MULTIPLE_CHOICE") {
                     if (!card.querySelector('input[type="radio"]:checked')) {
                         alert("Select exactly one correct answer for MULTIPLE_CHOICE.");
@@ -96,24 +108,26 @@
                     }
                 }
 
-                if (type === "CHECK_ALL_THAT_APPLY") {
+                if (type === "MULTI_SELECT") {
                     if (!card.querySelector('input[type="checkbox"]:checked')) {
-                        alert("At least one correct answer is required for CHECK_ALL_THAT_APPLY.");
+                        alert("At least one correct answer is required for MULTI_SELECT.");
                         return false;
                     }
                 }
 
                 if (type === "PICTURE_RESPONSE") {
-                    const imageUrl = card.querySelector('.image-url');
-                    if (!imageUrl.value.trim()) {
+                    const imageUrl = card.querySelector('.image-url, input[name^="newQuestions"][name$="[image]"]');
+                    if (!imageUrl || !imageUrl.value.trim()) {
                         alert("Image URL is required for PICTURE_RESPONSE.");
                         imageUrl.focus();
                         return false;
                     }
                 }
             }
+
             return true;
         }
+
 
         function toggleNewQuestionForm() {
             const form = document.getElementById("newQuestionForm");
@@ -205,6 +219,24 @@
             } else if (type === "QUESTION_RESPONSE" || type === "FILL_IN_THE_BLANK") {
                 answerTextRow.classList.remove("hidden");
             }
+            const insertBlankBtn = card.querySelector('.insert-blank-btn');
+            insertBlankBtn.classList.add("hidden");
+            if (type === "FILL_IN_THE_BLANK") {
+                insertBlankBtn.classList.remove("hidden");
+            }
+
+        }
+        function insertBlank(button) {
+            const input = button.closest('.prompt-with-button').querySelector('input');
+            const cursorPos = input.selectionStart;
+            const text = input.value;
+            const before = text.substring(0, cursorPos);
+            const after = text.substring(cursorPos);
+            const blank = " ______ ";
+
+            input.value = before + blank + after;
+            input.focus();
+            input.selectionStart = input.selectionEnd = cursorPos + blank.length;
         }
 
         function addNewOption(button) {
@@ -317,8 +349,14 @@
                 <input type="hidden" name="questions[<%= question.getId() %>][type]" value="<%= type.toString() %>" />
 
                 <label>Question Text:</label>
-                <input type="text" class="question-text" name="questions[<%= question.getId() %>][text]"
-                       value="<%= question.getQuestionText() %>" required />
+                <div class="prompt-with-button">
+                    <input type="text" class="question-text prompt-input" name="questions[<%= question.getId() %>][text]"
+                           value="<%= question.getQuestionText() %>" required />
+                    <% if (type == QuestionType.FILL_IN_THE_BLANK) { %>
+                    <button type="button" class="insert-blank-btn" onclick="insertBlank(this)">Insert Blank</button>
+                    <% } %>
+                </div>
+
 
                 <% if (type == QuestionType.MULTIPLE_CHOICE || type == QuestionType.MULTI_SELECT) {
                     List<AnswerOption> options = questionOptions.get(question);
@@ -389,7 +427,11 @@
         </select>
 
         <label>Prompt:</label>
-        <input type="text" name="newQuestions[__INDEX__][text]" required />
+        <div class="prompt-with-button">
+            <input type="text" name="newQuestions[__INDEX__][text]" class="prompt-input" required />
+            <button type="button" class="insert-blank-btn hidden" onclick="insertBlank(this)">Insert Blank</button>
+        </div>
+
 
         <div class="image-url-row hidden">
             <label>Image URL:</label>
