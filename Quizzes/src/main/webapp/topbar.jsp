@@ -14,9 +14,7 @@
 
 <!-- FontAwesome CDN -->
 <!-- Place in <head> or topbar.jsp -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      integrity="sha512-papCNYqO0eDxtu+zCJMLqpENz5kz0Z0yq7OYQ9qNVYI1hNMWVZP0hv6BTV10o3Qrauw2l+n8nHMY6MK08xlRsg=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <link rel="stylesheet" href="style/topbar.css" />
 <link rel="stylesheet" href="style/friend-request-dropdown.css" />
 <link rel="stylesheet" href="style/challenge-dropdown.css" />
