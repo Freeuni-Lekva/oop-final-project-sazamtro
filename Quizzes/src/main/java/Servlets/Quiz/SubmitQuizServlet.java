@@ -60,7 +60,6 @@ public class SubmitQuizServlet extends HttpServlet {
                 List<Question> questions = (List<Question>)session.getAttribute("quiz_questions");  //quizDAO.getQuizQuestions(quiz_id);
 
                 Map<Integer, String[]> userAnswers = new HashMap<>();
-
                 for(Question curr : questions){
                     maxScore = maxScore + answerDAO.getCorrectAnswers(curr.getId()).size();
                     String[] userAnswer = req.getParameterValues("q_" + curr.getId());
@@ -81,6 +80,11 @@ public class SubmitQuizServlet extends HttpServlet {
                 @SuppressWarnings("unchecked")
                 Map<Integer, String[]> userAnswers = (Map<Integer, String[]>)session.getAttribute("user_responses");
                 score = (int) req.getSession().getAttribute("current_score");
+                @SuppressWarnings("unchecked")
+                List<Question> questions = (List<Question>)session.getAttribute("quiz_questions");
+                for(Question curr : questions) {
+                    maxScore = maxScore + answerDAO.getCorrectAnswers(curr.getId()).size();
+                }
                 attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }

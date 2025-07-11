@@ -16,7 +16,11 @@
 
 <%
     boolean showScorePerQuestion = quiz.checkIfImmediate_correction();
-    Integer singleScore = (Integer) session.getAttribute("is_correct");
+    Integer singleScore = (Integer) session.getAttribute("single_ques_score");
+    String nextAction = showScorePerQuestion ? "/SingleQuestionScoreServlet" : "/quizzes/question";
+%>
+
+<%
 %>
 
 <h1><%= quiz.getQuizTitle() %></h1>
@@ -47,4 +51,9 @@
 <br/>
     <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>" />
     <button type="submit">Next Question</button>
+
+    <form action="/HomePageServlet" method="get">
+        <button class="btn">Home</button>
+    </form>
+
 </form>

@@ -27,6 +27,9 @@
 
             <button type="submit">Create Quiz</button>
         </form>
+        <form action="/HomePageServlet" method="get">
+            <button class="btn">Home</button>
+        </form>
     </div>
 </div>
 </body>
