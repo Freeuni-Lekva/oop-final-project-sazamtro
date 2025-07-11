@@ -76,3 +76,16 @@
 .submit-btn:hover {
     background: #45a049;
 }
+.question-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* initial subtle shadow */
+}
+
+.question-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* deeper shadow on hover */
+    /*transform: translateY(-2px); !* optional lift effect *!*/
+}

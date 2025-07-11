@@ -19,6 +19,7 @@ public class gradeQuizServlet extends HttpServlet {
 
         Connection conn = (Connection) req.getServletContext().getAttribute("DBConnection");
         QuizDAO quizDAO = new QuizDAO(conn);
+        UserDAO userDAO = new UserDAO(conn);
         QuestionsDAO questionsDAO = new QuestionsDAO(conn);
 //        UserAnswersDAO userAnswersDAO = new UserAnswersDAO(conn);
         QuizAttemptDAO quizAttemptDAO = new QuizAttemptDAO(conn);
@@ -67,6 +68,8 @@ public class gradeQuizServlet extends HttpServlet {
 
             // Send everything to JSP
             req.setAttribute("attemptId", attemptId);
+            req.setAttribute("username", userDAO.getUserById(attempt.getUserId()).getUsername());
+            req.setAttribute("quizTitle", quizDAO.getOneQuiz(attempt.getQuizId()).getQuizTitle());
             req.setAttribute("questions", questions);
             req.setAttribute("options", optionsMap);
             req.setAttribute("correctAnswers", correctAnswersMap);

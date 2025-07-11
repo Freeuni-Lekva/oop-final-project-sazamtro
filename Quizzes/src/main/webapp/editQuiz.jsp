@@ -254,11 +254,13 @@
     </script>
 </head>
 <body>
-<%= "quizTitle: " + request.getAttribute("quizTitle") + "<br/>" %>
 
 <div class="container">
+    <div style="text-align: center; margin: 20px 0;">
+        <%--        linkebit sheidzleba summaryze--%>
+            <h1>Edit Quiz: <%= request.getAttribute("quizTitle") %></h1>
 
-    <h1>Edit Quiz ID: <%= request.getAttribute("quiz_id") %></h1>
+    </div>
 
 
     <form method="post" action="editQuiz" onsubmit="return validateForm();">
