@@ -1,0 +1,43 @@
+/* Reset and base */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #fcefee, #eef7fc); /* light pinkish-blue gradient */
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Centering container */
+.center-box {
+    background-color: #ffffffcc; /* translucent white */
+    padding: 40px 60px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Message text */
+.center-box p {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Button */
+.btn {
+    background-color: #ff9aa2;
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #ff7f7f;
+}
