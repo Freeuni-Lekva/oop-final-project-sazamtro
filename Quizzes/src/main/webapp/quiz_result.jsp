@@ -17,10 +17,20 @@
 
 <div class="result-box">
 
-    <p><b>You scored <%= singleScore %> / <%=maxScore%></b></p>
+    <p><b>You scored <%= singleScore %> / <%= maxScore %></b></p>
 
     <form action="/HomePageServlet" method="get">
         <button class="btn">Home</button>
+    </form>
+
+    <form action="/quizzes/start" method="get">
+        <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>" />
+        <button class="btn">Again</button>
+    </form>
+
+    <form action="/quizzes/show" method="get">
+        <input type="hidden" name="quizId" value="<%= quiz.getQuiz_id() %>" />
+        <button class="btn">Summary</button>
     </form>
 
 </div>

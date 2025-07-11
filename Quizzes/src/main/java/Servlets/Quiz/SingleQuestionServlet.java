@@ -72,6 +72,14 @@ public class SingleQuestionServlet extends HttpServlet {
         //super.doPost(req, resp);
         int currIndex = (int) req.getSession().getAttribute("current_index");
         int currScore = (int) req.getSession().getAttribute("current_score");
+        int quizId = (int) req.getSession().getAttribute("quiz_id");
+        if ("true".equals(req.getParameter("advance"))) {
+            currIndex++;
+            req.getSession().setAttribute("current_index", currIndex);
+            resp.sendRedirect("/quizzes/question");
+            return;
+        }
+
 
         @SuppressWarnings("unchecked")
         Map<Integer, String[]> userResponses = (Map<Integer, String[]>) req.getSession().getAttribute("user_responses");
@@ -80,7 +88,13 @@ public class SingleQuestionServlet extends HttpServlet {
 
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         AnswerDAO answerDAO = new AnswerDAO(connection);
-
+        QuizDAO quizDAO = new QuizDAO(connection);
+        Quiz quiz;
+        try {
+            quiz = quizDAO.getOneQuiz(quizId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         Question currQuestion = quizQuestions.get(currIndex);
         //String[] currAnswers = req.getParameterValues("answer");
         String paramName = "q_" + currQuestion.getId();
@@ -97,12 +111,22 @@ public class SingleQuestionServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
-            currScore = currScore + singleQuesScore;
+        currScore = currScore + singleQuesScore;
 
-        req.getSession().setAttribute("current_score", currScore);
-        req.getSession().setAttribute("user_responses", userResponses);
-        req.getSession().setAttribute("is_correct", singleQuesScore);
-        req.getSession().setAttribute("current_index", currIndex + 1);
-        resp.sendRedirect("/quizzes/question"); ///" + req.getSession().getAttribute("quiz_id") + "
+        if(quiz.checkIfImmediate_correction()){
+            req.getSession().setAttribute("current_score", currScore);
+            req.getSession().setAttribute("quiz", quiz);
+            req.getSession().setAttribute("user_responses", userResponses);
+            req.getSession().setAttribute("single_ques_score", singleQuesScore);
+            req.getSession().setAttribute("current_index", currIndex);
+            RequestDispatcher rd = req.getRequestDispatcher("/single_question_score.jsp");
+            rd.forward(req, resp);
+        } else{
+            req.getSession().setAttribute("current_score", currScore);
+            req.getSession().setAttribute("user_responses", userResponses);
+            req.getSession().setAttribute("is_correct", singleQuesScore);
+            req.getSession().setAttribute("current_index", currIndex + 1);
+            resp.sendRedirect("/quizzes/question");
+        }
     }
 }
