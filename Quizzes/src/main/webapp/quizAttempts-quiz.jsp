@@ -9,7 +9,7 @@
 <html lang="en">
 <head>
   <title>Quiz #<%= quizId %> History</title>
-  <link rel="stylesheet" href="style/quiz-attempts.css">
+  <link rel="stylesheet" href="style/quiz-attempts-p2.css">
 </head>
 <body>
 <div class="container">

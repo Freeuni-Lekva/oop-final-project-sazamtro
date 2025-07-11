@@ -410,6 +410,9 @@
             <div class="form-actions">
             <input type="submit" value="💾 Save Changes" class="save-btn" />
         </div>
+
+        <!-- Go Back button, links back to quiz list or previous page -->
+        <a href="/myQuizzes" class="go-back-btn">← Go Back</a>
     </form>
 </div>
 <template id="question-template">

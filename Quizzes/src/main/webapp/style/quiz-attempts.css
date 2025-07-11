@@ -17,6 +17,9 @@
     --shadow-light: rgba(100, 116, 139, 0.1);
     --shadow-medium: rgba(127, 140, 141, 0.2);
     --shadow-strong: rgba(127, 140, 141, 0.35);
+
+    --home-btn-gray: #7f8c8d;
+    --home-btn-gray-hover: #475569;
 }
 
 body {
@@ -26,16 +29,18 @@ body {
     color: var(--blue-dark);
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: 40px;
+    padding: 40px 20px;
 }
 
 .options-frame {
     background: #ffffff;
     padding: 50px 60px;
     border-radius: 20px;
-    box-shadow:
-            0 8px 28px var(--shadow-light);
+    box-shadow: 0 8px 28px var(--shadow-light);
     max-width: 1000px;
     width: 90%;
     text-align: center;
@@ -43,9 +48,8 @@ body {
 }
 
 .options-frame:hover {
-    box-shadow:
-            0 12px 40px var(--shadow-medium),
-            0 8px 30px var(--shadow-strong);
+    box-shadow: 0 12px 40px var(--shadow-medium),
+    0 8px 30px var(--shadow-strong);
 }
 
 .options-frame h1 {
@@ -53,6 +57,7 @@ body {
     font-weight: 700;
     font-size: 40px;
     color: var(--blue-muted);
+    text-align: center;
 }
 
 .options-frame p {
@@ -68,7 +73,6 @@ body {
     flex-wrap: wrap;
 }
 
-/* Card base */
 .option-card {
     padding: 40px 20px;
     border-radius: 16px;
@@ -78,31 +82,52 @@ body {
     text-align: center;
     text-decoration: none;
     color: #fff;
-    box-shadow:
-            0 5px 14px var(--shadow-medium);
+    box-shadow: 0 5px 14px var(--shadow-medium);
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
-
 .option-card:hover {
     transform: translateY(-6px);
-    box-shadow:
-            0 12px 24px rgba(244, 114, 182, 0.4),
-            0 6px 18px rgba(236, 72, 153, 0.3);
+    box-shadow: 0 12px 24px rgba(244, 114, 182, 0.4),
+    0 6px 18px rgba(236, 72, 153, 0.3);
 }
 
-/* Real card gradient */
 .card-real {
     background: linear-gradient(135deg, var(--indigo), var(--indigo-light));
 }
 
-/* All card gradient */
 .card-all {
     background: linear-gradient(135deg, var(--blue-muted), var(--blue-light));
 }
 
-/* Practice card gradient */
 .card-practice {
     background: linear-gradient(135deg, var(--pink), var(--pink-light));
+}
+
+/* Bottom frame */
+.bottom-frame {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    padding: 20px 0;
+    max-width: 1000px;
+    width: 90%;
+    text-align: center;
+}
+
+.home-button {
+    display: inline-block;
+    background: var(--home-btn-gray);
+    color: white;
+    text-decoration: none;
+    padding: 12px 40px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: background 0.2s;
+}
+
+.home-button:hover {
+    background: var(--home-btn-gray-hover);
 }

@@ -1,3 +1,28 @@
+:root {
+    /* Main Blues */
+    --blue-light: #dbeafe;        /* Light blue for card bg */
+    --blue-lighter: #e0e7ff;      /* Accent or alt bg */
+    --blue-muted: #1e3a8a;        /* Deep blue for titles */
+    --blue-dark: #1e40af;         /* Main buttons, HOME button */
+
+    /* Grays */
+    --gray-light: #f9fafb;        /* Page background */
+    --gray-muted: #d1d5db;        /* Borders */
+    --gray-medium: #6b7280;       /* Subheadings, muted text */
+    --gray-dark: #374151;         /* Stronger dark text */
+
+    /* Pinks & Indigo */
+    --pink: #ec4899;              /* Main pink for accents */
+    --indigo-new: #4f46e5;        /* Indigo for main CTAs */
+
+    /* Hover & Shadows */
+    --pink-hover-bg: #fdf2f8;     /* Card hover bg */
+    --pink-border: #fbcfe8;       /* Card hover border */
+    --pink-shadow-1: rgba(236, 72, 153, 0.3);  /* Shadow hover strong */
+    --pink-shadow-2: rgba(244, 114, 182, 0.15); /* Base shadow */
+}
+
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;

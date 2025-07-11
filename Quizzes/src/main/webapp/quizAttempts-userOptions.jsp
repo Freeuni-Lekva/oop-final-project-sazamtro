@@ -8,18 +8,23 @@
 </head>
 
 <body>
+
+<!-- Top Frame -->
 <div class="options-frame">
   <h1>My Quiz Attempts</h1>
   <p>Choose what you want to see</p>
 
   <div class="auth-cards">
     <a href="QuizAttemptsListForUserServlet?filter=real" class="option-card card-real">Real Attempts</a>
-
     <a href="QuizAttemptsListForUserServlet?filter=all" class="option-card card-all">All Attempts</a>
-
     <a href="QuizAttemptsListForUserServlet?filter=practice" class="option-card card-practice">Practice Attempts</a>
   </div>
 </div>
-</body>
 
+<!-- Bottom Frame -->
+<div class="bottom-frame">
+  <a href="HomePageServlet" class="home-button">HOME</a>
+</div>
+
+</body>
 </html>
