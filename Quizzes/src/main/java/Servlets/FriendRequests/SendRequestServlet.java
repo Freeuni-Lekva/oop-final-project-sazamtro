@@ -59,7 +59,7 @@ public class SendRequestServlet extends HttpServlet {
         }
 
         FriendRequest friendRequest = new FriendRequest(sender.getUserId(), receiver.getUserId());
-        RequestMessage requestMessage = new RequestMessage(Message.DEFAULT_MESSAGE_ID, sender.getUserId(), receiver.getUserId(), "NEED A DISCORD MEETING FOR THIS", null, false);
+        RequestMessage requestMessage = new RequestMessage(Message.DEFAULT_MESSAGE_ID, sender.getUserId(), receiver.getUserId(), sender.getUsername(), null, false);
         try {
             messageDAO.sendFriendRequest(requestMessage);
         } catch (SQLException e) {

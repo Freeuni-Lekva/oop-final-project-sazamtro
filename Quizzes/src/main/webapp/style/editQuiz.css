@@ -363,5 +363,25 @@ input[type="text"]:focus, input[type="url"]:focus {
     border: 1px solid #bbb;
     resize: vertical;
 }
+.prompt-with-button {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.prompt-with-button input {
+    flex: 1;
+}
+.insert-blank-btn {
+    padding: 4px 8px;
+    font-size: 0.9em;
+}
+.prompt-with-button {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.prompt-with-button input {
+    flex: 1;
+}
 
 

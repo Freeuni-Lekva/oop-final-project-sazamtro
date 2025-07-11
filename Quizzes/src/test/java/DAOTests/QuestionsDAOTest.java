@@ -167,6 +167,65 @@ class QuestionsDAOTest {
         questionsDAO.deleteCorrectAnswerTextByQuestionId(questionId);
         assertNull(questionsDAO.getCorrectAnswerText(questionId));
     }
+    @Test
+    void testUpdateQuestionText() throws SQLException {
+        userDAO.addUser(new User(-1, "name", "pass", "url", false));
+        int userID = userDAO.getUserByUsername("name").getUserId();
+        int quizID = quizDAO.insertNewQuiz("title", "desc", userID,
+                false, false, false);
+
+        Question q = new FillInQuestion(quizID, "Original Prompt", -1);
+        int questionId = questionsDAO.insertQuestion(q);
+
+        questionsDAO.updateQuestionText(questionId, "Updated Prompt");
+        Question updated = questionsDAO.getQuestionById(questionId);
+        assertEquals("Updated Prompt", updated.getQuestionText());
+    }
+
+    @Test
+    void testUpdateImageUrl() throws SQLException {
+        userDAO.addUser(new User(-1, "name", "pass", "url", false));
+        int userID = userDAO.getUserByUsername("name").getUserId();
+        int quizID = quizDAO.insertNewQuiz("title", "desc", userID, false, false, false);
+
+        Question q = new PictureResponse(quizID, "Prompt", -1, "");
+        int questionId = questionsDAO.insertQuestion(q);
+
+        questionsDAO.updateImageUrl(questionId, "http://example.com/image.png");
+        Question updated = questionsDAO.getQuestionById(questionId);
+        assertEquals("http://example.com/image.png", updated.getImageUrl());
+    }
+
+    @Test
+    void testGetOrderedQuestionIds() throws SQLException {
+        userDAO.addUser(new User(-1, "name", "pass", "url", false));
+        int userID = userDAO.getUserByUsername("name").getUserId();
+        int quizID = quizDAO.insertNewQuiz("title", "desc", userID, false, false, false);
+
+        Question q1 = new QuestionResponse(quizID, "Q1", 1);
+        Question q2 = new QuestionResponse(quizID, "Q2", 2);
+        int id1 = questionsDAO.insertQuestion(q1);
+        int id2 = questionsDAO.insertQuestion(q2);
+
+        List<Integer> ordered = questionsDAO.getOrderedQuestionIds(quizID);
+        assertEquals(2, ordered.size());
+        assertTrue(ordered.contains(id1));
+        assertTrue(ordered.contains(id2));
+    }
+
+    @Test
+    void testUpdateQuestionPosition() throws SQLException {
+        userDAO.addUser(new User(-1, "name", "pass", "url", false));
+        int userID = userDAO.getUserByUsername("name").getUserId();
+        int quizID = quizDAO.insertNewQuiz("title", "desc", userID, false, false, false);
+
+        Question q = new QuestionResponse(quizID, "Q1", 5);
+        int questionId = questionsDAO.insertQuestion(q);
+
+        questionsDAO.updateQuestionPosition(questionId, 2);
+        Question updated = questionsDAO.getQuestionById(questionId);
+        assertEquals(2, updated.getPosition());
+    }
 
     @Test
     void testQuestionBean(){
@@ -179,6 +238,7 @@ class QuestionsDAOTest {
         assertTrue(mul.hasChoices() && sel.hasChoices());
         assertTrue(!pic.hasChoices() && !fill.hasChoices() && !res.hasChoices());
     }
+
 
     private void createTables() throws SQLException {
         try (Statement stmt = connection.createStatement()) {
@@ -239,6 +299,8 @@ class QuestionsDAOTest {
             );
         }
     }
+
+
 }
 
 

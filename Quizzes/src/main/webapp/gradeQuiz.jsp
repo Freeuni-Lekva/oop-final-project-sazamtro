@@ -9,7 +9,12 @@
 </head>
 <body>
 <div class="container">
-    <h1>Grading Attempt ID: <%= request.getAttribute("attemptId") %></h1>
+    <div style="text-align: center; margin: 20px 0;">
+<%--        linkebit sheidzleba profile da summaryze--%>
+        <h1>Quiz Title: <%= request.getAttribute("quizTitle") %></h1>
+        <h3>Grading Attempt by: <%= request.getAttribute("username") %></h3>
+    </div>
+
 
     <form action="/gradeAttempt" method="post" id="gradeForm">
         <input type="hidden" name="attemptId" value="<%= request.getAttribute("attemptId") %>"/>
@@ -21,7 +26,8 @@
 
             int selectIndex = 0;
 
-            for (Question q : questions) {
+            for (int j = 0; j < questions.size(); j++) {
+                Question q = questions.get(j);
                 int qid = q.getId();
                 List<AnswerOption> opts = optionsMap.getOrDefault(qid, new ArrayList<AnswerOption>());
                 List<String> correct = correctAnswersMap.getOrDefault(qid, new ArrayList<String>());
@@ -29,7 +35,7 @@
         %>
         <div class="question-card">
             <div class="question-header">
-                <h3>Q<%= q.getPosition() %>: <%= q.getQuestionText() %></h3>
+                <h3>Question <%= j + 1 %>: <%= q.getQuestionText() %></h3>
             </div>
 
             <% if (q.getImageUrl() != null && !q.getImageUrl().isEmpty()) { %>
@@ -49,21 +55,25 @@
                         <% if (isCorrect) { %><span class="label-correct">(Correct)</span><% } %>
                         <% if (isSelected) { %><span class="label-user">(Selected)</span><% } %>
                     </div>
-                    <% if (isSelected) { %>
-                    <div class="option-right">
-                        <label>
-                            <select name="score<%= selectIndex %>" class="score-select">
-                                <% for (int i = 0; i <= correct.size(); i++) { %>
-                                <option value="<%= i %>"><%= i %></option>
-                                <% } %>
-                            </select>
-
-                        </label>
-                    </div>
-                    <% selectIndex++; } %>
                 </li>
                 <% } %>
             </ul>
+
+            <div class="grade-right">
+                <label>
+                    <select name="score<%= selectIndex %>" class="score-select">
+                        <%
+                            int maxScore = correct.size(); // for MULTI_SELECT
+                            if (correct.size() == 1) maxScore = 1; // MULTIPLE_CHOICE
+                            for (int i = 0; i <= maxScore; i++) {
+                        %>
+                        <option value="<%= i %>"><%= i %></option>
+                        <% } %>
+                    </select>
+                </label>
+            </div>
+            <% selectIndex++; %>
+
             <% } else { %>
             <p><strong>User Answer:</strong> <%= user.isEmpty() ? "—" : user.get(0) %></p>
             <p><strong>Correct Answer:</strong> <%= correct.isEmpty() ? "—" : correct.get(0) %></p>
