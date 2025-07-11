@@ -78,6 +78,14 @@
                     return false;
                 }
             }
+            if (type === "PICTURE_RESPONSE") {
+                const imageUrl = document.getElementById("image_url").value.trim();
+                if (imageUrl === "") {
+                    alert("Please provide an image URL for Picture Response questions.");
+                    document.getElementById("image_url").focus();
+                    return false;
+                }
+            }
             // else if (type === "FILL_IN_THE_BLANK" || type === "QUESTION_RESPONSE" || type === "PICTURE_RESPONSE") {
             //     const answer = document.getElementById("correctAnswer").value.trim();
             //     if (answer === "") {
