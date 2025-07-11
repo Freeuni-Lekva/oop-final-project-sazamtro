@@ -4,16 +4,18 @@
 <%@ page import="Servlets.Message.MessageAtributeNames" %>
 
 <!-- Styles -->
+<%--
 <link rel="stylesheet" href="style/friend-bar.css">
 <link rel="stylesheet" href="style/chatbox.css">
+--%>
 
 <%
   List<User> friends = (List<User>) request.getAttribute(RequestAtributeNames.FRIEND_LIST);
 %>
 
 <!-- Friends Sidebar -->
-<div class="friends-bar">
-  <h3>Friends</h3>
+<div class="friends-sidebar">
+  <h3>MY FRIENDS</h3>
   <ul>
     <% if (friends != null && !friends.isEmpty()) {
       for (User friend : friends) { %>
@@ -25,10 +27,16 @@
     <li>No friends found.</li>
     <% } %>
   </ul>
+  <div id="chat-container"></div>
+
 </div>
 
-<!-- Chatbox container -->
-<div id="chat-container"></div>
+<!-- Chatbox Frame -->
+
+<%--
+  <div id="chat-container"></div>
+--%>
+
 
 <!-- Chatbox JavaScript -->
 <script>

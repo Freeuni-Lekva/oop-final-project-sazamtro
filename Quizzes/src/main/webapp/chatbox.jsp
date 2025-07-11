@@ -4,7 +4,7 @@
     String friendUsername = request.getParameter("friend");
 %>
 
-<div class="chat-box" data-username="<%= friendUsername %>" id="<%= chatboxId %>">
+<div class="chat-box" data-username="<%= friendUsername %>" id="chat-box-<%= friendUsername %>">
     <div class="chat-header">
         <span><%= friendUsername %></span>
         <button class="close-chat">&times;</button>

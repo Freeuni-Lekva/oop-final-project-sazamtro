@@ -1,87 +1,141 @@
+:root {
+    --blue-dark: #2c3e50;
+    --indigo: #6366f1;
+    --indigo-light: #8b5cf6;
+    --pink-lightest: #fdf2f8;
+    --pink-shadow-1: rgba(236, 72, 153, 0.2);
+    --pink-shadow-2: rgba(244, 114, 182, 0.12);
+    --shadow-light: rgba(44, 62, 80, 0.05);
+    --gray-muted: #e2e8f0;
+}
+
 .chat-box {
-    width: 250px;
-    height: 300px;
+    width: 280px;
+    height: 360px;
     background: white;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    box-shadow:
+            0 12px 24px var(--pink-shadow-1),
+            0 6px 18px var(--pink-shadow-2);
     position: fixed;
-    bottom: 10px;
-    right: 10px;
+    bottom: 20px;
+    right: 20px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    z-index: 1000;
-    margin-left: 10px;
+    z-index: 1100;
+    margin-left: 12px;
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--blue-dark);
 }
 
+/* Chat Header */
 .chat-header {
-    background: #007bff;
+    background: linear-gradient(90deg, var(--indigo), var(--indigo-light));
     color: white;
-    padding: 6px 10px;
+    padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: 0.4px;
+    user-select: none;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .chat-header button {
     background: transparent;
     color: white;
     border: none;
-    font-size: 18px;
+    font-size: 24px;
     cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    transition: opacity 0.3s ease;
 }
 
+.chat-header button:hover {
+    opacity: 0.75;
+}
+
+/* Messages Area */
 .chat-messages {
     flex: 1;
-    padding: 10px;
+    padding: 18px 20px;
     overflow-y: auto;
-    background: #f9f9f9;
+    background: var(--pink-lightest);
     font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
+/* Messages */
+.message {
+    max-width: 70%;
+    padding: 12px 18px;
+    border-radius: 20px;
+    word-wrap: break-word;
+    font-size: 14px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+}
+
+/* Sent by you */
+.message.mine {
+    background: var(--indigo-light);
+    color: white;
+    align-self: flex-end;
+    box-shadow:
+            0 8px 16px rgba(139, 92, 246, 0.6);
+    text-align: right;
+}
+
+/* Received */
+.message.theirs {
+    background: var(--pink-rosy);
+    color: var(--blue-dark);
+    align-self: flex-start;
+    text-align: left;
+}
+
+/* Input Section */
 .chat-input {
     display: flex;
-    border-top: 1px solid #ddd;
+    border-top: 1.5px solid var(--gray-muted);
+    padding: 14px 20px;
+    background: white;
 }
 
 .chat-input input {
-    flex: 1;
-    padding: 6px;
-    border: none;
+    flex-grow: 1;
+    padding: 10px 16px;
+    border: 1.5px solid var(--gray-muted);
+    border-radius: 28px;
+    font-size: 14px;
     outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chat-input input:focus {
+    border-color: var(--indigo);
+    box-shadow: 0 0 10px var(--indigo-light);
 }
 
 .chat-input button {
-    padding: 6px 10px;
-    background: #007bff;
+    background: linear-gradient(90deg, var(--indigo), var(--indigo-light));
     border: none;
     color: white;
+    font-weight: 700;
+    padding: 0 20px;
+    margin-left: 12px;
+    border-radius: 28px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
-.message {
-    margin: 6px 8px;
-    padding: 8px 12px;
-    border-radius: 16px;
-    max-width: 70%;
-    word-wrap: break-word;
-    display: inline-block;
-}
-
-.message.mine {
-    background-color: #e0e0e0;
-    color: black;
-    text-align: right;
-    float: right;
-    clear: both;
-}
-
-.message.theirs {
-    background-color: #d4fcd6;
-    color: black;
-    text-align: left;
-    float: left;
-    clear: both;
+.chat-input button:hover {
+    background: linear-gradient(90deg, var(--indigo-light), var(--indigo));
 }
