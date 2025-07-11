@@ -43,27 +43,6 @@ body {
     font-size: 16px;
 }
 
-.home-button {
-    background: var(--blue-dark);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 30px;
-}
-
-.home-button:hover {
-    background: var(--blue-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--pink-shadow-1);
-}
-
 .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -90,13 +69,6 @@ body {
             0 6px 18px var(--pink-shadow-2);
 }
 
-.card-icon {
-    width: 64px;
-    height: 64px;
-    object-fit: contain;
-    margin-bottom: 12px;
-}
-
 .card-title {
     font-size: 18px;
     font-weight: 600;
@@ -110,9 +82,23 @@ body {
     line-height: 1.4;
 }
 
-.card-username {
+.home-button {
+    background: var(--blue-dark);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
     font-size: 14px;
-    font-weight: 500;
-    color: var(--gray-medium);
-    margin-bottom: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 30px;
+}
+
+.home-button:hover {
+    background: var(--blue-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--pink-shadow-1);
 }

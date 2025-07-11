@@ -1,124 +1,226 @@
+:root {
+    --blue-light: #dbeafe;
+    --blue-lighter: #e0e7ff;
+    --blue-muted: #34495e;
+    --blue-dark: #2c3e50;
+
+    --gray-light: #f0f3f4;
+    --gray-muted: #e2e8f0;
+    --gray-medium: #7f8c8d;
+    --gray-dark: #475569;
+
+    --pink-lightest: #fdf2f8;
+    --pink-hover-bg: #fff1f5;
+    --pink-border: #fbcfe8;
+    --pink-shadow-1: rgba(236, 72, 153, 0.2);
+    --pink-shadow-2: rgba(244, 114, 182, 0.12);
+    --pink-rosy: #f9d5e5;
+    --pink-bright: #fbcce7;
+
+    --shadow-light: rgba(44, 62, 80, 0.05);
+    --shadow-medium: rgba(127, 140, 141, 0.08);
+    --shadow-strong: rgba(127, 140, 141, 0.25);
+
+    --indigo: #6366f1;
+    --indigo-light: #8b5cf6;
+    --pink: #f472b6;
+    --pink-light: #f9a8d4;
+
+    --home-btn-gray: #7f8c8d; /* NEW gray */
+    --home-btn-gray-hover: #475569;
+}
+
 body {
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f7f9fc;
-    padding: 40px 20px;
+    background: linear-gradient(to right, var(--blue-light), var(--blue-lighter), var(--pink-rosy), var(--pink-bright), var(--pink-lightest));
+    color: var(--blue-dark);
 }
 
-.container {
+.page-wrapper {
     display: flex;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: auto;
-    gap: 40px;
+    flex-direction: column; /* Stack main + footer */
+    min-height: 100vh;
 }
 
-.friends-list {
+.main-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+}
+
+.content-center {
     flex: 2;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    overflow-y: auto;
+    min-height: 400px;
 }
 
-.friends-list h2 {
-    font-size: 1.8rem;
-    color: #2c3e50;
-    margin-bottom: 20px;
+.friends-sidebar {
+    flex: 1;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+}
+
+.content-center h2,
+.friends-sidebar h2 {
+    color: var(--indigo);
+    margin-top: 0;
+    text-align: center;
 }
 
 .friend-item {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px 20px;
-    margin-bottom: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    background: var(--pink-lightest);
+    padding: 14px 24px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px var(--pink-shadow-1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.friend-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px var(--pink-shadow-2);
 }
 
 .friend-item a {
+    font-weight: bold; /* ✅ USERNAME BOLD */
+    color: var(--blue-dark);
     text-decoration: none;
-    font-weight: bold;
-    color: #007bff;
 }
 
 .friend-item a:hover {
     text-decoration: underline;
 }
 
+.no-friends {
+    font-style: italic;
+    text-align: center;
+}
+
 .remove-btn {
-    background-color: #dc3545;
+    background: var(--pink);
     color: white;
     border: none;
-    padding: 8px 14px;
-    border-radius: 5px;
+    padding: 6px 14px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background 0.2s;
 }
 
 .remove-btn:hover {
-    background-color: #b02a37;
-}
-
-.search-panel {
-    flex: 1;
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    height: fit-content;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.search-panel h3 {
-    margin-top: 0;
-    color: #2c3e50;
-    font-size: 1.4rem;
-    margin-bottom: 20px;
+    background: var(--pink-light);
 }
 
 .search-input {
     width: 100%;
     padding: 10px 12px;
     margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    border-radius: 8px;
+    border: 1px solid var(--gray-muted);
     font-size: 1rem;
 }
 
 .search-btn {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background: var(--indigo);
     color: white;
     font-weight: bold;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background 0.2s;
 }
 
 .search-btn:hover {
-    background-color: #0056b3;
+    background: var(--indigo-light);
 }
 
 .result-user {
     margin-top: 20px;
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-    font-size: 1rem;
-    color: #333;
+    border-top: 1px solid var(--gray-muted);
+    padding: 15px 20px;
+    background: var(--pink-lightest);
+    border-radius: 16px;
+    box-shadow: 0 2px 6px var(--pink-shadow-1);
+}
+
+.result-user p {
+    margin: 0 0 8px 0;
+    font-weight: bold; /* ✅ Also bold if username shown here */
 }
 
 .add-friend-btn {
     margin-top: 8px;
-    background-color: #28a745;
+    background: var(--pink);
     color: white;
     border: none;
     padding: 8px 14px;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
+    transition: background 0.2s;
 }
 
 .add-friend-btn:hover {
-    background-color: #218838;
+    background: var(--pink-light);
+}
+
+.disabled-btn {
+    margin-top: 8px;
+    background: var(--gray-muted);
+    color: var(--gray-dark);
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: not-allowed;
+}
+
+.bottom-bar {
+    flex: 0 0 auto; /* don’t grow */
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    text-align: center;
+    max-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.home-btn {
+    display: inline-block;
+    background: var(--home-btn-gray);
+    color: white;
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: background 0.2s;
+}
+
+.home-btn:hover {
+    background: var(--home-btn-gray-hover);
 }

@@ -1,86 +1,181 @@
+:root {
+    --blue-light: #dbeafe;
+    --blue-lighter: #e0e7ff;
+    --blue-muted: #34495e;
+    --blue-dark: #2c3e50;
+
+    --gray-light: #f0f3f4;
+    --gray-muted: #e2e8f0;
+    --gray-medium: #7f8c8d;
+    --gray-dark: #475569;
+
+    --pink-lightest: #fdf2f8;
+    --pink-hover-bg: #fff1f5;
+    --pink-border: #fbcfe8;
+    --pink-shadow-1: rgba(236, 72, 153, 0.2);
+    --pink-shadow-2: rgba(244, 114, 182, 0.12);
+    --pink-rosy: #f9d5e5;
+    --pink-bright: #fbcce7;
+
+    --shadow-light: rgba(44, 62, 80, 0.05);
+    --shadow-medium: rgba(127, 140, 141, 0.08);
+    --shadow-strong: rgba(127, 140, 141, 0.25);
+
+    --indigo: #6366f1;
+    --indigo-light: #8b5cf6;
+    --pink: #f472b6;
+    --pink-light: #f9a8d4;
+
+    --card-bg: white;
+    --card-border: var(--gray-muted);
+    --card-shadow-light: var(--pink-shadow-2);
+    --card-shadow-strong: var(--pink-shadow-1);
+    --title-color: var(--blue-muted);
+    --text-color: var(--blue-dark);
+    --btn-primary-bg: var(--indigo);
+    --btn-primary-hover: var(--indigo-light);
+    --btn-secondary-bg: var(--pink);
+    --btn-secondary-hover: var(--pink-light);
+    --btn-text-color: white;
+    --home-btn-bg: var(--blue-dark);
+    --home-btn-hover: var(--blue-muted);
+    --home-btn-shadow: var(--pink-shadow-1);
+    --border-radius: 16px;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f7f9fc;
     margin: 0;
-    height: 100vh;
-    /* Removed: padding, display, justify-content */
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, var(--blue-light), var(--blue-lighter), var(--pink-rosy), var(--pink-bright), var(--pink-lightest));
+    color: var(--text-color);
+    min-height: 100vh;
 }
 
+/* Container */
 .container {
-    display: flex; /* Sidebar + Content side-by-side */
-    width: 100%;
-    height: 100vh;
-}
-
-.main-content {
-    flex-grow: 1;
-    padding: 40px 20px;
     max-width: 1000px;
-    margin: 0 auto;
-    overflow-y: auto;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
+/* Heading */
 h1 {
     text-align: center;
-    color: #333;
+    color: var(--title-color);
+    font-size: 36px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.subheading {
+    text-align: center;
+    font-size: 16px;
+    color: var(--gray-medium);
     margin-bottom: 30px;
 }
 
-.quiz-card {
-    background-color: white;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    padding: 20px 30px;
-    margin-bottom: 20px;
+/* Cards container */
+.card-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: box-shadow 0.3s ease;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
 }
 
-.quiz-card:hover {
-    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+/* Individual quiz card */
+.card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 6px 16px var(--card-shadow-light);
+    width: 260px;
+    padding: 24px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: default;
 }
 
-.quiz-name {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #222;
-    max-width: 70%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.card:hover {
+    background: var(--pink-hover-bg);
+    border-color: var(--pink-border);
+    box-shadow:
+            0 12px 24px var(--card-shadow-strong),
+            0 6px 18px var(--card-shadow-light);
+    transform: translateY(-6px);
 }
 
+/* Card title */
+.card-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--title-color);
+    margin-bottom: 24px;
+}
+
+/* Buttons container */
 .button-group {
     display: flex;
-    gap: 15px;
+    justify-content: center;
+    gap: 16px;
 }
 
+/* Buttons common */
 .btn {
-    padding: 10px 22px;
-    border-radius: 6px;
-    text-decoration: none;
+    padding: 10px 18px;
+    font-size: 14px;
     font-weight: 600;
-    font-size: 1rem;
+    min-width: 90px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    color: white;
-    user-select: none;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    color: var(--btn-text-color);
+    display: inline-block;
+    text-align: center;
 }
 
+/* Edit button */
 .edit-btn {
-    background-color: #4caf50;
+    background-color: var(--btn-primary-bg);
 }
 
 .edit-btn:hover {
-    background-color: #3a8b37;
+    background-color: var(--btn-primary-hover);
+    transform: translateY(-2px);
 }
 
+/* Grade button */
 .grade-btn {
-    background-color: #2196f3;
+    background-color: var(--btn-secondary-bg);
 }
 
 .grade-btn:hover {
-    background-color: #176bb5;
+    background-color: var(--btn-secondary-hover);
+    transform: translateY(-2px);
+}
+
+/* Home button */
+.home-button {
+    display: block;
+    margin: 40px auto 0;
+    background-color: var(--home-btn-bg);
+    color: var(--btn-text-color);
+    padding: 14px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    width: max-content;
+    text-decoration: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px var(--home-btn-shadow);
+}
+
+.home-button:hover {
+    background-color: var(--home-btn-hover);
+    box-shadow: 0 8px 24px var(--home-btn-shadow);
+    transform: translateY(-3px);
 }
