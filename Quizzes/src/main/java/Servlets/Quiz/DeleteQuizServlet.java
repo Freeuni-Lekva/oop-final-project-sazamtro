@@ -13,19 +13,18 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Connection;
 
-@WebServlet("/quizzes/*/delete")
+@WebServlet("/quizzes/delete")
 public class DeleteQuizServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //super.doPost(req, resp);
-        String path = req.getPathInfo();
-        String[] pathParts = path.split("/");
-        int quiz_id = Integer.parseInt(pathParts[1]);
+        int quiz_id = Integer.parseInt(req.getParameter("id"));
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         try{
             QuizDAO qDAO = new QuizDAO(connection);
+            String quizName = qDAO.getOneQuiz(quiz_id).getQuizTitle();
             qDAO.removeQuiz(quiz_id);
-            resp.sendRedirect("/quiz_deleted.jsp");
+            req.setAttribute("quiz_title", quizName);
+            req.getRequestDispatcher("/quiz_deleted.jsp").forward(req, resp);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

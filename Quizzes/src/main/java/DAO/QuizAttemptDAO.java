@@ -5,7 +5,9 @@ import bean.QuizAttempt;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class QuizAttemptDAO {
     private Connection connection;
@@ -161,5 +163,62 @@ public class QuizAttemptDAO {
         attempt.setTakenAt(rs.getTimestamp("taken_at"));
 
         return attempt;
+    }
+    public QuizAttempt getAttempt(int attemptId) throws SQLException {
+        String query = "SELECT * FROM QuizAttempts WHERE attempt_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, attemptId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return mapRow(rs);
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Failed to retrieve attempt with id " + attemptId, e);
+        }
+        return null;
+    }
+    public Set<Integer> getAttemptQuestions(int attemptId){
+        Set<Integer> result = new HashSet<>();
+        String query = "SELECT * FROM UserAnswers WHERE attempt_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, attemptId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                result.add(rs.getInt("question_id"));
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Failed to retrieve attempt with id " + attemptId, e);
+        }
+        return result;
+    }
+
+    public List<String> getResponsesByAttemptAndQuestion(int attemptId, int qid) {
+        String query = "SELECT * FROM UserAnswers WHERE attempt_id = ? AND question_id = ?";
+        List<String> responses = new ArrayList<>();
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, attemptId);
+            ps.setInt(2, qid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                responses.add(rs.getString("response_text"));
+            }
+            return responses;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Failed to retrieve attempt with id " + attemptId, e);
+        }
+    }
+    public void updateScore(int attemptId, int score) throws SQLException {
+        String sql = "UPDATE QuizAttempts SET score = ? WHERE attempt_id = ?";
+        try(PreparedStatement st = connection.prepareStatement(sql)){
+            st.setInt(1, score);
+            st.setInt(2, attemptId);
+            st.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Error updating score failed", e);
+        }
     }
 }

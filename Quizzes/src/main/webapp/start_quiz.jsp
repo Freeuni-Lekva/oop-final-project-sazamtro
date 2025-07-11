@@ -42,3 +42,7 @@ Map<Question, List<AnswerOption>> questionAnswers = (Map<Question, List<AnswerOp
     <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>" />
     <button type="submit">Submit Quiz</button>
 </form>
+
+<form action="/HomePageServlet" method="get">
+                 <button class="btn">Home</button>
+            </form>

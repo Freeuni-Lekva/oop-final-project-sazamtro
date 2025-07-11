@@ -54,6 +54,7 @@
                 %>
             </div>
 
+
             <%--<!-- Right side: Friends sidebar -->
             <jsp:include page="GetFriendListServlet">
                 <jsp:param name="mode" value="sidebar" />

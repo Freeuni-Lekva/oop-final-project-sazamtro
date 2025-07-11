@@ -5,13 +5,14 @@ import DAO.UserDAO;
 import bean.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-
+@WebServlet("/DeleteFriendServlet")
 public class DeleteFriendServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -20,19 +21,23 @@ public class DeleteFriendServlet extends HttpServlet {
         UserDAO userDAO = new UserDAO(connection);
 
         User user = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
-        String friend_user_name = req.getParameter(RequestAtributeNames.FRIEND);
 
-        if(friend_user_name == null || friend_user_name.trim().isEmpty()){
+        int friendId;
+        try {
+            friendId = Integer.parseInt(req.getParameter("friend_id"));
+        } catch (NumberFormatException e) {
             resp.sendRedirect("/error.jsp");
             return;
         }
+
         User friend;
         try {
-            friend = userDAO.getUserByUsername(friend_user_name);
+            friend = userDAO.getUserById(friendId);
         } catch (SQLException e) {
-            throw new RuntimeException("Failed To Get Friend" ,e);
+            throw new RuntimeException("Failed To Get Friend", e);
         }
-        if(friend == null){
+
+        if (friend == null) {
             resp.sendRedirect("/error.jsp");
             return;
         }
@@ -44,8 +49,8 @@ public class DeleteFriendServlet extends HttpServlet {
             }
 
             requestDAO.removeFriendship(user, friend);
-            resp.sendRedirect("/friend-deleted.jsp");
-        }catch (SQLException e){
+            resp.sendRedirect("/GetFriendListServlet");
+        } catch (SQLException e) {
             throw new RuntimeException("Failed To Delete Friend", e);
         }
     }
