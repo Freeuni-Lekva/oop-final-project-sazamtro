@@ -1,7 +1,9 @@
 package Servlets.FriendRequests;
 
 import DAO.FriendRequestDAO;
+import DAO.MessageDAO;
 import DAO.UserDAO;
+import Servlets.Message.MessageAtributeNames;
 import bean.FriendRequest;
 import bean.User;
 
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet("/GetFriendListServlet")
 public class GetFriendListServlet extends HttpServlet {
@@ -28,6 +31,9 @@ public class GetFriendListServlet extends HttpServlet {
             req.setAttribute(RequestAtributeNames.FRIEND_LIST, friends);
 
             if(req.getParameter("mode") != null && "sidebar".equals(req.getParameter("mode"))) {
+                MessageDAO mDAO = new MessageDAO(connection);
+                Set<Integer> senderIds = mDAO.getUnreadSenderIds(user.getUserId());
+                req.setAttribute(MessageAtributeNames.UNREAD_SENDER_IDS, senderIds);
                 req.getRequestDispatcher("/friend-sidebar.jsp").include(req, resp);
             }else{
                 req.getRequestDispatcher("/friends.jsp").forward(req, resp);
