@@ -1,18 +1,17 @@
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
-    padding: 2rem;
-    font-family: Arial, sans-serif;
+    padding: 20px;
+    font-family: sans-serif;
 }
 
 .question-card {
-    background: #f9f9f9;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin-bottom: 20px;
     border-radius: 8px;
-    box-shadow: 1px 1px 8px rgba(0,0,0,0.05);
     position: relative;
+    background-color: #fdfdfd;
 }
 
 .question-header {
@@ -21,81 +20,59 @@
     align-items: center;
 }
 
-.question-img {
-    max-width: 100%;
-    height: auto;
-    margin: 1rem 0;
-}
-
 .option-list {
-    list-style-type: none;
+    list-style: none;
     padding-left: 0;
-    margin: 0;
+    margin-top: 10px;
 }
 
 .option-list li {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0.6rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
-    background-color: #fff;
-    transition: background-color 0.2s;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
 }
 
-.option-list li.selected {
-    background-color: #e0f7fa;
-    border-color: #4dd0e1;
+.option-left {
+    max-width: 75%;
 }
 
-.option-left span {
-    display: inline-block;
-    margin-right: 0.5rem;
+.option-right,
+.grade-right {
+    text-align: right;
+    min-width: 100px;
 }
 
 .label-correct {
     color: green;
-    font-weight: bold;
-    margin-left: 0.5rem;
+    margin-left: 8px;
 }
 
 .label-user {
-    color: #1565c0;
-    font-style: italic;
-    margin-left: 0.5rem;
+    color: blue;
+    margin-left: 8px;
 }
 
-.option-right {
-    flex-shrink: 0;
-}
-
-.grade-checkbox {
-    font-size: 0.9rem;
-    white-space: nowrap;
-}
-
-.grade-checkbox input {
-    margin-right: 4px;
+.score-select {
+    padding: 4px 8px;
+    font-size: 14px;
 }
 
 .grading-summary {
-    margin-top: 2rem;
+    margin-top: 30px;
     text-align: center;
 }
 
 .submit-btn {
-    background-color: #4caf50;
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #4CAF50;
     color: white;
-    padding: 0.7rem 1.2rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 1rem;
-    margin-top: 1rem;
 }
 
 .submit-btn:hover {
-    background-color: #45a049;
+    background: #45a049;
 }

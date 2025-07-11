@@ -19,7 +19,7 @@
             Map<Integer, List<String>> correctAnswersMap = (Map<Integer, List<String>>) request.getAttribute("correctAnswers");
             Map<Integer, List<String>> userAnswersMap = (Map<Integer, List<String>>) request.getAttribute("userAnswers");
 
-            int checkboxIndex = 0;
+            int selectIndex = 0;
 
             for (Question q : questions) {
                 int qid = q.getId();
@@ -30,12 +30,6 @@
         <div class="question-card">
             <div class="question-header">
                 <h3>Q<%= q.getPosition() %>: <%= q.getQuestionText() %></h3>
-                <% if (opts.isEmpty()) { %>
-                <label class="grade-checkbox right">
-                    <input type="checkbox" name="checkbox<%= checkboxIndex %>" value="1"/>
-                    ✅ Check if correct
-                </label>
-                <% checkboxIndex++; } %>
             </div>
 
             <% if (q.getImageUrl() != null && !q.getImageUrl().isEmpty()) { %>
@@ -57,25 +51,37 @@
                     </div>
                     <% if (isSelected) { %>
                     <div class="option-right">
-                        <label class="grade-checkbox">
-                            <input type="checkbox" name="checkbox<%= checkboxIndex %>" value="1"/>
-                            ✅
+                        <label>
+                            <select name="score<%= selectIndex %>" class="score-select">
+                                <% for (int i = 0; i <= correct.size(); i++) { %>
+                                <option value="<%= i %>"><%= i %></option>
+                                <% } %>
+                            </select>
+
                         </label>
                     </div>
-                    <% checkboxIndex++; } %>
+                    <% selectIndex++; } %>
                 </li>
                 <% } %>
             </ul>
             <% } else { %>
             <p><strong>User Answer:</strong> <%= user.isEmpty() ? "—" : user.get(0) %></p>
             <p><strong>Correct Answer:</strong> <%= correct.isEmpty() ? "—" : correct.get(0) %></p>
+            <div class="grade-right">
+                <label>
+                    <select name="score<%= selectIndex %>" class="score-select">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                    </select>
+                </label>
+            </div>
+            <% selectIndex++; %>
             <% } %>
         </div>
-
         <% } %>
 
         <div class="grading-summary">
-            <p><strong>Total Correct Selected:</strong> <span id="score">0</span></p>
+            <p><strong>Total Score:</strong> <span id="score">0</span></p>
             <input type="hidden" name="score" id="scoreInput" value="0"/>
             <button type="submit" class="submit-btn">Save Grade</button>
         </div>
@@ -84,28 +90,25 @@
 
 <script>
     const form = document.getElementById("gradeForm");
-    const checkboxes = form.querySelectorAll("input[type='checkbox']");
+    const selects = form.querySelectorAll(".score-select");
     const scoreDisplay = document.getElementById("score");
     const scoreInput = document.getElementById("scoreInput");
 
     function updateScore() {
-        let count = 0;
-        checkboxes.forEach(cb => {
-            if (cb.checked) count++;
+        let total = 0;
+        selects.forEach(select => {
+            total += parseInt(select.value);
         });
-        scoreDisplay.textContent = count;
-        scoreInput.value = count;
+        scoreDisplay.textContent = total;
+        scoreInput.value = total;
     }
 
-    checkboxes.forEach(cb => {
-        cb.addEventListener("change", updateScore);
+    selects.forEach(select => {
+        select.addEventListener("change", updateScore);
     });
 
-    form.addEventListener("submit", function () {
-        updateScore(); // Just in case
-    });
-
-    updateScore(); // Init on load
+    form.addEventListener("submit", updateScore);
+    updateScore(); // On load
 </script>
 </body>
 </html>
