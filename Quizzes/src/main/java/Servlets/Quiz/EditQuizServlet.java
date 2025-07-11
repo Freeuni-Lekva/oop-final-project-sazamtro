@@ -45,6 +45,9 @@ public class EditQuizServlet extends HttpServlet {
                     if(answer != null){
                         questionTextAnswerMap.put(curr, answer);
                     }
+                    else{
+                        questionTextAnswerMap.put(curr, "");
+                    }
                 }
             }
             Quiz quiz = qDAO.getOneQuiz(quiz_id);

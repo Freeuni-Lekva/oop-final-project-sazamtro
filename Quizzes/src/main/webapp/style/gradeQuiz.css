@@ -1,0 +1,101 @@
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+}
+
+.question-card {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 1px 1px 8px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.question-img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+}
+
+.option-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.option-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    background-color: #fff;
+    transition: background-color 0.2s;
+}
+
+.option-list li.selected {
+    background-color: #e0f7fa;
+    border-color: #4dd0e1;
+}
+
+.option-left span {
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.label-correct {
+    color: green;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}
+
+.label-user {
+    color: #1565c0;
+    font-style: italic;
+    margin-left: 0.5rem;
+}
+
+.option-right {
+    flex-shrink: 0;
+}
+
+.grade-checkbox {
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.grade-checkbox input {
+    margin-right: 4px;
+}
+
+.grading-summary {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.submit-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 0.7rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}

@@ -1,0 +1,37 @@
+.attempt-box {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.attempt-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip {
+    display: none;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #444;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 10;
+}
+
+.attempt-box:hover .tooltip {
+    display: block;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}

@@ -24,7 +24,7 @@
     <div class="quiz-name"><%= quiz.getQuizTitle() %></div>
     <div class="button-group">
       <a href="editQuiz?quizId=<%= quiz.getQuiz_id() %>" class="btn edit-btn">Edit</a>
-      <a href="gradeOverview.jsp?quizId=<%= quiz.getQuiz_id() %>" class="btn grade-btn">Grade</a>
+      <a href="/gradeOverview?quizId=<%= quiz.getQuiz_id() %>" class="btn grade-btn">Grade</a>
     </div>
   </div>
   <%
