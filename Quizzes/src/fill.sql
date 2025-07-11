@@ -46,10 +46,13 @@ INSERT INTO CorrectAnswers (question_id, text) VALUES
             (3, 'Paris');
 
 -- QUIZ ATTEMPTS
-INSERT INTO QuizAttempts (user_id, quiz_id, score, time_taken_min, is_practice) VALUES
-            (1, 1, 2, 1.5, FALSE),
-            (2, 1, 1, 2.0, TRUE),
-            (3, 2, 1, 3.5, FALSE);
+INSERT INTO QuizAttempts (user_id, quiz_id, score, time_taken_min, is_practice, taken_at) VALUES
+            (1, 1, 2, 1.5, FALSE,'2025-06-25 10:15:00'),
+            (1, 1, 5, 4.0, FALSE, '2025-06-26 14:30:00'),
+            (1, 2, 3, 2.3, TRUE, '2025-06-27 19:45:00'),
+            (2, 1, 1, 2.0, TRUE, '2025-07-01 19:45:00'),
+            (3, 2, 1, 3.5, FALSE, '2025-07-02 08:55:00');
+
 
 -- USER ANSWERS
 INSERT INTO UserAnswers (attempt_id, question_id, response_text, is_correct) VALUES
@@ -75,7 +78,8 @@ INSERT INTO UserAchievements (user_id, achievement_id) VALUES
             (4, 1);
 
 -- ANNOUNCEMENTS
-INSERT INTO Announcements (administrator_id, announcement_text) VALUES
-            (2, 'Don’t forget to log your practice attempts'),
-            (4, 'New quizzes coming this weekend!'),
-            (4, 'Site maintenance scheduled for Friday midnight.');
+INSERT INTO Announcements (administrator_id, announcement_text, done_at)
+VALUES
+    (1, 'Welcome to the new quiz season!', '2025-06-20 09:00:00'),
+    (2, 'Server maintenance scheduled.', '2025-06-22 16:15:00'),
+    (1, 'New quizzes added.', '2025-06-24 11:30:00');
