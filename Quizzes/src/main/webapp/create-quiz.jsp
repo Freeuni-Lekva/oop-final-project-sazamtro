@@ -8,7 +8,6 @@
 <body>
 <div class="container">
     <%-- Sidebar stays aligned left --%>
-    <%@ include file="sidebar.jsp" %>
 
     <%-- Main form area --%>
     <div class="main-content">

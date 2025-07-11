@@ -11,6 +11,7 @@ import bean.Message.RequestMessage;
 import bean.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@WebServlet("/SendRequestServlet")
 public class SendRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,7 +54,7 @@ public class SendRequestServlet extends HttpServlet {
 
         try{
         if (requestDAO.friendRequestExists(sender.getUserId(), receiver.getUserId())) {
-            resp.sendRedirect("/request-exists.jsp");
+            resp.sendRedirect("/error.jsp");
             return;
         }
 
@@ -69,7 +71,7 @@ public class SendRequestServlet extends HttpServlet {
         achievementsDAO.checkSocialButterfly(sender.getUserId());
         achievementsDAO.checkSocialButterfly(receiver.getUserId());
 
-        resp.sendRedirect("/request-sent.jsp");
+        resp.sendRedirect("/GetFriendListServlet");
         }catch (SQLException e){
             throw new RuntimeException("Failed To Send Friend Request", e);
         }

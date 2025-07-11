@@ -7,5 +7,7 @@
   <listener>
     <listener-class>Listeners.ContextListener</listener-class>
   </listener>
-
+ <welcome-file-list>
+   <welcome-file>/index-page.jsp</welcome-file>
+ </welcome-file-list>
 </web-app>
