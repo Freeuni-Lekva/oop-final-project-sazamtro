@@ -17,7 +17,7 @@
         User sender = senders.get(i);
   %>
   <div class="challenge-message">
-    <a href="quiz.jsp?quiz_id=<%= msg.getQuiz_id() %>">
+    <a href="quizzes/show?quizId=<%= msg.getQuiz_id() %>">
       <%= sender.getUsername() %> has challenged you to a quiz!: <%= "\n" + msg.getContent()%>
     </a>
   </div>

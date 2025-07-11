@@ -6,7 +6,7 @@
 
     <ul class="nav-links">
 
-        <li><a href="friends.jsp"><i class="fas fa-user-friends"></i> <span>Friends</span></a></li>
+        <li><a href="/GetFriendListServlet"><i class="fas fa-user-friends"></i> <span>Friends</span></a></li>
         <li><a href="quizAttempts-userOptions.jsp"><i class="fas fa-clock"></i> <span>History</span></a></li>
         <li><a href="/myQuizzes"><i class="fas fa-list"></i> <span>My Quizzes</span></a></li>
         <li><a href="ShowUserAchievementsServlet"><i class="fas fa-trophy"></i> <span>Achievements</span></a></li>

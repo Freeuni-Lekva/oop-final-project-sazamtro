@@ -9,6 +9,7 @@
 %>
 
 <link rel="stylesheet" href="style/friend-request-dropdown.css">
+<link rel="stylesheet" href="style/topbar.css">
 
 <div id="friend-dropdown" class="friend-dropdown">
   <%

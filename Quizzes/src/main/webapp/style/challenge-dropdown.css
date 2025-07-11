@@ -1,15 +1,14 @@
 #challenge-dropdown {
     display: none;
     position: absolute;
-    top: 60px;
-    right: 10px;
+    top: 94px;
+    right: 20px;
     background-color: white;
-    border-radius: 8px;
-    padding: 7px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 280px;
     z-index: 999;
-
     max-height: 300px;
     overflow-y: auto;
 }
