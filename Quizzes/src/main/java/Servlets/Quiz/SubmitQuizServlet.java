@@ -39,7 +39,7 @@ public class SubmitQuizServlet extends HttpServlet {
         LocalDateTime endTime = LocalDateTime.now();
         double seconds = (double) Duration.between(startTime, endTime).getSeconds() / 60;
 
-        //boolean isPractice = (Boolean) session.getAttribute("is_practice");
+        boolean isPractice = (Boolean) session.getAttribute("practice");
 
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         QuizDAO quizDAO = new QuizDAO(connection);
@@ -56,7 +56,9 @@ public class SubmitQuizServlet extends HttpServlet {
 
             if(!q.checkIfMultipage()){
 
-                List<Question> questions = quizDAO.getQuizQuestions(quiz_id);
+                @SuppressWarnings("unchecked")
+                List<Question> questions = (List<Question>)session.getAttribute("quiz_questions");  //quizDAO.getQuizQuestions(quiz_id);
+
                 Map<Integer, String[]> userAnswers = new HashMap<>();
 
                 for(Question curr : questions){
@@ -72,14 +74,14 @@ public class SubmitQuizServlet extends HttpServlet {
                     }
                 }
 
-                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
+                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
             else{
                 @SuppressWarnings("unchecked")
                 Map<Integer, String[]> userAnswers = (Map<Integer, String[]>)session.getAttribute("user_responses");
                 score = (int) req.getSession().getAttribute("current_score");
-                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
+                attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, isPractice);
                 insertAnswers(userAnswers, answerDAO, attempt_id);
             }
             achievementsDAO.checkQuizMachine(user_id);
