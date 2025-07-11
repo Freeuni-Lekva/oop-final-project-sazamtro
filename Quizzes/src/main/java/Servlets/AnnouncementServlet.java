@@ -25,9 +25,11 @@ public class AnnouncementServlet extends HttpServlet {
         try {
             List<Announcement> announcements = announcementDAO.getAllAnnouncements();
             request.setAttribute("announcements", announcements);
+            request.setAttribute("showAnnouncements", true);
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("announcements", new ArrayList<>());
+            request.setAttribute("showAnnouncements", true);
         }
 
         request.getRequestDispatcher("/homepage.jsp").include(request, response);

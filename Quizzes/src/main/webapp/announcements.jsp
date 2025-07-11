@@ -11,19 +11,38 @@
   SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 %>
 
-<div class="card-container">
-  <% if (announcements != null && !announcements.isEmpty()) {
-    for (Announcement a : announcements) {
-  %>
-  <div class="card">
-    <div class="announcement-header">
-      <h3><i class="fas fa-bullhorn"></i> Announcement</h3>
-      <span class="announcement-date"><%= formatter.format(a.getDoneAt()) %></span>
-    </div>
-    <p><%= a.getText() %></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Announcements</title>
+  <link rel="stylesheet" href="style/cards.css">
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>Announcements</h1>
+    <p class="subheading">See the announcements!</p>
   </div>
-  <% }
-  } else { %>
-  <p>No announcements available.</p>
-  <% } %>
+
+  <div class="card-container">
+    <% if (announcements != null && !announcements.isEmpty()) {
+      for (Announcement a : announcements) {
+    %>
+    <div class="card announcement-card">
+      <div class="announcement-header">
+        <h3><i class="fas fa-bullhorn"></i> Announcement</h3>
+        <span class="announcement-date"><%= formatter.format(a.getDoneAt()) %></span>
+      </div>
+      <p><%= a.getText() %></p>
+    </div>
+    <% }
+    } else { %>
+    <p>No announcements available</p>
+    <% } %>
+  </div>
+
 </div>
+</body>
+</html>

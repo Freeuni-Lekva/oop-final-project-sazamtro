@@ -23,7 +23,6 @@
       }
     %>
   </div>
-
   <div class="card-container">
     <%
       if (achievements != null && !achievements.isEmpty()) {
@@ -42,6 +41,9 @@
     <%
       }
     %>
+  </div>
+  <div style="text-align: center;">
+    <a href="HomePageServlet" class="home-button">HOME</a>
   </div>
 </div>
 </body>
