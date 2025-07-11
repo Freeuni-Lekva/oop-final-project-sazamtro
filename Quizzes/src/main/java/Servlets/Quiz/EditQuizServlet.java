@@ -36,8 +36,7 @@ public class EditQuizServlet extends HttpServlet {
             QuestionsDAO questionsDAO = new QuestionsDAO(connection);
             for(Question curr : quizQuestions){
                 if (curr.hasChoices()){
-                    List<AnswerOption> answers = new ArrayList<>();
-                    answers = questionsDAO.getOptions(curr.getId());
+                    List<AnswerOption> answers = questionsDAO.getOptions(curr.getId());
                     questionAnswerOptionMap.putIfAbsent(curr, answers);
                 }
                 else{
@@ -59,6 +58,7 @@ public class EditQuizServlet extends HttpServlet {
             req.setAttribute("quizDescription", quiz.getQuizDescription());
             req.setAttribute("question_options", questionAnswerOptionMap);
             req.setAttribute("question_textAnswer", questionTextAnswerMap);
+            req.setAttribute("questions", quizQuestions);
 
             RequestDispatcher rd = req.getRequestDispatcher("editQuiz.jsp");
 //            System.out.println("Quiz title in doGet: " + quiz.getQuizTitle());
@@ -69,11 +69,6 @@ public class EditQuizServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        System.out.println("All params:");
-//        for (String paramName : req.getParameterMap().keySet()) {
-//            System.out.println(paramName + ": " + req.getParameter(paramName));
-//        }
-
 
         int quizId = Integer.parseInt(req.getParameter("quiz_id"));
         Connection connection = (Connection) req.getServletContext().getAttribute("DBConnection");
@@ -109,15 +104,14 @@ public class EditQuizServlet extends HttpServlet {
             // Delete removed questions
             for (int oldId : existingQuestionIds) {
                 if (!submittedQuestionIds.contains(oldId)) {
-                    questionsDAO.deactivateQuestion(oldId);
+                    questionsDAO.deleteQuestion(oldId);
                 }
             }
 
             // Update or insert each submitted question
             for (int questionId : submittedQuestionIds) {
                 String text = req.getParameter("questions[" + questionId + "][text]");
-//                String typeStr = req.getParameter("questions[" + questionId + "][type]");
-//                QuestionType type = QuestionType.valueOf(typeStr);
+
                 questionsDAO.updateQuestionText(questionId, text);
 
                 Question question = questionsDAO.getQuestionById(questionId);
@@ -205,7 +199,6 @@ public class EditQuizServlet extends HttpServlet {
                     String typeStr = req.getParameter(param);
                     String prompt = req.getParameter("newQuestions[" + qIndex + "][text]");
                     QuestionType type = QuestionType.valueOf(typeStr);
-//                    Question questio = questionsDAO.getQuestionById(qIndex); //not sure
                     String imageUrl = null;
                     if (type == QuestionType.PICTURE_RESPONSE) {
                         imageUrl = req.getParameter("newQuestions[" + qIndex + "][image]");
@@ -238,7 +231,7 @@ public class EditQuizServlet extends HttpServlet {
                 }
             }
 // Update question positions based on 'random' setting
-            List<Integer> orderedQuestionIds = questionsDAO.getOrderedQuestionIds(quizId); // you’ll need this DAO function
+            List<Integer> orderedQuestionIds = questionsDAO.getOrderedQuestionIds(quizId);
 
             if (random) {
                 for (int qid : orderedQuestionIds) {
