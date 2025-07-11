@@ -1,133 +1,108 @@
 /* Sidebar container */
 .sidebar {
-    width: 180px;
-    grid-area: sidebar;
-    background-color: #dadada;
-    padding: 20px;
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(
+            to bottom,
+            var(--blue-light) 0%,
+            var(--blue-lighter) 40%,
+            var(--pink-rosy) 70%,
+            var(--pink-lightest) 100%
+    );
+    padding: 24px 16px 40px 16px;
+    box-shadow: 2px 0 12px var(--shadow-light);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    overflow: visible;
+    z-index: 100;
 }
 
-/* Logo section */
 .logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: #ffffff;
-    border: 3px solid #1de00d;
-    margin: 20px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
-    overflow: hidden; /* Add this to contain the image inside circle */
-}
-
-.logo:hover{
-    transform:scale(1.05);
-}
-
-.logo a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 .logo img {
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
-    display: block;
+    width: 80px;
 }
 
-
-/* Navigation links */
 .nav-links {
     list-style: none;
     padding: 0;
     margin: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-grow: 1;
+    padding-top: 30px; /* Push down a bit */
 }
 
 .nav-links li {
-    margin: 8px 0;
-    width: 100%;
+    margin-bottom: 16px;
 }
 
-.nav-links a {
-    display: block;
-    width: 85%;
-    padding: 10px 15px;
-    background-color: #b5b5b5;
-    color: #000;
-    font-size: 14px;
+.nav-links li a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     text-decoration: none;
-    border-radius: 4px;
-    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-    text-align: left;
-    text-transform: capitalize;
-    margin-left: auto;
-    margin-right: auto;
+    background: white;
+    color: var(--blue-dark);
+    font-weight: 700;
+    padding: 12px 18px;
+    border-radius: 16px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    border: 1.5px solid transparent;
 }
 
-.nav-links a:hover {
-    background-color: #999;
-    transform: scale(1.07);
+.nav-links li a:hover {
+    background: var(--pink-hover-bg);
+    color: var(--blue-muted);
+    box-shadow: 0 6px 15px var(--pink-shadow-1);
+    border-color: var(--pink-border);
 }
 
-.nav-links i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-}
-
-/* Bottom action buttons */
+/* Sidebar actions container (Create Quiz & Log Out) */
 .sidebar-actions {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: auto;
-    width: 100%;
-    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
 }
 
 .sidebar-button {
-    display: block;
-    width: 85%;
-    padding: 10px 15px;
-    background-color: #6a6a6a;
-    color: white;
-    text-align: left;
-    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    gap: 8px;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
-    font-weight: bold;
-    transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
-    text-transform: capitalize;
-    margin-left: auto;
-    margin-right: auto;
+    color: white;
+    box-sizing: border-box;
+}
+
+.sidebar-button.create,
+.sidebar-button.logout {
+    font-size: 16px;        /* bigger font */
+    padding: 16px 24px;     /* bigger padding */
+    border-radius: 30px;    /* more rounded */
+}
+
+
+.sidebar-button.create {
+    background: linear-gradient(to right, var(--indigo), var(--indigo-light));
+}
+
+.sidebar-button.logout {
+    background: linear-gradient(to right, var(--pink), var(--pink-light));
 }
 
 .sidebar-button:hover {
-    transform: scale(1.07);
-    background-color: #4a4a4a;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-}
-
-/* Logout button specifically */
-.logout {
-    background-color: #c0392b;
-}
-
-.logout:hover {
-    transform: scale(1.07);
-    background-color: #a93226;
+    opacity: 0.95;
+    box-shadow: 0 6px 16px var(--pink-shadow-1);
 }

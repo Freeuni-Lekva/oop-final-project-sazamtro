@@ -10,17 +10,19 @@
 <head>
     <title>Quiz Homepage</title>
     <link rel="stylesheet" href="style/homepage.css">
+    <link rel="stylesheet" href="style/sidebar.css">
+    <link rel="stylesheet" href="style/topbar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-<div class="container">
+<div class="page-wrapper">
     <%@ include file="sidebar.jsp" %>
 
-    <div class="page-content">
+    <div class="main-section">
         <jsp:include page="/TopBarServlet"/>
 
-        <div class="main">
-            <div class="details">
+        <div class="main-content">
+            <div class="content-center">
                 <%
                     Boolean showFriendsAchievements = (Boolean) request.getAttribute("showFriendsAchievements");
                     Boolean showAllQuizzes = (Boolean) request.getAttribute("showAllQuizzes");
@@ -42,7 +44,7 @@
                     <% } %>
                 </div>
                 <% }else if(showAllQuizzes != null && showAllQuizzes){
-                   %> <jsp:include page="/quizzes.jsp"/>
+                %> <jsp:include page="/quizzes.jsp"/>
                 <%
                 } else {
                 %>
@@ -52,8 +54,16 @@
                 %>
             </div>
 
-            <!-- Right side: Friends sidebar -->
-            <jsp:include page="/GetFriendListServlet"/>
+            <%--<!-- Right side: Friends sidebar -->
+            <jsp:include page="GetFriendListServlet">
+                <jsp:param name="mode" value="sidebar" />
+            </jsp:include>--%>
+            <div class="friends-sidebar">
+                <jsp:include page="GetFriendListServlet">
+                    <jsp:param name="mode" value="sidebar" />
+                </jsp:include>
+            </div>
+
         </div>
 
     </div>
