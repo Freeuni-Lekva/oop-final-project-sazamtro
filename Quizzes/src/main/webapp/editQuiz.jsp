@@ -215,12 +215,22 @@
             const type = card.querySelector('select').value;
             const inputType = type === "MULTIPLE_CHOICE" ? "radio" : "checkbox";
 
+            let nameAttr;
+            if (type === "MULTIPLE_CHOICE") {
+                nameAttr = `newQuestions[${qIndex}][correctOption]`;
+            } else {
+                nameAttr = `newQuestions[${qIndex}][options][${count}][correct]`;
+            }
+
             const div = document.createElement("div");
             div.className = "option-row";
             div.innerHTML = `
         <label>Option:</label>
         <input type="text" name="newQuestions[${qIndex}][options][${count}][text]" required />
-        <label><input type="${inputType}" name="newQuestions[${qIndex}][${type === "MULTIPLE_CHOICE" ? "correctOption" : `options[${count}][correct]`}]" value="${count}" /> Correct</label>
+        <label>
+            <input type="${inputType}" name="${nameAttr}" value="${count}" />
+            Correct
+        </label>
         <button type="button" onclick="this.parentElement.remove()">X</button>
     `;
             optionsContainer.appendChild(div);
@@ -289,11 +299,10 @@
                 Map<Question, List<AnswerOption>> questionOptions = (Map<Question, List<AnswerOption>>) request.getAttribute("question_options");
                 Map<Question, String> questionTextAnswers = (Map<Question, String>) request.getAttribute("question_textAnswer");
 
-                Set<Question> allQuestions = new LinkedHashSet<Question>();
-                if (questionOptions != null) allQuestions.addAll(questionOptions.keySet());
-                if (questionTextAnswers != null) allQuestions.addAll(questionTextAnswers.keySet());
+                List<Question> questions = (List<Question>)request.getAttribute("questions");
 
-                for (Question question : allQuestions) {
+
+                for (Question question : questions) {
                     QuestionType type = question.getQuestionType();
             %>
             <div class="question-card" data-qtype="<%= type.name() %>" data-qid="<%= question.getId() %>">

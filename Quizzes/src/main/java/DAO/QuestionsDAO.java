@@ -212,16 +212,16 @@ public class QuestionsDAO {
         }
     }
 
-    public void deactivateQuestion(int questionID) throws SQLException {
-        String query = "UPDATE Questions SET is_active = ? WHERE question_id = ?";
-        try (PreparedStatement st = connection.prepareStatement(query)) {
-            st.setBoolean(1, false);
-            st.setInt(2, questionID);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error deactivating question", e);
-        }
-    }
+//    public void deactivateQuestion(int questionID) throws SQLException {
+//        String query = "UPDATE Questions SET is_active = ? WHERE question_id = ?";
+//        try (PreparedStatement st = connection.prepareStatement(query)) {
+//            st.setBoolean(1, false);
+//            st.setInt(2, questionID);
+//            st.executeUpdate();
+//        } catch (SQLException e) {
+//            throw new RuntimeException("Error deactivating question", e);
+//        }
+//    }
 
     public void updateQuestionText(int questionId, String text) {
         String query = "UPDATE Questions SET prompt = ? WHERE question_id = ?";
