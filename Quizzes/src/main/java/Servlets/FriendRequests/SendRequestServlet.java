@@ -1,5 +1,6 @@
 package Servlets.FriendRequests;
 
+import DAO.AchievementsDAO;
 import DAO.FriendRequestDAO;
 import DAO.MessageDAO;
 import DAO.UserDAO;
@@ -10,6 +11,7 @@ import bean.Message.RequestMessage;
 import bean.User;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@WebServlet("/SendRequestServlet")
 public class SendRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,6 +27,7 @@ public class SendRequestServlet extends HttpServlet {
         UserDAO userDAO = new UserDAO(connection);
         FriendRequestDAO requestDAO = new FriendRequestDAO(connection);
         MessageDAO messageDAO = new MessageDAO(connection);
+        AchievementsDAO achievementsDAO = new AchievementsDAO(connection);
 
         User sender = (User) req.getSession().getAttribute(RequestAtributeNames.USER);
         String receiverUsername = req.getParameter(RequestAtributeNames.RECEIVER_USERNAME);
@@ -50,7 +54,7 @@ public class SendRequestServlet extends HttpServlet {
 
         try{
         if (requestDAO.friendRequestExists(sender.getUserId(), receiver.getUserId())) {
-            resp.sendRedirect("/request-exists.jsp");
+            resp.sendRedirect("/error.jsp");
             return;
         }
 
@@ -61,8 +65,13 @@ public class SendRequestServlet extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException("Failed To Send Friend Request Message" ,e);
         }
+
         requestDAO.sendFriendRequest(friendRequest);
-        resp.sendRedirect("/request-sent.jsp");
+
+        achievementsDAO.checkSocialButterfly(sender.getUserId());
+        achievementsDAO.checkSocialButterfly(receiver.getUserId());
+
+        resp.sendRedirect("/GetFriendListServlet");
         }catch (SQLException e){
             throw new RuntimeException("Failed To Send Friend Request", e);
         }

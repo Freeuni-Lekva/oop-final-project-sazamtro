@@ -1,17 +1,21 @@
 #challenge-dropdown {
+    display: none;
     position: absolute;
     top: 60px;
-    right: 90px; /* Adjusted to sit below icon */
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 12px;
+    right: 10px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 7px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     width: 280px;
+    z-index: 999;
+
     max-height: 300px;
     overflow-y: auto;
-    display: none;
-    font-family: Arial, sans-serif;
+}
+
+.challenge-dropdown::-webkit-scrollbar {
+    width: 6px;
 }
 
 .challenge-message {
@@ -47,6 +51,6 @@
 .no-challenges{
     text-align: center;
     color: #888;
-    font-style: italic;
+    font-style: normal;
     padding: 10px;
 }

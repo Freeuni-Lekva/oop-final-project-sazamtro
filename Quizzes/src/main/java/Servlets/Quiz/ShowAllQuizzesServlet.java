@@ -1,6 +1,8 @@
 package Servlets.Quiz;
 
 import DAO.DatabaseConnection;
+import DAO.FriendRequestDAO;
+import bean.User;
 import DAO.QuizDAO;
 import bean.Quiz;
 import java.util.*;
@@ -23,7 +25,13 @@ public class ShowAllQuizzesServlet extends HttpServlet {
             QuizDAO qDAO = new QuizDAO(connection);
             List<Quiz> allQuizzes = qDAO.getAllQuizzes();
             req.setAttribute("quizzes", allQuizzes);
-            RequestDispatcher rd = req.getRequestDispatcher("quizzes.jsp");
+
+            User user = (User) req.getSession().getAttribute("user");
+            FriendRequestDAO friendDAO = new FriendRequestDAO(connection);
+            List<User> friends = friendDAO.getFriendsList(user);
+            req.setAttribute("friends", friends);
+            req.setAttribute("showAllQuizzes", true);
+            RequestDispatcher rd = req.getRequestDispatcher("homepage.jsp");
             rd.forward(req, resp);
         } catch (Exception e) {
             throw new RuntimeException(e);

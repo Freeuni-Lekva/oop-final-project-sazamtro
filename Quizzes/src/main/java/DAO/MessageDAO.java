@@ -71,7 +71,6 @@ public class MessageDAO {
         ResultSet rs = st.getGeneratedKeys();
         if (rs.next()) {
             challengeMessage.setMessage_id(rs.getInt(1));
-            challengeMessage.setTimestamp(rs.getTimestamp(2));
         }
     }
 

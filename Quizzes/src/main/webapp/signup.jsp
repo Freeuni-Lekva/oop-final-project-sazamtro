@@ -41,6 +41,12 @@
             : 'linear-gradient(to right, var(--pink-hover-bg), var(--pink-border))';
   }
 
+  const passwordInput = signupForm.querySelector('input[name="password"]');
+  const confirmInput = signupForm.querySelector('input[name="passwordConfirm"]');
+  confirmInput.addEventListener('keydown', e => {
+    if (passwordInput.value.trim() === '') e.preventDefault();
+  });
+
   signupInputs.forEach(input => input.addEventListener('input', updateSignupButton));
   window.addEventListener('DOMContentLoaded', updateSignupButton);
 </script>

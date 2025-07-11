@@ -1,56 +1,73 @@
 body {
-                font-family: Arial, sans-serif;
-                background: #f0f2f5;
-                padding: 40px;
-            }
-            .container {
-                display: flex;
-                min-height: 100vh;
-            }
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    margin: 0; /* 💡 Ensure no default margin */
+    height: 100vh;
+    display: flex;
+}
 
-            .sidebar {
-                width: 220px;
-                background-color: #2c3e50;
-                color: white;
-                padding: 20px;
-            }
+.container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
 
-            .main-content {
-                flex-grow: 1;
-                padding: 30px;
-                background-color: #f4f4f4;
-            }
+/* Sidebar stays the same */
+.sidebar {
+    width: 220px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
-            h2 {
-                text-align: center;
-                color: #333;
-            }
-            label {
-                font-weight: bold;
-            }
-            input[type="text"], textarea {
-                width: 100%;
-                padding: 10px;
-                margin-top: 5px;
-                margin-bottom: 15px;
-                border: 1px solid #ccc;
-                border-radius: 6px;
-            }
-            input[type="checkbox"] {
-                margin-right: 8px;
-            }
-            .checkbox-group {
-                margin-bottom: 15px;
-            }
-            button {
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                padding: 12px 20px;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 16px;
-            }
-            button:hover {
-                background-color: #2980b9;
-            }
+/* Main content aligns beside sidebar */
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: #f4f4f4;
+    box-sizing: border-box;
+}
+
+/* Form and content styles */
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.checkbox-group {
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #2980b9;
+}

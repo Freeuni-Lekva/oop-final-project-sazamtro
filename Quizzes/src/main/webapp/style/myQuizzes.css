@@ -2,14 +2,22 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f7f9fc;
     margin: 0;
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
+    height: 100vh;
+    /* Removed: padding, display, justify-content */
 }
 
 .container {
+    display: flex; /* Sidebar + Content side-by-side */
     width: 100%;
-    max-width: 900px;
+    height: 100vh;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 40px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow-y: auto;
 }
 
 h1 {
@@ -62,7 +70,7 @@ h1 {
 }
 
 .edit-btn {
-    background-color: #4caf50; /* Green */
+    background-color: #4caf50;
 }
 
 .edit-btn:hover {
@@ -70,7 +78,7 @@ h1 {
 }
 
 .grade-btn {
-    background-color: #2196f3; /* Blue */
+    background-color: #2196f3;
 }
 
 .grade-btn:hover {

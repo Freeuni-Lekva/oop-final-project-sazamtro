@@ -26,7 +26,12 @@ public class GetFriendListServlet extends HttpServlet {
         try {
             List<User> friends = requestDAO.getFriendsList(user);
             req.setAttribute(RequestAtributeNames.FRIEND_LIST, friends);
-            req.getRequestDispatcher("/friend-sidebar.jsp").include(req, resp);
+
+            if(req.getParameter("mode") != null && "sidebar".equals(req.getParameter("mode"))) {
+                req.getRequestDispatcher("/friend-sidebar.jsp").include(req, resp);
+            }else{
+                req.getRequestDispatcher("/friends.jsp").forward(req, resp);
+            }
         }catch (SQLException e){
             throw new RuntimeException("Failed To Get Friend List", e);
         }
