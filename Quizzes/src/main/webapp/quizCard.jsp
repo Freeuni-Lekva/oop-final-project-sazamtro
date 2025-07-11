@@ -15,6 +15,11 @@
         <button type="submit" class="btn start-btn">Start</button>
     </form>
 
+    <form action="/quizzes/show" method="get" class="start-form">
+            <input type="hidden" name="quizId" value="<%= quiz.getQuiz_id() %>" />
+            <button type="submit" class="btn start-btn">View</button>
+        </form>
+
     <button class="btn share-btn" onclick="toggleFriendsList('<%= quiz.getQuiz_id() %>')">Share</button>
 
     <div class="friends-list" id="friends-list-<%= quiz.getQuiz_id() %>" style="display:none;">
