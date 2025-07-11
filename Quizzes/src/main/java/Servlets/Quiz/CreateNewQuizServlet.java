@@ -45,8 +45,9 @@ public class CreateNewQuizServlet extends HttpServlet {
             req.setAttribute("quizId", quiz_id);
             int position = is_random?-1:1;
             req.setAttribute("position", position);
-            RequestDispatcher rd = req.getRequestDispatcher("/AddQuestion.jsp");
-            rd.forward(req, resp);
+            /*RequestDispatcher rd = req.getRequestDispatcher("/AddQuestion.jsp");
+            rd.forward(req, resp);*/
+            resp.sendRedirect(req.getContextPath() + "/editQuiz?quizId=" + quiz_id);
             //resp.sendRedirect("/quizzes/"+quiz_id+"/add-question");
         } catch (SQLException e){
             e.printStackTrace();
