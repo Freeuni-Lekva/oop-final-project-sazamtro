@@ -51,6 +51,7 @@ public class SubmitQuizServlet extends HttpServlet {
 
             Quiz q = quizDAO.getOneQuiz(quiz_id);
             int score = 0;
+            int maxScore = 0;
             int attempt_id = -1;
 
             if(!q.checkIfMultipage()){
@@ -59,20 +60,16 @@ public class SubmitQuizServlet extends HttpServlet {
                 Map<Integer, String[]> userAnswers = new HashMap<>();
 
                 for(Question curr : questions){
-                   /* String paramName = curr.getQuestionType() == QuestionType.MULTI_SELECT
-                            ? "q_" + curr.getId() + "[]"
-                            : "q_" + curr.getId();
-                    System.out.println(paramName);
-
-                    String[] userAnswer = req.getParameterValues(paramName);*/
-
+                    maxScore = maxScore + answerDAO.getCorrectAnswers(curr.getId()).size();
                     String[] userAnswer = req.getParameterValues("q_" + curr.getId());
-                    for (String currAns : userAnswer) {
-                        if (answerDAO.checkAnswer(curr.getId(), currAns)) {
-                            score = score + 1;
+                    if(userAnswer != null && userAnswer.length != 0){
+                        for (String currAns : userAnswer) {
+                            if (answerDAO.checkAnswer(curr.getId(), currAns)) {
+                                score = score + 1;
+                            }
                         }
+                        userAnswers.put(curr.getId(), userAnswer);
                     }
-                    userAnswers.put(curr.getId(), userAnswer);
                 }
 
                 attempt_id = quizDAO.insertAttempt(user.getUserId(), quiz_id, score, seconds, false);
@@ -90,6 +87,7 @@ public class SubmitQuizServlet extends HttpServlet {
             achievementsDAO.checkPerfectionist(user_id, quiz_id);
             achievementsDAO.checkNightOwl(user_id, attempt_id);
 
+            req.setAttribute("max_score", maxScore);
             req.setAttribute("score", score);
             req.setAttribute("quiz", q);
             req.getRequestDispatcher("/quiz_result.jsp").forward(req, resp);

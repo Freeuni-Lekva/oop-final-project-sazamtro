@@ -45,7 +45,7 @@
 
             <% if (isOwner || isAdmin) { %>
                 <form action="/editQuiz" method="get">
-                    <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>">
+                    <input type="hidden" name="quizId" value="<%= quiz.getQuiz_id() %>">
                     <button class="btn">Edit Quiz</button>
                 </form>
                 <form action="/quizzes/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this quiz?');">
