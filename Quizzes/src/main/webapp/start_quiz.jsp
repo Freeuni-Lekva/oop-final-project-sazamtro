@@ -21,8 +21,11 @@
 
         <%
             int i = 0;
+            String pictureUrl = "";
             for (Map.Entry<Question, List<AnswerOption>> entry : questionAnswers.entrySet()) {
-                String pictureUrl = pictures.get(i);
+                if(pictures.size() > i){
+                    pictureUrl = pictures.get(i);
+                }
                 i++;
                 Question q = entry.getKey();
                 List<AnswerOption> opts = entry.getValue();
