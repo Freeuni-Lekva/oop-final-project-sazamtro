@@ -132,6 +132,22 @@
     margin-top: 8px;
 }
 
+/* Username inside announcement cards */
+.announcement-card .announcement-user {
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: -8px;
+    margin-bottom: 12px;
+    color: var(--gray-light);
+    opacity: 0.95;
+}
+
+.announcement-card .announcement-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
 /* Achievements card overrides */
 .achievement-card .card-username {
     color: var(--indigo-new);

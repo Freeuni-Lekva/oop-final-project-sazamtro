@@ -1,6 +1,7 @@
 package Servlets;
 
 import DAO.AnnouncementDAO;
+import DAO.UserDAO;
 import bean.Announcement;
 
 import javax.servlet.ServletException;
