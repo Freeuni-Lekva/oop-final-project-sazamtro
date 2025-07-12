@@ -102,4 +102,57 @@ class AnnouncementDAOTest {
 
         assertTrue(announcements.isEmpty());
     }
+
+    @Test
+    void testSetAnnouncementText() throws Exception{
+        String hashedPassword = Hasher.hashPassword("pass");
+        User admin = new User(0, "admin", hashedPassword, null, true);
+        userDAO.addUser(admin);
+
+        // explicit timestamps
+        Timestamp ts1 = Timestamp.valueOf("2025-01-01 10:00:00");
+        Timestamp ts2 = Timestamp.valueOf("2025-01-01 11:00:00");
+
+        announcementDAO.addAnnouncement(new Announcement(0, admin.getUserId(), "admin", "First announcement", ts1));
+        announcementDAO.addAnnouncement(new Announcement(0, admin.getUserId(), "admin", "Second announcement", ts2));
+
+        List<Announcement> announcements = announcementDAO.getAllAnnouncements();
+
+        assertEquals(2, announcements.size());
+        assertEquals("Second announcement", announcements.get(0).getText());
+        assertEquals("First announcement", announcements.get(1).getText());
+
+        announcementDAO.setAnnouncementText(announcements.get(0).getId(), "Third announcement");
+        announcementDAO.setAnnouncementText(announcements.get(1).getId(), "Fourth announcement");
+
+        announcements = announcementDAO.getAllAnnouncements();
+
+        assertEquals("Third announcement", announcements.get(0).getText());
+        assertEquals("Fourth announcement", announcements.get(1).getText());
+    }
+
+    @Test
+    void testDeleteAnnouncement()throws Exception{
+        String hashedPassword = Hasher.hashPassword("pass");
+        User admin = new User(0, "admin", hashedPassword, null, true);
+        userDAO.addUser(admin);
+
+        // explicit timestamps
+        Timestamp ts1 = Timestamp.valueOf("2025-01-01 10:00:00");
+        Timestamp ts2 = Timestamp.valueOf("2025-01-01 11:00:00");
+
+        announcementDAO.addAnnouncement(new Announcement(0, admin.getUserId(), "admin", "First announcement", ts1));
+        announcementDAO.addAnnouncement(new Announcement(0, admin.getUserId(), "admin", "Second announcement", ts2));
+
+        List<Announcement> announcements = announcementDAO.getAllAnnouncements();
+
+        assertEquals(2, announcements.size());
+        assertEquals("Second announcement", announcements.get(0).getText());
+        assertEquals("First announcement", announcements.get(1).getText());
+
+        announcementDAO.deleteAnnouncement(announcements.get(0).getId());
+        announcements = announcementDAO.getAllAnnouncements();
+        assertEquals(1, announcements.size());
+        assertEquals("First announcement", announcements.get(0).getText());
+    }
 }
