@@ -1,39 +1,79 @@
+:root {
+    --indigo: #6a1b9a;
+    --indigo-dark: #4527a0;
+    --pink: #f06292;
+    --pink-light: #fce4ec;
+    --blue: #64b5f6;
+    --blue-light: #e3f2fd;
+    --dark-blue: #283593;
+    --white-glass: rgba(255, 240, 248, 0.65); /* slightly pink-tinted */
+    --white-border: rgba(255, 182, 193, 0.5); /* pinkish border */
+    --shadow-strong: rgba(0, 0, 0, 0.25);
+}
+
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #fcefee, #eef7fc);
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #fce4ec, #e3f2fd); /* pink to light blue */
+    background-repeat: no-repeat;
+    background-size: cover;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(3px);
 }
 
 .result-box {
-    background-color: #ffffffcc;
-    padding: 40px 60px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: var(--white-glass);
+    padding: 50px 70px;
+    border-radius: 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     text-align: center;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--white-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.result-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px var(--shadow-strong);
 }
 
 .result-box p {
-    font-size: 24px;
-    color: #333;
+    font-size: 22px;
+    color: var(--dark-blue);
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .btn {
-    background-color: #3d26ed;
+    background-color: var(--indigo);
     border: none;
     color: white;
     padding: 12px 24px;
     font-size: 16px;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 10px;
 }
 
 .btn:hover {
-    background-color: #ff7f7f;
+    background-color: var(--pink);
+    transform: scale(1.05);
+    color: var(--dark-blue);
+}
+
+.btn.home-btn {
+    background-color: #ad1457;
+}
+
+.btn.again-btn {
+    background-color: var(--indigo-dark);
+}
+
+.btn.summary-btn {
+    background-color: var(--indigo);
 }

@@ -1,37 +1,117 @@
-.attempt-box {
-    border: 1px solid #ccc;
+:root {
+    --blue-light: #dbeafe;
+    --blue-lighter: #e0e7ff;
+    --blue-muted: #34495e;
+    --blue-dark: #2c3e50;
+    --gray-light: #f0f3f4;
+    --gray-muted: #e2e8f0;
+    --gray-medium: #7f8c8d;
+    --gray-dark: #475569;
+    --pink-lightest: #fdf2f8;
+    --pink-hover-bg: #fff1f5;
+    --pink-border: #fbcfe8;
+    --pink-shadow-1: rgba(236, 72, 153, 0.2);
+    --pink-shadow-2: rgba(244, 114, 182, 0.12);
+    --pink: #f472b6;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, var(--blue-light), var(--blue-lighter), var(--pink-lightest));
+    color: var(--blue-dark);
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1.quiz-title {
+    font-size: 40px;
+    color: var(--pink); /* Set Quiz Attempts title to pink */
+    margin-bottom: 8px;
+}
+
+.subheading {
+    color: var(--gray-medium);
+    font-size: 16px;
+}
+
+.home-button {
+    background: var(--blue-dark);
+    color: white;
+    border: none;
+    padding: 12px 24px;
     border-radius: 8px;
-    padding: 16px;
-    margin: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    position: relative;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-}
-
-.attempt-box:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.tooltip {
-    display: none;
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background-color: #444;
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    z-index: 10;
-}
-
-.attempt-box:hover .tooltip {
-    display: block;
-}
-
-.card-link {
+    transition: all 0.3s ease;
     text-decoration: none;
-    color: inherit;
+    display: inline-block;
+    margin-top: 30px;
+}
+
+.home-button:hover {
+    background: var(--blue-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--pink-shadow-1);
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+}
+
+.card {
+    background: white;
+    border: 1.5px solid var(--gray-muted);
+    border-radius: 16px;
+    box-shadow: 0 6px 16px var(--pink-shadow-2);
+    width: 240px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    background: var(--pink-hover-bg);
+    border-color: var(--pink-border);
+    box-shadow: 0 12px 24px var(--pink-shadow-1), 0 6px 18px var(--pink-shadow-2);
+}
+
+.card-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--blue-muted);
+    margin-bottom: 8px;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: var(--gray-dark);
+    line-height: 1.4;
+}
+
+.card .username {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--pink);
+    margin-bottom: 10px;
 }

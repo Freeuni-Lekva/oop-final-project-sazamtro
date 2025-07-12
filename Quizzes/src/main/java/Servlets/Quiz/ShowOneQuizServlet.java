@@ -2,7 +2,9 @@ package Servlets.Quiz;
 
 import DAO.DatabaseConnection;
 import DAO.QuizDAO;
+import DAO.UserDAO;
 import bean.Quiz;
+import bean.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,7 +27,12 @@ public class ShowOneQuizServlet extends HttpServlet {
         try{
             QuizDAO qDAO = new QuizDAO(connection);
             Quiz q = qDAO.getOneQuiz(quiz_id);
+
+            UserDAO userDAO = new UserDAO(connection);
+            User user = userDAO.getUserById(q.getCreator_id());
+
             req.setAttribute("quiz", q);
+            req.setAttribute("creator", user);
             RequestDispatcher rd = req.getRequestDispatcher("/single_quiz_page.jsp");
             rd.forward(req, resp);
         } catch (Exception e) {
