@@ -31,7 +31,13 @@ public class AnnouncementServlet extends HttpServlet {
             request.setAttribute("announcements", new ArrayList<>());
             request.setAttribute("showAnnouncements", true);
         }
+        String mode = request.getParameter("mode");
 
-        request.getRequestDispatcher("/homepage.jsp").include(request, response);
+        if (mode != null && "admin".equals(mode)) {
+            request.getRequestDispatcher("/announcement-admin.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/homepage.jsp").include(request, response);
+        }
+
     }
 }
