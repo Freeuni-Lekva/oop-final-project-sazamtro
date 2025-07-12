@@ -1,12 +1,12 @@
 use sazamtro;
 -- USERS
 INSERT INTO Users (username, password_hash, profilePicture_url, is_admin) VALUES
-            ('gvantsa', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', 'https://example.com/pic2.png', TRUE),
-            ('irakli', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE),
-            ('tsotne', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE),
+            ('gvantsa', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, TRUE),
+            ('irakli', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, TRUE),
+            ('tsotne', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, TRUE),
             ('taso', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', 'https://cdn-icons-png.flaticon.com/512/8390/8390026.png', TRUE),
-            ('nerse','5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE),
-            ('rio','5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE);
+            ('ketevan','5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE),
+            ('avtandil','5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE);
 
 
 -- FRIEND REQUESTS
@@ -17,7 +17,6 @@ INSERT INTO FriendRequests (from_user_id, to_user_id, status) VALUES
             (2, 3, 'PENDING'),
             (3, 1, 'ACCEPTED'),
             (3, 6, 'REJECTED'),
-            (4, 5, 'ACCEPTED'),
             (4, 1, 'ACCEPTED'),
             (5, 4, 'PENDING'),
             (6, 4, 'ACCEPTED');
@@ -73,7 +72,8 @@ INSERT INTO UserAchievements (user_id, achievement_id) VALUES
             (2, 6),
             (3, 4),
             (1, 5),
-            (4, 1);
+            (6, 1),
+            (4, 3);
 
 -- ANNOUNCEMENTS
 INSERT INTO Announcements (administrator_id, announcement_text) VALUES
