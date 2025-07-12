@@ -3,6 +3,7 @@
 <%@ page import="bean.Questions.AnswerOption" %>
 <%@ page import="bean.Questions.QuestionType" %>
 <%@ page import="java.util.*" %>
+<%@ page import="bean.User" %>
 
 <html>
 <head>
@@ -297,6 +298,7 @@
 
     <form method="post" action="editQuiz" onsubmit="return validateForm();">
         <input type="hidden" name="quiz_id" value="<%= request.getAttribute("quiz_id") %>" />
+        <input type="hidden" name="creator_id" value="<%= ((User) request.getAttribute("creator")).getUserId() %>" />
     <%-- ... all existing question cards ... --%>
         <div class="quiz-info">
             <label for="quizTitle">Quiz Title:</label>
