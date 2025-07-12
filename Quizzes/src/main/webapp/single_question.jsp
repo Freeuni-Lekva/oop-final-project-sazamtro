@@ -3,57 +3,75 @@
 
 <%
     Quiz quiz = (Quiz) request.getAttribute("quiz");
-    Question currQuestion = (Question)request.getAttribute("question");
-    List<AnswerOption> answerOptions = (List<AnswerOption>)request.getAttribute("answer_options");
+    String pictureUrl = (String) request.getAttribute("picture");
+    Question currQuestion = (Question) request.getAttribute("question");
+    List<AnswerOption> answerOptions = (List<AnswerOption>) request.getAttribute("answer_options");
 %>
 
 <html>
 <head>
     <title><%= quiz.getQuizTitle() %></title>
     <link rel="stylesheet" type="text/css" href="/style/single_question.css" />
+    <style>
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+    </style>
 </head>
 <body>
 
 <%
     boolean showScorePerQuestion = quiz.checkIfImmediate_correction();
     Integer singleScore = (Integer) session.getAttribute("single_ques_score");
-    String nextAction = showScorePerQuestion ? "/SingleQuestionScoreServlet" : "/quizzes/question";
-%>
-
-<%
 %>
 
 <h1><%= quiz.getQuizTitle() %></h1>
 <h2><%= quiz.getQuizDescription() %></h2>
+
 <form method="post" action="/quizzes/question">
+    <p><b><%= currQuestion.getQuestionText() %></b></p>
 
-<p><b><%= currQuestion.getQuestionText() %></b></p>
+    <% if (pictureUrl != null && !pictureUrl.trim().isEmpty()) { %>
+        <div>
+            <img src="<%= pictureUrl %>" alt="Question Image"
+                 style="max-width: 400px; max-height: 300px; width: auto; height: auto; display: block; margin: 10px 0;" />
+        </div>
+    <% } %>
 
-<%
-    boolean canSelectSeveral = currQuestion.getQuestionType() == QuestionType.MULTI_SELECT;
-    String questionId = "q_" + currQuestion.getId();
-    if (answerOptions.size() != 0) {
-        for (int i = 0; i < answerOptions.size(); i++) {
-            AnswerOption currAnswer = answerOptions.get(i);
-            String inputType = canSelectSeveral ? "checkbox" : "radio";
-            String inputName = questionId;
-%>
-            <input type="<%= inputType %>" name="q_<%= currQuestion.getId() %>" value="<%= currAnswer.getAnswerText() %>"/>
-            <%= currAnswer.getAnswerText() %><br/>
-<%
+
+
+    <%
+        boolean canSelectSeveral = currQuestion.getQuestionType() == QuestionType.MULTI_SELECT;
+        String questionId = "q_" + currQuestion.getId();
+        if (!answerOptions.isEmpty()) {
+            for (AnswerOption currAnswer : answerOptions) {
+                String inputType = canSelectSeveral ? "checkbox" : "radio";
+    %>
+                <input type="<%= inputType %>" name="q_<%= currQuestion.getId() %>" value="<%= currAnswer.getAnswerText() %>"/>
+                <%= currAnswer.getAnswerText() %><br/>
+    <%
+            }
+        } else {
+    %>
+            <input type="text" name="q_<%= currQuestion.getId() %>" />
+    <%
         }
-    } else {
-%>
-        <input type="text" name="q_<%= currQuestion.getId() %>"/>
-<%
-    }
-%>
-<br/>
+    %>
+
     <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>" />
-    <button type="submit">Next Question</button>
 
-    <form action="/HomePageServlet" method="get">
-        <button class="btn">Home</button>
-    </form>
-
+    <div class="button-container">
+        <button type="submit">Next Question</button>
+    </div>
 </form>
+
+<div class="button-container">
+    <form action="/HomePageServlet" method="get">
+        <button type="submit" class="btn">Home</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -70,6 +70,9 @@ public class FriendRequestsDAOTest {
             assertTrue(fr1.getRequestId() >= 0);
             assertTrue(fr2.getRequestId() >= 0);
 
+            assertEquals(fr1, friendRequestDAO.getRequestByID(fr1.getRequestId()));
+            assertEquals(fr2, friendRequestDAO.getRequestByID(fr2.getRequestId()));
+
             assertEquals(FriendRequestStatus.PENDING, fr1.getStatus());
             assertEquals(FriendRequestStatus.PENDING, fr2.getStatus());
         }catch (SQLException e){

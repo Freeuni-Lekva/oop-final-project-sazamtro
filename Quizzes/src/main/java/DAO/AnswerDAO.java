@@ -17,7 +17,7 @@ public class AnswerDAO {
 
     public int insertUserAnswer(String text, int attempt_id, int question_id, boolean is_correct) throws SQLException {
         String sqlCommand = "INSERT INTO UserAnswers (attempt_id, question_id, response_text, is_correct)" +
-                "VALUES (?, ?, ?, ?)";
+                " VALUES (?, ?, ?, ?)";
 
         try(PreparedStatement st = connection.prepareStatement(sqlCommand, Statement.RETURN_GENERATED_KEYS)){
 
