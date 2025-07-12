@@ -2,8 +2,10 @@ package Servlets.Quiz;
 
 import DAO.QuestionsDAO;
 import DAO.QuizDAO;
+import DAO.UserDAO;
 import bean.Questions.*;
 import bean.Quiz;
+import bean.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,6 +32,7 @@ public class EditQuizServlet extends HttpServlet {
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         try{
             QuizDAO qDAO = new QuizDAO(connection);
+            UserDAO userDAO = new UserDAO(connection);
             List<Question> quizQuestions = qDAO.getQuizQuestions(quiz_id);
             Map<Question, List<AnswerOption>> questionAnswerOptionMap = new HashMap<>();
             Map<Question, String> questionTextAnswerMap = new HashMap<>();
@@ -51,6 +54,7 @@ public class EditQuizServlet extends HttpServlet {
             }
             Quiz quiz = qDAO.getOneQuiz(quiz_id);
             req.setAttribute("quiz_id", quiz_id);
+            req.setAttribute("creator", userDAO.getUserById(quiz.getCreator_id()));
             req.setAttribute("quizTitle", quiz.getQuizTitle());
             req.setAttribute("isRandom", quiz.checkIfRandom());
             req.setAttribute("immediateCorrection", quiz.checkIfImmediate_correction());
@@ -74,6 +78,7 @@ public class EditQuizServlet extends HttpServlet {
         Connection connection = (Connection) req.getServletContext().getAttribute("DBConnection");
         QuestionsDAO questionsDAO = new QuestionsDAO(connection);
         QuizDAO quizDAO = new QuizDAO(connection);
+        UserDAO userDAO = new UserDAO(connection);
 
         try {
             // Update quiz metadata
@@ -244,7 +249,11 @@ public class EditQuizServlet extends HttpServlet {
                 }
             }
 
+            int creatorId = Integer.parseInt(req.getParameter("creator_id"));
+            User u = userDAO.getUserById(creatorId);
+
             req.setAttribute("quiz", quizDAO.getOneQuiz(quizId));
+            req.setAttribute("creator", u);
             req.getRequestDispatcher("/single_quiz_page.jsp").forward(req, resp);
 
 
