@@ -6,10 +6,14 @@
     <meta charset="UTF-8" />
     <title>All Quizzes</title>
     <link rel="stylesheet" href="style/quizzes.css" />
-    <link rel="stylesheet" href="style/quizCard.css" />
-    <link rel="stylesheet" href="style/homepage.css" />
 </head>
 <body>
+
+    <div class="quizzes-header">
+        <h1>QUIZZES</h1>
+        <p class="quizzes-subtitle">Explore, take, or share quizzes with your friends!</p>
+    </div>
+
     <div class="quizzes-list">
         <%
             List<Quiz> quizzes = (List<Quiz>) request.getAttribute("quizzes");
@@ -22,7 +26,7 @@
             }
         } else {
         %>
-        <p>No quizzes available.</p>
+        <p>No quizzes available</p>
         <%
             }
         %>

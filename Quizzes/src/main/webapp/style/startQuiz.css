@@ -1,80 +1,139 @@
+:root {
+    --blue-light: #dbeafe;
+    --blue-lighter: #e0e7ff;
+    --blue-muted: #34495e;
+    --blue-dark: #2c3e50;
+
+    --pink-lightest: #fdf2f8;
+    --pink-border: #fbcfe8;
+    --pink-shadow-1: rgba(236, 72, 153, 0.2);
+    --pink-shadow-2: rgba(244, 114, 182, 0.12);
+    --pink: #f472b6;
+    --pink-light: #f9a8d4;
+
+    --indigo: #6366f1;
+    --indigo-light: #8b5cf6;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f8ff;
-    margin: 10;
-    padding: 0;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, var(--blue-light), var(--blue-lighter), var(--pink-lightest));
+    min-height: 100vh;
 }
 
-.quiz-container {
-    width: 60%;
+.container {
+    max-width: 900px;
     margin: 40px auto;
-    padding: 30px;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px var(--pink-shadow-1);
+    padding: 40px 50px;
+    text-align: center;
 }
 
-.quiz-container h1 {
-    color: #2c3e50;
-    font-size: 2.2em;
+h1 {
+    font-weight: 800;
+    font-size: 32px;
+    color: var(--blue-muted);
     margin-bottom: 10px;
 }
 
-.quiz-container h2 {
-    color: #7f8c8d;
-    font-weight: normal;
-    margin-bottom: 25px;
-}
-
-.question-block {
+h2 {
+    color: var(--gray-dark);
+    font-weight: 400;
     margin-bottom: 30px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
 }
 
-.question-block p {
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #34495e;
+.question-card {
+    background: white;
+    border: 1.5px solid var(--pink-border);
+    border-radius: 16px;
+    box-shadow: 0 6px 20px var(--pink-shadow-2);
+    padding: 28px 30px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.question-card h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--blue-muted);
+}
+
+.question-text {
+    margin-bottom: 18px;
+    font-weight: 600;
+    color: var(--blue-dark);
+}
+
+.option-label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: var(--blue-muted);
+    cursor: pointer;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1.5px solid var(--pink-border);
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-family: inherit;
+    margin-top: 8px;
 }
 
 input[type="radio"],
-input[type="text"] {
-    margin-bottom: 8px;
+input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.3);
 }
 
-input[type="text"] {
-    padding: 5px;
-    width: 60%;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.form-actions {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
 }
 
-button[type="submit"] {
-    background-color: #3498db;
+.submit-btn {
+    background-color: var(--indigo);
     color: white;
-    padding: 10px 25px;
-    font-size: 16px;
     border: none;
-    border-radius: 6px;
+    padding: 14px 32px;
+    font-size: 18px;
+    font-weight: 800;
+    border-radius: 20px;
     cursor: pointer;
+    box-shadow: 0 6px 18px var(--pink-shadow-1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-button[type="submit"]:hover {
-    background-color: #2980b9;
+.submit-btn:hover {
+    background-color: var(--indigo-light);
+    box-shadow: 0 8px 26px var(--pink-shadow-2);
 }
 
-.btn {
-    background-color: #ff9aa2;
-    border: none;
+.go-back-btn {
+    display: inline-block;
+    background-color: var(--blue-dark);
     color: white;
-    padding: 12px 24px;
-    font-size: 16px;
-    border-radius: 6px;
+    font-weight: 800;
+    padding: 14px 38px;
+    font-size: 18px;
+    border-radius: 24px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    box-shadow: 0 6px 20px var(--pink-shadow-1);
+    text-decoration: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn:hover {
-    background-color: #ff7f7f;
+.go-back-btn:hover {
+    background-color: var(--blue-muted);
+    box-shadow: 0 8px 26px var(--pink-shadow-2);
 }

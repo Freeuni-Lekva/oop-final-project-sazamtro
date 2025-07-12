@@ -1,7 +1,8 @@
+use sazamtro;
 -- USERS
 INSERT INTO Users (username, password_hash, profilePicture_url, is_admin) VALUES
             ('gvantsa', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', 'https://example.com/pic2.png', TRUE),
-            ('itakli', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE),
+            ('irakli', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE),
             ('tsotne', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE),
             ('taso', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', 'https://cdn-icons-png.flaticon.com/512/8390/8390026.png', TRUE),
             ('nerse','5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE),

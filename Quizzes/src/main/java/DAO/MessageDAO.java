@@ -4,9 +4,8 @@ package DAO;
 import bean.Message.*;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 
 public class MessageDAO {
     private final Connection connection;
@@ -141,7 +140,7 @@ public class MessageDAO {
      * @return
      */
     public List<Message> getReceivedTypeMessages(int user_id, MessageType type) throws SQLException{
-        String query = "SELECT * FROM Messages WHERE to_user_id = ? AND type = ?;";
+        String query = "SELECT * FROM Messages WHERE to_user_id = ? AND type = ? AND is_read = FALSE;";
         PreparedStatement st = connection.prepareStatement(query);
         st.setInt(1, user_id);
         st.setString(2, type.name());
@@ -184,6 +183,28 @@ public class MessageDAO {
 
         return messageQuery(st);
     }
+
+    /**
+     * Returns set of user_id's who have sent new messages, that
+     * are unread.
+     * @param userId
+     * @return
+     */
+    public Set<Integer> getUnreadSenderIds(int userId) {
+        String query = "SELECT DISTINCT from_user_id FROM Messages WHERE to_user_id = ? AND type like 'NOTE' AND is_read = FALSE";
+        Set<Integer> ids = new HashSet<>();
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            st.setInt(1, userId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                ids.add(rs.getInt("from_user_id"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error getting unread senders", e);
+        }
+        return ids;
+    }
+
 
     /**
      * Marks the message with message_id as read.

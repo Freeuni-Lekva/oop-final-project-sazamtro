@@ -5,6 +5,7 @@ import DAO.QuestionsDAO;
 import DAO.QuizDAO;
 import bean.Questions.AnswerOption;
 import bean.Questions.Question;
+import bean.Questions.QuestionType;
 import bean.Quiz;
 
 import javax.servlet.RequestDispatcher;
@@ -51,6 +52,11 @@ public class SingleQuestionServlet extends HttpServlet {
             Quiz quiz = qDAO.getOneQuiz(quiz_id);
             req.setAttribute("quiz", quiz);
             Question currQuestion = quizQuestions.get(currIndex);
+            String picture_url = "";
+            if(currQuestion.getQuestionType() == QuestionType.PICTURE_RESPONSE){
+                picture_url = currQuestion.getImageUrl();
+                req.setAttribute("picture", picture_url);
+            }
             List<AnswerOption> correctAnswers = answerDAO.getCorrectAnswers(currQuestion.getId());
             req.setAttribute("question", currQuestion);
             req.setAttribute("correct_answers", correctAnswers);
@@ -72,6 +78,14 @@ public class SingleQuestionServlet extends HttpServlet {
         //super.doPost(req, resp);
         int currIndex = (int) req.getSession().getAttribute("current_index");
         int currScore = (int) req.getSession().getAttribute("current_score");
+        int quizId = (int) req.getSession().getAttribute("quiz_id");
+        if ("true".equals(req.getParameter("advance"))) {
+            currIndex++;
+            req.getSession().setAttribute("current_index", currIndex);
+            resp.sendRedirect("/quizzes/question");
+            return;
+        }
+
 
         @SuppressWarnings("unchecked")
         Map<Integer, String[]> userResponses = (Map<Integer, String[]>) req.getSession().getAttribute("user_responses");
@@ -80,7 +94,13 @@ public class SingleQuestionServlet extends HttpServlet {
 
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         AnswerDAO answerDAO = new AnswerDAO(connection);
-
+        QuizDAO quizDAO = new QuizDAO(connection);
+        Quiz quiz;
+        try {
+            quiz = quizDAO.getOneQuiz(quizId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         Question currQuestion = quizQuestions.get(currIndex);
         //String[] currAnswers = req.getParameterValues("answer");
         String paramName = "q_" + currQuestion.getId();
@@ -97,12 +117,22 @@ public class SingleQuestionServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
-            currScore = currScore + singleQuesScore;
+        currScore = currScore + singleQuesScore;
 
-        req.getSession().setAttribute("current_score", currScore);
-        req.getSession().setAttribute("user_responses", userResponses);
-        req.getSession().setAttribute("is_correct", singleQuesScore);
-        req.getSession().setAttribute("current_index", currIndex + 1);
-        resp.sendRedirect("/quizzes/question"); ///" + req.getSession().getAttribute("quiz_id") + "
+        if(quiz.checkIfImmediate_correction()){
+            req.getSession().setAttribute("current_score", currScore);
+            req.getSession().setAttribute("quiz", quiz);
+            req.getSession().setAttribute("user_responses", userResponses);
+            req.getSession().setAttribute("single_ques_score", singleQuesScore);
+            req.getSession().setAttribute("current_index", currIndex);
+            RequestDispatcher rd = req.getRequestDispatcher("/single_question_score.jsp");
+            rd.forward(req, resp);
+        } else{
+            req.getSession().setAttribute("current_score", currScore);
+            req.getSession().setAttribute("user_responses", userResponses);
+            req.getSession().setAttribute("is_correct", singleQuesScore);
+            req.getSession().setAttribute("current_index", currIndex + 1);
+            resp.sendRedirect("/quizzes/question");
+        }
     }
 }

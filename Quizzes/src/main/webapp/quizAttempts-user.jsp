@@ -7,30 +7,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Your Attempts</title>
-  <link rel="stylesheet" href="style/quiz-attempts.css">
+  <link rel="stylesheet" href="style/quiz-attempts-p2.css">
 </head>
 <body>
 <div class="container">
   <div class="header">
-    <h1 class="brand">Your Attempts - <%= filter.toUpperCase() %></h1>
-    <p class="subheading">Below are your attempts.</p>
+    <h1>Your Attempts</h1>
+    <p class="subheading">Here you can see your attempts:</p>
   </div>
 
-  <div class="card-slider-wrapper">
-    <div class="card-container">
-      <% for (QuizAttempt attempt : attempts) { %>
-      <div class="card">
-        <div class="card-title">Quiz ID: <%= attempt.getQuizId() %></div>
-        <div class="card-desc">
-          Score: <%= attempt.getScore() %><br/>
-          Time Taken: <%= attempt.getTimeTakenMin() %> min<br/>
-          Type: <%= attempt.isPractice() ? "Practice" : "Real" %><br/>
-          Taken At: <%= attempt.getTakenAt() %>
-        </div>
-      </div>
-      <% } %>
+  <div class="card-container">
+    <% if (attempts != null && !attempts.isEmpty()) {
+      for (QuizAttempt attempt : attempts) { %>
+    <div class="card">
+      <h2 class="card-title">Quiz: <%= attempt.getQuizId() %></h2>
+      <p class="card-desc">
+        Score: <%= attempt.getScore() %><br/>
+        Time Taken: <%= attempt.getTimeTakenMin() %> min<br/>
+        Taken At: <%= attempt.getTakenAt() %>
+      </p>
     </div>
+    <% }
+    } else { %>
+    <p>You don’t have any attempts yet. Try a quiz!</p>
+    <% } %>
+  </div>
+
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="HomePageServlet" class="home-button">HOME</a>
+    <a href="QuizAttemptsPageForUserServlet" class="home-button">GO BACK</a>
   </div>
 </div>
 </body>

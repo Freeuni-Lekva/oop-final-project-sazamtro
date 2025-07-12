@@ -1,8 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="bean.Quiz" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
+<%@ page import="bean.User" %>
 <%
     Quiz quiz = (Quiz) request.getAttribute("quiz");
+    User creator = (User) request.getAttribute("creator");
     bean.User user = (session != null) ? (bean.User) session.getAttribute("user") : null;
     boolean isOwner = (user != null && user.getUserId() == quiz.getCreator_id());
     boolean isAdmin = (user != null && user.checkIfAdmin());
@@ -17,8 +19,7 @@
         <h1><%= quiz.getQuizTitle() %></h1>
 
         <div class="metadata">
-            Created by User ID <%= quiz.getCreator_id() %> on <%= quiz.getCreationDate() %><br>
-            Settings:
+            Created by <span class="username"><%= creator != null ? creator.getUsername() : "UNKNOWN" %></span> on <%= quiz.getCreationDate() %><br>
             <% if (quiz.checkIfRandom()) { %> Randomized Questions · <% } %>
             <% if (quiz.checkIfMultipage()) { %> Multi-page · <% } %>
             <% if (quiz.checkIfImmediate_correction()) { %> Immediate Correction <% } %>
@@ -48,7 +49,7 @@
                     <input type="hidden" name="quizId" value="<%= quiz.getQuiz_id() %>">
                     <button class="btn">Edit Quiz</button>
                 </form>
-                <form action="/quizzes/delete" method="post" onsubmit="return confirm('Are you sure you want to delete this quiz?');">
+                <form action="/quizzes/delete" method="post">
                     <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>">
                     <button class="btn danger">Delete Quiz</button>
                 </form>

@@ -12,7 +12,6 @@
     --pink-border: #fbcfe8;
     --pink-shadow-1: rgba(236, 72, 153, 0.2);
     --pink-shadow-2: rgba(244, 114, 182, 0.12);
-    --pink: #f472b6;
 }
 
 body {
@@ -33,36 +32,15 @@ body {
     margin-bottom: 30px;
 }
 
-.header h1.quiz-title {
+.header h1 {
     font-size: 40px;
-    color: var(--pink); /* Set Quiz Attempts title to pink */
+    color: var(--blue-muted);
     margin-bottom: 8px;
 }
 
 .subheading {
     color: var(--gray-medium);
     font-size: 16px;
-}
-
-.home-button {
-    background: var(--blue-dark);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-    margin-top: 30px;
-}
-
-.home-button:hover {
-    background: var(--blue-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--pink-shadow-1);
 }
 
 .card-container {
@@ -86,14 +64,9 @@ body {
 .card:hover {
     background: var(--pink-hover-bg);
     border-color: var(--pink-border);
-    box-shadow: 0 12px 24px var(--pink-shadow-1), 0 6px 18px var(--pink-shadow-2);
-}
-
-.card-icon {
-    width: 64px;
-    height: 64px;
-    object-fit: contain;
-    margin-bottom: 12px;
+    box-shadow:
+            0 12px 24px var(--pink-shadow-1),
+            0 6px 18px var(--pink-shadow-2);
 }
 
 .card-title {
@@ -109,9 +82,23 @@ body {
     line-height: 1.4;
 }
 
-.card .username {
+.home-button {
+    background: var(--blue-dark);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
     font-size: 14px;
-    font-weight: 500;
-    color: var(--pink);
-    margin-bottom: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 30px;
+}
+
+.home-button:hover {
+    background: var(--blue-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--pink-shadow-1);
 }

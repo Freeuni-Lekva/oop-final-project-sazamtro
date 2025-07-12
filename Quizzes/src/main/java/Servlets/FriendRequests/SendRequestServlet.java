@@ -33,19 +33,20 @@ public class SendRequestServlet extends HttpServlet {
         String receiverUsername = req.getParameter(RequestAtributeNames.RECEIVER_USERNAME);
 
         if (receiverUsername == null || receiverUsername.trim().isEmpty()) {
-            resp.sendRedirect("/error.jsp");
+            resp.sendRedirect("/error1.jsp");
             return;
         }
 
         User receiver;
         try {
+            System.out.println(receiverUsername);
             receiver = userDAO.getUserByUsername(receiverUsername);
             if (receiver == null) {
-                resp.sendRedirect("/error.jsp");
+                resp.sendRedirect("/error2.jsp");
                 return;
             }
             if (receiver.getUserId() == sender.getUserId()) {
-                resp.sendRedirect("/error.jsp");
+                resp.sendRedirect("/error3.jsp");
                 return;
             }
         } catch (SQLException e) {
@@ -54,12 +55,12 @@ public class SendRequestServlet extends HttpServlet {
 
         try{
         if (requestDAO.friendRequestExists(sender.getUserId(), receiver.getUserId())) {
-            resp.sendRedirect("/error.jsp");
+            resp.sendRedirect("/error4.jsp");
             return;
         }
 
         FriendRequest friendRequest = new FriendRequest(sender.getUserId(), receiver.getUserId());
-        RequestMessage requestMessage = new RequestMessage(Message.DEFAULT_MESSAGE_ID, sender.getUserId(), receiver.getUserId(), "NEED A DISCORD MEETING FOR THIS", null, false);
+        RequestMessage requestMessage = new RequestMessage(Message.DEFAULT_MESSAGE_ID, sender.getUserId(), receiver.getUserId(), sender.getUsername(), null, false);
         try {
             messageDAO.sendFriendRequest(requestMessage);
         } catch (SQLException e) {
@@ -70,8 +71,11 @@ public class SendRequestServlet extends HttpServlet {
 
         achievementsDAO.checkSocialButterfly(sender.getUserId());
         achievementsDAO.checkSocialButterfly(receiver.getUserId());
-
-        resp.sendRedirect("/GetFriendListServlet");
+        if(req.getParameter("redirect") == null) {
+            resp.sendRedirect("/GetFriendListServlet");
+        }else{
+            resp.sendRedirect(req.getParameter("redirect"));
+        }
         }catch (SQLException e){
             throw new RuntimeException("Failed To Send Friend Request", e);
         }

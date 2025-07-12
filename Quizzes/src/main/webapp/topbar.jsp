@@ -8,8 +8,16 @@
 
     List<Message> challengeMessages = (List<Message>) request.getAttribute("challenges");
     int challengeCount = (challengeMessages != null) ? challengeMessages.size() : 0;
+
+    bean.User user = (bean.User) session.getAttribute("user");
 %>
 
+<!-- FontAwesome CDN -->
+<!-- Place in <head> or topbar.jsp -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="style/topbar.css" />
+<link rel="stylesheet" href="style/friend-request-dropdown.css" />
+<link rel="stylesheet" href="style/challenge-dropdown.css" />
 
 <div class="topbar">
     <!-- Middle icons -->
@@ -46,9 +54,15 @@
 
 
         <!-- Profile icon -->
-        <div class="topbar-circle" title="Profile">
-            <i class="fas fa-user-circle"></i>
-        </div>
+            <% if (user != null && user.getProfilePictureUrl() != null && !user.getProfilePictureUrl().isEmpty()) { %>
+        <a href="/myProfile.jsp" class="profile-circle" title="Profile" style="position: relative;">
+            <img src="<%= user.getProfilePictureUrl() %>" alt="Profile" class="profile-img" />
+            <% } else { %>
+        <a href="/myProfile.jsp" class="topbar-circle" title="Profile" style="position: relative;">
+            <i class="fas fa-user"></i>
+            <% } %>
+        </a>
+
     </div>
 </div>
 

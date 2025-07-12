@@ -21,11 +21,11 @@
 
 .logo {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .logo img {
-    width: 80px;
+    width: 60px;
 }
 
 .nav-links {
@@ -76,7 +76,10 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    font-weight: 700;
+    padding: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 24px;
     border: none;
     cursor: pointer;
     gap: 8px;
@@ -85,14 +88,6 @@
     color: white;
     box-sizing: border-box;
 }
-
-.sidebar-button.create,
-.sidebar-button.logout {
-    font-size: 16px;        /* bigger font */
-    padding: 16px 24px;     /* bigger padding */
-    border-radius: 30px;    /* more rounded */
-}
-
 
 .sidebar-button.create {
     background: linear-gradient(to right, var(--indigo), var(--indigo-light));

@@ -1,0 +1,45 @@
+.profile-card {
+    background: white;
+    border: 1.5px solid var(--pink-border);
+    border-radius: 20px;
+    box-shadow: 0 6px 20px var(--pink-shadow-2);
+    padding: 30px;
+    text-align: center;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--pink-border);
+    box-shadow: 0 4px 12px var(--pink-shadow-1);
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: var(--indigo);
+    color: white;
+    font-weight: bold;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    margin: 10px;
+    box-shadow: 0 4px 12px var(--pink-shadow-1);
+}
+
+.btn:hover {
+    background-color: var(--indigo-light);
+}
+
+.mutual-list {
+    list-style: none;
+    padding: 0;
+}
+
+.mutual-list li {
+    padding: 6px;
+    font-weight: 500;
+    color: var(--blue-muted);
+}

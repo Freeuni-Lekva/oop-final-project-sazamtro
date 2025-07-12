@@ -1,51 +1,75 @@
+:root {
+    /* Color Palette */
+    --blue-light: #dbeafe;
+    --blue-lighter: #e0e7ff;
+    --blue-muted: #34495e;
+    --blue-dark: #2c3e50;
+    --gray-light: #f7f9fc;
+    --gray-medium: #7f8c8d;
+    --pink-lightest: #fdf2f8;
+    --pink-border: #fbcfe8;
+    --pink: #f472b6;
+    --pink-hover: #f9a8d4;
+    --indigo: #6366f1;
+    --indigo-hover: #8b5cf6;
+    --shadow-light: rgba(0, 0, 0, 0.05);
+    --shadow-medium: rgba(0, 0, 0, 0.1);
+}
+
 body {
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f7f9fc;
+    background: linear-gradient(to right, var(--blue-light), var(--blue-lighter), var(--pink-lightest));
     margin: 0;
-    padding: 0;
+    padding: 40px 20px;
+    min-height: 100vh;
 }
 
 h2 {
     text-align: center;
-    color: #333;
-    margin-top: 40px;
-    font-size: 28px;
+    color: var(--blue-dark);
+    margin-bottom: 40px;
+    font-size: 30px;
+    font-weight: 800;
 }
 
 form {
-    max-width: 600px;
-    margin: 30px auto;
-    padding: 30px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px var(--shadow-medium);
+}
+
+.form-section {
+    margin-bottom: 25px;
 }
 
 label {
     font-weight: bold;
     display: block;
-    margin-bottom: 5px;
-    color: #222;
+    margin-bottom: 6px;
+    color: var(--blue-muted);
 }
 
 input[type="text"],
 textarea,
 select {
-    resize: vertical;
     width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    padding: 12px 16px;
     font-size: 15px;
+    border: 1.5px solid var(--pink-border);
+    border-radius: 10px;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
+    resize: vertical;
+    background: #ffffff;
 }
 
 input[type="text"]:focus,
 textarea:focus,
 select:focus {
-    border-color: #0077cc;
+    border-color: var(--indigo);
     outline: none;
 }
 
@@ -53,70 +77,17 @@ select:focus {
     display: block;
     margin-top: 10px;
     max-width: 100%;
-    border-radius: 6px;
+    border-radius: 12px;
+    border: 1.5px solid var(--pink-border);
 }
 
-#optionsContainer > div {
-    margin-bottom: 10px;
-}
-
-#mcHint {
-    margin-top: -10px;
-    margin-bottom: 10px;
-}
-
-.error {
+#errorImage {
     color: red;
-    font-size: 14px;
+    display: none;
 }
 
-/* Shared styles for all buttons */
-button,
-input[type="submit"] {
-    padding: 10px 20px;
-    font-size: 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-
-/* Blue buttons (Add Question, Add Option) */
-/* Shared styles for all buttons except background color */
-button,
-input[type="submit"] {
-    padding: 10px 20px;
-    font-size: 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-/* Blue buttons (Add Question, Add Option) */
-.primary-button {
-    background-color: #0077cc;
-    color: #fff;
-}
-.primary-button:hover {
-    background-color: #005fa3;
-}
-button.finish-button[type="button"] {
-    background-color: #28a745 !important;
-    color: #fff !important;
-    width: 200px;
-    text-align: center;
-}
-
-button.finish-button[type="button"]:hover {
-    background-color: #218838 !important;
-}
-.center-button {
-    text-align: center;
-}
 .add-option-container {
-    margin-top: 50px;
+    margin-top: 25px;
 }
 
 .add-option-link {
@@ -124,8 +95,7 @@ button.finish-button[type="button"]:hover {
     align-items: center;
     text-decoration: none;
     cursor: pointer;
-    gap: 8px;
-    position: relative;
+    gap: 10px;
 }
 
 .add-option-icon {
@@ -141,7 +111,7 @@ button.finish-button[type="button"]:hover {
 .add-option-text {
     opacity: 0;
     visibility: hidden;
-    color: #0077cc;
+    color: var(--indigo);
     font-weight: bold;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
@@ -151,23 +121,104 @@ button.finish-button[type="button"]:hover {
     visibility: visible;
 }
 
+/* Answer options card */
 .option-section {
-    border: 2px solid #0077cc;
-    padding: 15px;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    margin-bottom: 10px;
+    border: 1.5px solid var(--pink-border);
+    background: var(--pink-lightest);
+    padding: 20px 25px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+    margin-bottom: 20px;
 }
 
 .option-section h4 {
     margin-top: 0;
-    color: #0077cc;
-}
-.single-option {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    background-color: #ffffff;
+    color: var(--blue-muted);
+    font-size: 18px;
+    font-weight: 700;
 }
 
+.single-option {
+    border: 1.5px solid var(--pink-border);
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 2px 6px var(--shadow-light);
+}
+
+/* Buttons */
+button,
+input[type="submit"] {
+    padding: 12px 26px;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 700;
+}
+
+/* Indigo button */
+.primary-button {
+    background-color: var(--indigo);
+    color: white;
+    box-shadow: 0 4px 12px var(--shadow-light);
+}
+
+.primary-button:hover {
+    background-color: var(--indigo-hover);
+}
+
+/* Finish button */
+button.finish-button {
+    background-color: var(--pink);
+    color: white;
+    width: 200px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+}
+
+button.finish-button:hover {
+    background-color: var(--pink-hover);
+}
+
+/* Centered button */
+.center-button {
+    text-align: center;
+    margin-top: 40px;
+}
+
+textarea:focus {
+    border-color: var(--indigo);
+}
+
+input[type="text"]:focus {
+    border-color: var(--indigo);
+}
+
+/* Form input container: Adjusting label styles */
+textarea {
+    resize: vertical;
+}
+
+/* Responsive Image Section */
+#imagePreview {
+    max-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+}
+
+#imageUrlRow {
+    display: none;
+}
+
+#imagePreview {
+    display: block;
+    max-width: 100%;
+    border-radius: 12px;
+}
+
+/* Error message */
+.error {
+    color: red;
+    font-size: 14px;
+}

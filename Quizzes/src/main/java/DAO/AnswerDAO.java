@@ -17,7 +17,7 @@ public class AnswerDAO {
 
     public int insertUserAnswer(String text, int attempt_id, int question_id, boolean is_correct) throws SQLException {
         String sqlCommand = "INSERT INTO UserAnswers (attempt_id, question_id, response_text, is_correct)" +
-                "VALUES (?, ?, ?, ?)";
+                " VALUES (?, ?, ?, ?)";
 
         try(PreparedStatement st = connection.prepareStatement(sqlCommand, Statement.RETURN_GENERATED_KEYS)){
 
@@ -99,4 +99,24 @@ public class AnswerDAO {
         }
         return result;
     }
+
+    //Added for practice
+    public List<AnswerOption> getUserAnswers(int attempt_id, int question_id) throws SQLException {
+        List<AnswerOption> result = new ArrayList<>();
+        String sql = "SELECT * FROM UserAnswers WHERE question_id = ? AND attempt_id = ?";
+        try (PreparedStatement st = connection.prepareStatement(sql)) {
+            st.setInt(1, question_id);
+            st.setInt(2, attempt_id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int answer_id = rs.getInt("answer_id");
+                int questionId = rs.getInt("question_id");
+                String response_text = rs.getString("response_text");
+                boolean is_correct = rs.getBoolean("is_correct");
+                result.add(new AnswerOption(answer_id, questionId, response_text, is_correct));
+            }
+        }
+        return result;
+    }
+
 }

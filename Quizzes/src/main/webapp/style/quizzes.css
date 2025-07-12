@@ -1,10 +1,34 @@
+:root {
+    /* Main Blues */
+    --blue-light: #dbeafe;        /* Light blue for card bg */
+    --blue-lighter: #e0e7ff;      /* Accent or alt bg */
+    --blue-muted: #1e3a8a;        /* Deep blue for titles */
+    --blue-dark: #1e40af;         /* Main buttons, HOME button */
+
+    /* Grays */
+    --gray-light: #f9fafb;        /* Page background */
+    --gray-muted: #d1d5db;        /* Borders */
+    --gray-medium: #6b7280;       /* Subheadings, muted text */
+    --gray-dark: #374151;         /* Stronger dark text */
+
+    /* Pinks & Indigo */
+    --pink: #ec4899;              /* Main pink for accents */
+    --indigo-new: #4f46e5;        /* Indigo for main CTAs */
+
+    /* Hover & Shadows */
+    --pink-hover-bg: #fdf2f8;     /* Card hover bg */
+    --pink-border: #fbcfe8;       /* Card hover border */
+    --pink-shadow-1: rgba(236, 72, 153, 0.3);  /* Shadow hover strong */
+    --pink-shadow-2: rgba(244, 114, 182, 0.15); /* Base shadow */
+}
+
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
 }
 
-/* Grid Layout */
 .container {
     display: grid;
     grid-template-columns: 220px auto;
@@ -23,58 +47,145 @@ body {
     overflow-y: auto;
 }
 
+
+.quizzes-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.quizzes-header h1 {
+    font-size: 28px;
+    color: var(--pink);
+    margin-bottom: 8px;
+}
+
+.quizzes-header .quizzes-subtitle {
+    font-size: 16px;
+    color: var(--indigo-new);
+    font-weight: 400;
+}
+
+
 /* Quiz Cards List */
 .quizzes-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start; /* Changed from center */
-    gap: 20px;
+    justify-content: center;  /* CENTER */
+    gap: 24px;                /* Even space between cards */
+    margin-top: 20px;
     padding: 20px;
     box-sizing: border-box;
 }
 
-
 /* Quiz Card Style */
 .quiz-card {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
+    background-color: var(--blue-light);
+    border: 1.5px solid var(--gray-muted);
+    border-radius: 16px;
+    box-shadow: 0 6px 16px var(--pink-shadow-2);
     width: 260px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .quiz-card:hover {
+    background-color: var(--pink-hover-bg);
+    border-color: var(--pink-border);
+    box-shadow:
+            0 12px 24px var(--pink-shadow-1),
+            0 6px 18px var(--pink-shadow-2);
     transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
+/* Title */
 .quiz-title {
-    font-size: 1.4em;
-    margin-bottom: 15px;
-    text-align: center;
-    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 16px;
+    color: var(--indigo-new);
+    font-weight: 600;
 }
 
-/* Buttons */
+/* Buttons container: vertical, centered, nice gap */
 .quiz-buttons {
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px; /* Spacing between Start, View, Share */
+    margin-bottom: 12px;
 }
 
-.quiz-buttons button {
-    flex: 1;
-    padding: 8px 12px;
-    font-size: 0.95em;
+/* Buttons style */
+.quiz-buttons button,
+.btn {
+    width: 50%;
+    padding: 10px 0;
+    font-size: 1rem;
     border: none;
-    border-radius: 6px;
-    background-color: #1976d2;
-    color: white;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s ease;
 }
 
-.quiz-buttons button:hover {
-    background-color: #135ba1;
+.start-btn {
+    background-color: var(--indigo-new);
+    color: white;
+}
+
+.start-btn:hover {
+    background-color: #303f9f;
+}
+
+.share-btn {
+    background-color: var(--pink-border);
+    color: var(--blue-dark);
+}
+
+.share-btn:hover {
+    background-color: var(--pink-hover-bg);
+}
+
+/* Friends List: small margin on top for space from buttons */
+.friends-list {
+    margin-top: 16px;
+    border-top: 1px solid var(--gray-muted);
+    padding-top: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.friends-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.friends-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.friends-list li span {
+    font-weight: 500;
+    color: var(--blue-dark);
+    margin-right: 12px; /* More space between name & button */
+}
+
+.send-challenge-btn {
+    background-color: var(--pink-border);
+    color: var(--blue-dark);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 0.85rem;
+}
+
+.send-challenge-btn:hover {
+    background-color: var(--pink-hover-bg);
 }

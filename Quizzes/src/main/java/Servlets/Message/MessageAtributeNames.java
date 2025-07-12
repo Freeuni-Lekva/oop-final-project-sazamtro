@@ -9,4 +9,5 @@ public interface MessageAtributeNames {
     public static final String RECEIVER_USERNAME = "receiver_username";
     public static final String CONTENT = "content";
     public static final String QUIZ_ID = "quiz_id";
+    public static final String UNREAD_SENDER_IDS = "unread_sender_ids";
 }
