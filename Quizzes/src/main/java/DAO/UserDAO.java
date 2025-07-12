@@ -3,6 +3,8 @@ package DAO;
 import bean.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
     private Connection connection;
@@ -92,6 +94,24 @@ public class UserDAO {
         PreparedStatement ps = connection.prepareStatement(update);
         ps.setString(1, url);
         ps.setInt(2, user_id);
+        ps.executeUpdate();
+    }
+
+    public List<User> getAllUsers() throws SQLException{
+        List<User> result = new ArrayList<>();
+        String query = "SELECT user_id FROM Users";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()){
+            result.add(getUserById(rs.getInt(1)));
+        }
+        return result;
+    }
+
+    public void promoteUser(int user_id) throws SQLException{
+        String update = "UPDATE Users SET is_admin = TRUE where user_id = ?";
+        PreparedStatement ps = connection.prepareStatement(update);
+        ps.setInt(1, user_id);
         ps.executeUpdate();
     }
 }

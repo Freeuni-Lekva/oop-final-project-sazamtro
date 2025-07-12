@@ -33,6 +33,29 @@
     background-color: var(--indigo-light);
 }
 
+.user-role {
+    font-size: 16px;
+    color: var(--gray-medium);
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.mutual-list-box {
+    max-height: 140px;
+    overflow-y: auto;
+    margin: 0 auto 20px;
+    padding-right: 6px;
+}
+
+.mutual-list-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mutual-list-box::-webkit-scrollbar-thumb {
+    background-color: var(--gray-medium);
+    border-radius: 3px;
+}
+
 .mutual-list {
     list-style: none;
     padding: 0;
@@ -42,4 +65,44 @@
     padding: 6px;
     font-weight: 500;
     color: var(--blue-muted);
+}
+.profile-layout {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.left-panel {
+    width: 320px;
+    text-align: center;
+}
+
+.right-panel {
+    flex: 1;
+    min-width: 280px;
+    max-width: 360px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px var(--pink-shadow-2);
+    padding: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.right-panel h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--blue-dark);
+    text-align: center;
+}
+
+.right-panel::-webkit-scrollbar {
+    width: 6px;
+}
+.right-panel::-webkit-scrollbar-thumb {
+    background-color: var(--gray-medium);
+    border-radius: 3px;
 }

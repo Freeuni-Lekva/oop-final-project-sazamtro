@@ -23,6 +23,10 @@ public class DeleteQuizServlet extends HttpServlet {
             QuizDAO qDAO = new QuizDAO(connection);
             String quizName = qDAO.getOneQuiz(quiz_id).getQuizTitle();
             qDAO.removeQuiz(quiz_id);
+            if(req.getParameter("mode") != null && req.getParameter("mode").equals("admin")){
+                resp.sendRedirect("/showAllQuizzes?mode=admin");
+                return;
+            }
             req.setAttribute("quiz_title", quizName);
             req.getRequestDispatcher("/quiz_deleted.jsp").forward(req, resp);
         } catch (Exception e) {
