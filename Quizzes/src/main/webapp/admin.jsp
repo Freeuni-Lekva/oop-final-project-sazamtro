@@ -16,7 +16,7 @@
 
     <div class="card-slider-wrapper">
         <div class="card-container">
-            <a href="UserAdminServlet" class="card">
+            <a href="/UserAdminServlet" class="card">
                 <div class="card-title">Manage Users</div>
                 <div class="card-desc">Remove users, promote admins, and monitor accounts.</div>
             </a>
@@ -26,7 +26,7 @@
                 <div class="card-desc">Remove quizzes and reset quiz history data.</div>
             </a>
 
-            <a href="AnnouncementAdminServlet" class="card">
+            <a href="/AnnouncementServlet?mode=admin" class="card">
                 <div class="card-title">Manage Announcements</div>
                 <div class="card-desc">Create or delete announcements that users see on login.</div>
             </a>

@@ -16,12 +16,19 @@ public class AnnouncementDAO {
 
     // add new announcement
     public void addAnnouncement(Announcement announcement) throws SQLException {
-        String query = "INSERT INTO Announcements (administrator_id, announcement_text, done_at) VALUES (?, ?, ?)";
+        String query;
+        if(announcement.getDoneAt() == null) {
+        query ="INSERT INTO Announcements (administrator_id, announcement_text) VALUES (?, ?)";
+        }else{
+            query = "INSERT INTO Announcements (administrator_id, announcement_text, done_at) VALUES (?, ?, ?)";
+        }
 
         try (PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, announcement.getAdministratorId());
             ps.setString(2, announcement.getText());
-            ps.setTimestamp(3, announcement.getDoneAt());
+            if(announcement.getDoneAt() != null){
+                ps.setTimestamp(3, announcement.getDoneAt());
+            }
 
             ps.executeUpdate();
 
@@ -62,5 +69,20 @@ public class AnnouncementDAO {
         }
 
         return announcements;
+    }
+
+    public void setAnnouncementText(int announcement_id, String text) throws SQLException{
+        String update = "UPDATE Announcements SET announcement_text = ? where announcement_id = ?";
+        PreparedStatement st = connection.prepareStatement(update);
+        st.setString(1, text);
+        st.setInt(2,announcement_id);
+        st.executeUpdate();
+    }
+
+    public void deleteAnnouncement(int announcement_id) throws SQLException{
+        String delete = "DELETE FROM Announcements WHERE announcement_id = ?";
+        PreparedStatement st = connection.prepareStatement(delete);
+        st.setInt(1, announcement_id);
+        st.executeUpdate();
     }
 }
