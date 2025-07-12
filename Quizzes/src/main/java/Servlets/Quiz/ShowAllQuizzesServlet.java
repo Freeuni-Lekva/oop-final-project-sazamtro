@@ -25,6 +25,18 @@ public class ShowAllQuizzesServlet extends HttpServlet {
             QuizDAO qDAO = new QuizDAO(connection);
             List<Quiz> allQuizzes = qDAO.getAllQuizzes();
             req.setAttribute("quizzes", allQuizzes);
+            if(req.getParameter("mode") != null && req.getParameter("mode").equals("admin")){
+                String search = req.getParameter("search");
+                List<Quiz> searchedQuiz = new ArrayList<>();
+                if(search == null || search.trim().isEmpty()){
+                    req.setAttribute("quizzes", allQuizzes);
+                }else{
+                    searchedQuiz.add(qDAO.getQuizByTitle(search));
+                    req.setAttribute("quizzes", searchedQuiz);
+                }
+                req.getRequestDispatcher("quizzes-admin.jsp").forward(req, resp);
+                return;
+            }
 
             User user = (User) req.getSession().getAttribute("user");
             FriendRequestDAO friendDAO = new FriendRequestDAO(connection);

@@ -227,4 +227,15 @@ public class QuizDAO {
         return result;
     }
 
+    public Quiz getQuizByTitle(String title) throws SQLException{
+        String query = "Select quiz_id WHERE title like ?";
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, title);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()) {
+            return getOneQuiz(rs.getInt(1));
+        }
+        return null;
+    }
+
 }

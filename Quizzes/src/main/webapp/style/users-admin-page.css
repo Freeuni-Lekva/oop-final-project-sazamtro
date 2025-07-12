@@ -1,0 +1,166 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    color: white;
+}
+
+.container {
+    padding: 40px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.header h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #cfd8ff;
+    margin-bottom: 6px;
+}
+
+.header .subheading {
+    text-align: center;
+    font-size: 18px;
+    color: #b0c4de;
+    margin-bottom: 30px;
+}
+
+.search-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.search-container input[type="text"] {
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: 1.5px solid var(--gray-muted, #ccc);
+    width: 300px;
+    font-size: 15px;
+    outline: none;
+}
+
+.search-container button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background: linear-gradient(to right, #8e2de2, #4a00e0);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-container button:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+/* Grid layout for user cards */
+.user-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+}
+
+/* Each card */
+.user-card {
+    background: white;
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    text-align: center;
+    transition: transform 0.3s ease;
+    color: #333;
+}
+
+.user-card:hover {
+    transform: scale(1.02);
+}
+
+/* Gradient pill for username */
+.username-link {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 50px;
+    background: linear-gradient(to right, #8e2de2, #4a00e0);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    margin-bottom: 14px;
+    box-shadow: 0 6px 14px rgba(72, 16, 167, 0.3);
+    transition: all 0.2s ease;
+}
+
+.username-link:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}
+
+/* Role text */
+.user-card p {
+    margin: 8px 0 16px 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #666;
+}
+
+/* Buttons */
+.user-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.user-actions form button {
+    padding: 8px 18px;
+    font-size: 14px;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn-promote {
+    background-color: #4CAF50;
+}
+
+.btn-promote:hover {
+    background-color: #43a047;
+}
+
+.btn-remove {
+    background-color: #e53935;
+}
+
+.btn-remove:hover {
+    background-color: #c62828;
+}
+
+/* Footer link */
+.auth-box {
+    margin-top: 60px;
+    text-align: center;
+}
+
+.auth-card {
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(to right, #4a00e0, #8e2de2);
+    border-radius: 30px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.auth-card:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+}

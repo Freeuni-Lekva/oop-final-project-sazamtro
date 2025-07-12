@@ -1,0 +1,114 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #0f2027, #2c5364, #3a7bd5, #6f86d6);
+    margin: 0;
+    padding: 0;
+}
+
+.page-header {
+    text-align: center;
+    padding: 30px 20px 10px;
+    color: white;
+}
+
+.page-header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.page-header p {
+    font-size: 16px;
+    color: #eeeeee;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    gap: 12px;
+}
+
+.search-bar input[type="text"] {
+    padding: 12px 20px;
+    border-radius: 20px;
+    border: none;
+    width: 300px;
+    font-size: 15px;
+    box-shadow: 0 4px 12px var(--shadow-light);
+}
+
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px 40px;
+}
+
+.quiz-card {
+    background-color: white;
+    border-radius: 20px;
+    padding: 24px;
+    width: 260px;
+    box-shadow: 0 8px 18px var(--pink-shadow-1);
+    text-align: center;
+}
+
+.quiz-card h3 {
+    font-size: 20px;
+    margin-bottom: 6px;
+    color: var(--purple);
+}
+
+.quiz-card p {
+    font-size: 14px;
+    color: var(--gray-medium);
+    margin-bottom: 18px;
+}
+
+.btn {
+    padding: 10px 18px;
+    margin: 6px;
+    border: none;
+    border-radius: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px var(--pink-shadow-1);
+}
+
+.btn-clear {
+    background-color: var(--indigo);
+    color: white;
+}
+
+.btn-clear:hover {
+    background-color: var(--indigo-light);
+}
+
+.btn-remove {
+    background-color: var(--pink);
+    color: white;
+}
+
+.btn-remove:hover {
+    background-color: #d8317a;
+}
+
+.center-button {
+    text-align: center;
+    margin: 40px 0;
+}
+
+.center-button a {
+    background: linear-gradient(to right, #8e2de2, #4a00e0);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(72, 16, 167, 0.3);
+}
+
+.center-button a:hover {
+    opacity: 0.9;
+}
