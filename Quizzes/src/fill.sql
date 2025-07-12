@@ -1,9 +1,9 @@
 use sazamtro;
 -- USERS
 INSERT INTO Users (username, password_hash, profilePicture_url, is_admin) VALUES
-            ('gvantsa', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, TRUE),
-            ('irakli', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, TRUE),
-            ('tsotne', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, TRUE),
+            ('gvantsa', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', 'https://i.pinimg.com/736x/e7/03/f0/e703f0d151e171a848c0fe060808cbaf.jpg', TRUE),
+            ('irakli', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', 'https://i.pinimg.com/736x/6c/b8/9a/6cb89a09c0969ca5d10a08516357c8ee.jpg?fbclid=IwY2xjawLfDB5leHRuA2FlbQIxMABicmlkETFaUm56cGtSZmJkM0xUV0VWAR6DHr-Sg0i3Xfk9QixVIGlKtgGg7fx6HUZVB81nyXF1nTe_-Ty5-x70AassgA_aem_UmD6XE82m67nCExnwBizSw', TRUE),
+            ('tsotne', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', 'https://i.pinimg.com/736x/36/14/12/3614127a1cf010af2a5d20ad0549a29f.jpg?fbclid=IwY2xjawLfDVNleHRuA2FlbQIxMABicmlkETFubW1WODlKbGhtUXczbWx0AR4wPQo3eG2CO-tyP098ifFzuqLlz4WB7awIyFF7c1qhAAOTMeMNwHJC7QP9Ag_aem_VVFGsX2_jskA47fm4PeI6g', TRUE),
             ('taso', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', 'https://cdn-icons-png.flaticon.com/512/8390/8390026.png', TRUE),
             ('ketevan','5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE),
             ('avtandil','5eec30a512219bbd18e44a4672e02123d9f0a6fb', NULL, FALSE);
