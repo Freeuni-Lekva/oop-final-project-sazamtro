@@ -65,7 +65,6 @@ public class EditQuizServlet extends HttpServlet {
             req.setAttribute("questions", quizQuestions);
 
             RequestDispatcher rd = req.getRequestDispatcher("editQuiz.jsp");
-//            System.out.println("Quiz title in doGet: " + quiz.getQuizTitle());
             rd.forward(req, resp);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -83,7 +82,6 @@ public class EditQuizServlet extends HttpServlet {
         try {
             // Update quiz metadata
             String title = req.getParameter("quizTitle");
-            System.out.println("quizTitle from request: " + req.getParameter("quizTitle"));
             String description = req.getParameter("quizDescription");
             boolean random = req.getParameter("randomOrder") != null;
             boolean multiPage = req.getParameter("multiPage") != null;

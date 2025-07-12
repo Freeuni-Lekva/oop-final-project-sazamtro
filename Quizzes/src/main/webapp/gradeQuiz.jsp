@@ -10,7 +10,6 @@
 <body>
 <div class="container">
     <div style="text-align: center; margin: 20px 0;">
-<%--        linkebit sheidzleba profile da summaryze--%>
         <h1>Quiz Title: <%= request.getAttribute("quizTitle") %></h1>
         <h3>Grading Attempt by: <%= request.getAttribute("username") %></h3>
     </div>
