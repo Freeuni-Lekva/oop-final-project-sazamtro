@@ -31,10 +31,11 @@
                 <div class="card-desc">Create or delete announcements that users see on login.</div>
             </a>
 
-            <a href="StatisticsServlet" class="card">
+            <a href="AdministratorServlet?action=viewStatistics" class="card">
                 <div class="card-title">View Statistics</div>
                 <div class="card-desc">Track user count and quiz activity across the platform.</div>
             </a>
+
         </div>
     </div>
 
