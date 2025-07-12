@@ -14,6 +14,8 @@
     --pink-shadow-2: rgba(244, 114, 182, 0.12);
     --red-soft: #fecaca;
     --red-hover: #f87171;
+    --pink-bold: #ec4899;  /* Bold Pink for username */
+    --light-pink: #f9a8d4; /* Light Pink for the description */
 }
 
 body {
@@ -46,16 +48,24 @@ h1 {
     text-align: center;
 }
 
-.description {
-    font-size: 16px;
-    background: var(--gray-light);
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid var(--gray-muted);
-    color: var(--blue-dark);
-    margin-bottom: 30px;
+/* Style the username in bold pink */
+.metadata span.username {
+    font-weight: bold;
+    color: var(--pink-bold);  /* Bold pink color */
 }
 
+.description {
+    font-size: 18px;
+    background: var(--light-pink);
+    color: var(--blue-dark);
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--pink-border);
+    margin-bottom: 30px;
+    text-align: center;  /* Center the description */
+}
+
+/* Adjusting button styles for consistency */
 .actions {
     display: flex;
     flex-wrap: wrap;
