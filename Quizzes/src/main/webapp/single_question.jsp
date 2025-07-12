@@ -3,6 +3,7 @@
 
 <%
     Quiz quiz = (Quiz) request.getAttribute("quiz");
+    String pictureUrl = (String) request.getAttribute("picture");
     Question currQuestion = (Question) request.getAttribute("question");
     List<AnswerOption> answerOptions = (List<AnswerOption>) request.getAttribute("answer_options");
 %>
@@ -31,6 +32,15 @@
 
 <form method="post" action="/quizzes/question">
     <p><b><%= currQuestion.getQuestionText() %></b></p>
+
+    <% if (pictureUrl != null && !pictureUrl.trim().isEmpty()) { %>
+        <div>
+            <img src="<%= pictureUrl %>" alt="Question Image"
+                 style="max-width: 400px; max-height: 300px; width: auto; height: auto; display: block; margin: 10px 0;" />
+        </div>
+    <% } %>
+
+
 
     <%
         boolean canSelectSeveral = currQuestion.getQuestionType() == QuestionType.MULTI_SELECT;
