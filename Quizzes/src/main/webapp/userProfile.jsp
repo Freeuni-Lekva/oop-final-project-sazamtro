@@ -1,5 +1,6 @@
 <%@ page import="bean.User" %>
 <%@ page import="java.util.List" %>
+<%@ page import="Servlets.FriendRequests.RequestAtributeNames" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     User targetUser = (User) request.getAttribute("targetUser");
@@ -22,10 +23,12 @@
         <h2>@<%= targetUser.getUsername() %></h2>
 
         <% if (!areFriends && !requestExists) { %>
-        <form action="/send-friend-request" method="post">
-            <input type="hidden" name="receiver" value="<%= targetUser.getUsername() %>" />
-            <button class="btn">Send Friend Request</button>
+        <form action="/SendRequestServlet" method="post" >
+            <input type="hidden" name=<%=RequestAtributeNames.RECEIVER_USERNAME%> value=<%=targetUser.getUsername()%> />
+            <input type="hidden" name="redirect" value=<%="/UserProfileServlet?username=" + targetUser.getUsername()%> />
+            <button type="submit" class="btn">Send Friend Request</button>
         </form>
+
         <% } else { %>
         <button class="btn" disabled>
             <%= areFriends ? "You Are Friends" : "Friend Request Exists" %>
