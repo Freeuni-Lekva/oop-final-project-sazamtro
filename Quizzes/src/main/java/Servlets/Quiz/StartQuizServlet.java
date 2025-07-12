@@ -5,6 +5,7 @@ import DAO.QuestionsDAO;
 import DAO.QuizDAO;
 import bean.Questions.AnswerOption;
 import bean.Questions.Question;
+import bean.Questions.QuestionType;
 import bean.Quiz;
 import bean.User;
 
@@ -61,11 +62,18 @@ public class StartQuizServlet extends HttpServlet {
             QuestionsDAO questionsDAO = new QuestionsDAO(connection);
 
             if(!quiz.checkIfMultipage()){
+                List<String> pictures = new ArrayList<>(quizQuestions.size());
+                int i = 0;
                 for(Question curr : quizQuestions){
+                    if(curr.getQuestionType() == QuestionType.PICTURE_RESPONSE){
+                        pictures.add(i, curr.getImageUrl());
+                    }
+                    i++;
                     List<AnswerOption> answers = new ArrayList<>();
                     answers = questionsDAO.getOptions(curr.getId());
                     questionAnswerOptionMap.putIfAbsent(curr, answers);
                 }
+                req.setAttribute("pictures", pictures);
                 req.setAttribute("quiz_id", quiz_id);
                 session.setAttribute("quiz_questions", quizQuestions);
                 req.setAttribute("question_answers", questionAnswerOptionMap);

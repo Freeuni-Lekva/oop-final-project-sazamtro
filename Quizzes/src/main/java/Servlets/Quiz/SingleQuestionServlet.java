@@ -5,6 +5,7 @@ import DAO.QuestionsDAO;
 import DAO.QuizDAO;
 import bean.Questions.AnswerOption;
 import bean.Questions.Question;
+import bean.Questions.QuestionType;
 import bean.Quiz;
 
 import javax.servlet.RequestDispatcher;
@@ -51,6 +52,11 @@ public class SingleQuestionServlet extends HttpServlet {
             Quiz quiz = qDAO.getOneQuiz(quiz_id);
             req.setAttribute("quiz", quiz);
             Question currQuestion = quizQuestions.get(currIndex);
+            String picture_url = "";
+            if(currQuestion.getQuestionType() == QuestionType.PICTURE_RESPONSE){
+                picture_url = currQuestion.getImageUrl();
+                req.setAttribute("picture", picture_url);
+            }
             List<AnswerOption> correctAnswers = answerDAO.getCorrectAnswers(currQuestion.getId());
             req.setAttribute("question", currQuestion);
             req.setAttribute("correct_answers", correctAnswers);
