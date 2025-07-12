@@ -11,66 +11,55 @@
 <html>
 <head>
     <title><%= quiz.getQuizTitle() %></title>
-    <link rel="stylesheet" type="text/css" href="/style/single_question.css" />
-    <style>
-        .button-container {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="/style/startQuiz.css" />
 </head>
 <body>
 
-<%
-    boolean showScorePerQuestion = quiz.checkIfImmediate_correction();
-    Integer singleScore = (Integer) session.getAttribute("single_ques_score");
-%>
+<div class="container">
+    <h1><%= quiz.getQuizTitle() %></h1>
+    <h2><%= quiz.getQuizDescription() %></h2>
 
-<h1><%= quiz.getQuizTitle() %></h1>
-<h2><%= quiz.getQuizDescription() %></h2>
+    <form method="post" action="/quizzes/question">
+        <div class="question-card">
+            <div class="question-text"><%= currQuestion.getQuestionText() %></div>
 
-<form method="post" action="/quizzes/question">
-    <p><b><%= currQuestion.getQuestionText() %></b></p>
+            <% if (pictureUrl != null && !pictureUrl.trim().isEmpty()) { %>
+            <div>
+                <img src="<%= pictureUrl %>" alt="Question Image"
+                     style="max-width: 400px; max-height: 300px; width: auto; height: auto; margin: 10px 0;" />
+            </div>
+            <% } %>
 
-    <% if (pictureUrl != null && !pictureUrl.trim().isEmpty()) { %>
-        <div>
-            <img src="<%= pictureUrl %>" alt="Question Image"
-                 style="max-width: 400px; max-height: 300px; width: auto; height: auto; display: block; margin: 10px 0;" />
-        </div>
-    <% } %>
-
-
-
-    <%
-        boolean canSelectSeveral = currQuestion.getQuestionType() == QuestionType.MULTI_SELECT;
-        String questionId = "q_" + currQuestion.getId();
-        if (!answerOptions.isEmpty()) {
-            for (AnswerOption currAnswer : answerOptions) {
+            <%
+                boolean canSelectSeveral = currQuestion.getQuestionType() == QuestionType.MULTI_SELECT;
                 String inputType = canSelectSeveral ? "checkbox" : "radio";
-    %>
-                <input type="<%= inputType %>" name="q_<%= currQuestion.getId() %>" value="<%= currAnswer.getAnswerText() %>"/>
-                <%= currAnswer.getAnswerText() %><br/>
-    <%
-            }
-        } else {
-    %>
+                if (!answerOptions.isEmpty()) {
+                    for (AnswerOption currAnswer : answerOptions) {
+            %>
+            <label class="option-label">
+                <input type="<%= inputType %>" name="q_<%= currQuestion.getId() %>" value="<%= currAnswer.getAnswerText() %>" />
+                <%= currAnswer.getAnswerText() %>
+            </label>
+            <%
+                }
+            } else {
+            %>
             <input type="text" name="q_<%= currQuestion.getId() %>" />
-    <%
-        }
-    %>
+            <%
+                }
+            %>
+        </div>
 
-    <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>" />
+        <input type="hidden" name="id" value="<%= quiz.getQuiz_id() %>" />
 
-    <div class="button-container">
-        <button type="submit">Next Question</button>
-    </div>
-</form>
-
-<div class="button-container">
-    <form action="/HomePageServlet" method="get">
-        <button type="submit" class="btn">Home</button>
+        <div class="form-actions">
+            <button type="submit" class="submit-btn">➡️ Next Question</button>
+        </div>
     </form>
+
+    <div class="form-actions">
+        <a href="/HomePageServlet" class="go-back-btn">🏠 Home</a>
+    </div>
 </div>
 
 </body>
