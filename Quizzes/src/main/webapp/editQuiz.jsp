@@ -126,6 +126,17 @@
                 }
             }
 
+            const newQuestionCards = document.querySelectorAll('.question-card.new-question');
+            for (const card of newQuestionCards) {
+                const typeSelect = card.querySelector('select.new-qtype');
+                if (!typeSelect || !typeSelect.value) {
+                    alert("Please select a question type for all new questions.");
+                    typeSelect.focus();
+                    return false;
+                }
+            }
+
+
             return true;
         }
 
