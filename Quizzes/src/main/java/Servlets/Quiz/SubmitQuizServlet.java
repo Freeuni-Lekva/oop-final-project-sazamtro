@@ -45,6 +45,7 @@ public class SubmitQuizServlet extends HttpServlet {
         QuizDAO quizDAO = new QuizDAO(connection);
         AnswerDAO answerDAO = new AnswerDAO(connection);
         AchievementsDAO achievementsDAO = new AchievementsDAO(connection);
+        QuestionsDAO questionsDAO = new QuestionsDAO(connection);
 
 
         try {
@@ -67,6 +68,14 @@ public class SubmitQuizServlet extends HttpServlet {
                         for (String currAns : userAnswer) {
                             if (answerDAO.checkAnswer(curr.getId(), currAns)) {
                                 score = score + 1;
+                            }
+                        }
+                        if(curr.getQuestionType() == QuestionType.MULTI_SELECT){
+                            try {
+                                int numPossAnswers = questionsDAO.getOptions(curr.getId()).size();
+                                if(numPossAnswers == userAnswer.length) score = score - answerDAO.getCorrectAnswers(curr.getId()).size();
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
                             }
                         }
                         userAnswers.put(curr.getId(), userAnswer);

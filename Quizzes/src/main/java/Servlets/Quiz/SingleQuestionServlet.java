@@ -94,6 +94,7 @@ public class SingleQuestionServlet extends HttpServlet {
 
         Connection connection = (Connection) getServletContext().getAttribute("DBConnection");
         AnswerDAO answerDAO = new AnswerDAO(connection);
+        QuestionsDAO questionsDAO = new QuestionsDAO(connection);
         QuizDAO quizDAO = new QuizDAO(connection);
         Quiz quiz;
         try {
@@ -113,6 +114,14 @@ public class SingleQuestionServlet extends HttpServlet {
                 for (String curr : currAnswers) {
                     if (answerDAO.checkAnswer(currQuestion.getId(), curr)) singleQuesScore++;
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if(currQuestion.getQuestionType() == QuestionType.MULTI_SELECT){
+            try {
+                int numPossAnswers = questionsDAO.getOptions(currQuestion.getId()).size();
+                if(currAnswers != null && numPossAnswers == currAnswers.length) singleQuesScore = 0;
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
