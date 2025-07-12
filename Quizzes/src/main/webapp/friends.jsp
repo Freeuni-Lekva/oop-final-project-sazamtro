@@ -8,6 +8,20 @@
     <meta charset="UTF-8" />
     <title>Friends</title>
     <link rel="stylesheet" href="style/friends.css" />
+    <style>
+        .friend-button-wrapper {
+            display: block;
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            text-align: inherit;
+        }
+        .friend-button-wrapper:hover .friend-item {
+            background: var(--pink-hover-bg);
+        }
+    </style>
 </head>
 <body>
 
@@ -26,8 +40,13 @@
                         for (User friend : friends) {
                 %>
                 <div class="friend-item">
-                    <span><%= friend.getUsername() %></span>
-                    <form method="post" action="/DeleteFriendServlet">
+                    <form method="get" action="/UserProfileServlet" style="flex-grow: 1;" onsubmit="event.stopPropagation();">
+                        <input type="hidden" name="username" value="<%= friend.getUsername() %>" />
+                        <button type="submit" class="friend-button-wrapper">
+                            <span><%= friend.getUsername() %></span>
+                        </button>
+                    </form>
+                    <form method="post" action="/DeleteFriendServlet" onsubmit="event.stopPropagation();">
                         <input type="hidden" name="friend_id" value="<%= friend.getUserId() %>" />
                         <button class="remove-btn" type="submit">Remove</button>
                     </form>
@@ -36,7 +55,6 @@
                 <p class="no-friends">You have no friends yet.</p>
                 <% } %>
             </div>
-
 
             <div class="friends-sidebar">
                 <h2>Add Friends</h2>
@@ -50,14 +68,19 @@
                     if (foundUser != null) {
                 %>
                 <div class="result-user">
-                    <p><%= foundUser.getUsername() %></p>
+                    <form method="get" action="/UserProfileServlet">
+                        <input type="hidden" name="username" value="<%= foundUser.getUsername() %>" />
+                        <button type="submit" class="friend-button-wrapper">
+                            <p style="margin: 0; font-weight: bold;"> <%= foundUser.getUsername() %> </p>
+                        </button>
+                    </form>
 
                     <% if ((Boolean) request.getAttribute("areFriends")) { %>
                     <button class="disabled-btn" disabled>Already Friends</button>
                     <% } else if ((Boolean) request.getAttribute("requestSent")) { %>
-                    <button class="disabled-btn" disabled>Request Sent</button>
+                    <button class="disabled-btn" disabled>Request Exists</button>
                     <% } else if ((Boolean) request.getAttribute("requestReceived")) { %>
-                    <button class="disabled-btn" disabled>Request Received</button>
+                    <button class="disabled-btn" disabled>Request Exists</button>
                     <% } else { %>
                     <form method="post" action="/SendRequestServlet">
                         <input type="hidden" name="<%= RequestAtributeNames.RECEIVER_USERNAME %>" value="<%= foundUser.getUsername() %>" />

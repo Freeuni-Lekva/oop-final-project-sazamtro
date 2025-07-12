@@ -55,10 +55,10 @@
 
         <!-- Profile icon -->
             <% if (user != null && user.getProfilePictureUrl() != null && !user.getProfilePictureUrl().isEmpty()) { %>
-        <a href="/user-profile.jsp" class="profile-circle" title="Profile" style="position: relative;">
+        <a href="/myProfile.jsp" class="profile-circle" title="Profile" style="position: relative;">
             <img src="<%= user.getProfilePictureUrl() %>" alt="Profile" class="profile-img" />
             <% } else { %>
-        <a href="/user-profile.jsp" class="topbar-circle" title="Profile" style="position: relative;">
+        <a href="/myProfile.jsp" class="topbar-circle" title="Profile" style="position: relative;">
             <i class="fas fa-user"></i>
             <% } %>
         </a>

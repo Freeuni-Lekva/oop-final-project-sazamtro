@@ -86,4 +86,12 @@ public class UserDAO {
             ps.executeUpdate();
         }
     }
+
+    public void updateProfilePicture(int user_id, String url) throws SQLException{
+        String update = "UPDATE Users SET profilePicture_url = ? WHERE user_id = ?";
+        PreparedStatement ps = connection.prepareStatement(update);
+        ps.setString(1, url);
+        ps.setInt(2, user_id);
+        ps.executeUpdate();
+    }
 }

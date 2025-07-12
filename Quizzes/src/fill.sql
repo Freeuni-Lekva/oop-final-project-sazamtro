@@ -1,3 +1,4 @@
+use sazamtro;
 -- USERS
 INSERT INTO Users (username, password_hash, profilePicture_url, is_admin) VALUES
             ('gvantsa', '5eec30a512219bbd18e44a4672e02123d9f0a6fb', 'https://example.com/pic2.png', TRUE),
